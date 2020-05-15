@@ -12,6 +12,8 @@ using Moviet.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using Moviet.Mappings;
 
 namespace Moviet
 {
@@ -35,6 +37,8 @@ namespace Moviet
             services.AddControllersWithViews();
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
+
+            services.AddAutoMapper(typeof(Maps));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Moviet</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href='https://fonts.googleapis.com/css?family=Allerta' rel='stylesheet'>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 
@@ -13,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <h3><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Moviet</a></h3>
+                <h3><a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-film"></i> Moviet</a></h3>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,8 +25,8 @@
                         <li class="@Html.IsActive(actions: "Index", controllers:"Home") nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="@Html.IsActive(actions: "Privacy", controllers:"Home") nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="" asp-action="">Movies</a>
                         </li>
                     </ul>
                 </div>

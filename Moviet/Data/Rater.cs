@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Moviet.Data
 {
-    public class User : IdentityUser
+    public class Rater : IdentityUser
     {
-        public string Username { get; set; }
-
+        //public List<Rating> Rating { get; set; }
     }
 }

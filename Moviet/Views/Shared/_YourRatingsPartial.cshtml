@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+<li>
+@if(User.IsInRole(Roles.Rater) || User.IsInRole(Roles.Registrator))
+{
+    <a class="nav-link" asp-controller="" asp-action="">Your Ratings</a>
+}
+</li>

@@ -33,18 +33,11 @@ namespace Moviet.Repository
             return movies;
         }
 
-        public Movie FindById()
+        public Movie FindById( int id)
         {
-            throw new NotImplementedException();
-            
-        }
-
-        /*public Movie FindById( int id)
-       {
            Movie movies = _db.Movies.Find(id);
            return movies;
-       } */
-       //KATI VARAEI TO IMASKREPOSITORY GIAUTO TO EVALA SE COMMENTS
+        } 
 
         public bool Save()
         {
@@ -57,11 +50,7 @@ namespace Moviet.Repository
             return Save();
         }
     }
-       
-
-
-   
-    }
+}
 
     
     

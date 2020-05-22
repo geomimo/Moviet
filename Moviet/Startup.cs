@@ -53,8 +53,10 @@ namespace Moviet
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
 
+
             });
 
+ 
             services.AddScoped<IRoleService, RoleService>();
 
             services.AddControllersWithViews();

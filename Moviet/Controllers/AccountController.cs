@@ -17,12 +17,17 @@ namespace Moviet.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public AccountController(UserManager<IdentityUser> userManager, IRoleService roleService, IMapper mapper)
+        public AccountController(UserManager<IdentityUser> userManager,
+                                 SignInManager<IdentityUser> signInManager,
+                                 IRoleService roleService,
+                                 IMapper mapper)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _roleService = roleService;
             _mapper = mapper;
         }
@@ -31,23 +36,25 @@ namespace Moviet.Controllers
         {
             IdentityUser user = _userManager.GetUserAsync(User).Result;
             IdentityUserVM model = _mapper.Map<IdentityUserVM>(user);
-            var role = _userManager.GetRolesAsync(user).Result;
             return View(model);
         }
 
         [Authorize(Roles = "Rater")]
-        public IActionResult UpgradeRole()
+        public async Task<IActionResult> UpgradeRole()
         {
             _roleService.UpgradeToContentManager(User);
-
+            // Refresh claims to update role.
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
 
             return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "ContentManager")]
-        public IActionResult DowngradeRole()
+        public async Task<IActionResult> DowngradeRole()
         {
             _roleService.DowngradeToRater(User);
+            // Refresh claims to update role.
+            await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
 
             return RedirectToAction(nameof(Index));
         }

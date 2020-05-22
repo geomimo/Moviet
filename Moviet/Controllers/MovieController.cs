@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Moviet.Data
+namespace Moviet.Controllers
 {
-    public class MoviesController : Controller
+    public class MovieController : Controller
     {
         public IActionResult Index()
         {

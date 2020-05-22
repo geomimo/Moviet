@@ -9,34 +9,60 @@ namespace Moviet.Repository
 {
     public class MovieRepository : IMovieRepository
     {
+        private readonly ApplicationDbContext _db;
+        public MovieRepository(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         public bool Create(Movie entity)
         {
-            throw new NotImplementedException();
+            _db.Movies.Add(entity);
+            return Save();
         }
 
         public bool Delete(Movie entity)
         {
-            throw new NotImplementedException();
+            _db.Movies.Remove(entity);
+            return Save();
         }
 
         public List<Movie> FindAll()
         {
-            throw new NotImplementedException();
+            var movies = _db.Movies.ToList();
+            return movies;
         }
 
         public Movie FindById()
         {
             throw new NotImplementedException();
+            
         }
+
+        /*public Movie FindById( int id)
+       {
+           Movie movies = _db.Movies.Find(id);
+           return movies;
+       } */
+       //KATI VARAEI TO IMASKREPOSITORY GIAUTO TO EVALA SE COMMENTS
 
         public bool Save()
         {
-            throw new NotImplementedException();
+            return _db.SaveChanges() > 0;
         }
 
         public bool Update(Movie entity)
         {
-            throw new NotImplementedException();
+            _db.Movies.Update(entity);
+            return Save();
         }
     }
-}
+       
+
+
+   
+    }
+
+    
+    
+

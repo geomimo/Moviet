@@ -8,6 +8,8 @@ namespace Moviet.Data
 {
     public class Poster : Rater
     {
+        public Registrator Owner { get; set; }
+        public DateTime DateCreated { get; set; }
         //public List<Post> OwnPosts { get; set; }
     }
 }

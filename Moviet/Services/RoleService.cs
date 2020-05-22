@@ -21,15 +21,15 @@ namespace Moviet.Services
         public void UpgradeToContentManager(ClaimsPrincipal principal)
         {
             IdentityUser user = _userManager.GetUserAsync(principal).Result;
-            _userManager.RemoveFromRoleAsync(user, Roles.Rater);
-            _userManager.AddToRoleAsync(user, Roles.ContentManager);
+            _userManager.RemoveFromRoleAsync(user, Roles.Rater).Wait();
+            _userManager.AddToRoleAsync(user, Roles.ContentManager).Wait();
         }
 
         public void DowngradeToRater(ClaimsPrincipal principal)
         {
             IdentityUser user = _userManager.GetUserAsync(principal).Result;
-            _userManager.RemoveFromRoleAsync(user, Roles.ContentManager);
-            _userManager.AddToRoleAsync(user, Roles.Rater);
+            _userManager.RemoveFromRoleAsync(user, Roles.ContentManager).Wait();
+            _userManager.AddToRoleAsync(user, Roles.Rater).Wait();
         }
     }
 }

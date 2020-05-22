@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,7 @@ namespace Moviet.Controllers
         {
             IdentityUser user = _userManager.GetUserAsync(User).Result;
             IdentityUserVM model = _mapper.Map<IdentityUserVM>(user);
+            var role = _userManager.GetRolesAsync(user).Result;
             return View(model);
         }
 
@@ -37,6 +39,7 @@ namespace Moviet.Controllers
         public IActionResult UpgradeRole()
         {
             _roleService.UpgradeToContentManager(User);
+
 
             return RedirectToAction(nameof(Index));
         }

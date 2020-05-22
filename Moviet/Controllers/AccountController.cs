@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Moviet.Models;
 
 namespace Moviet.Controllers
 {
@@ -10,7 +11,7 @@ namespace Moviet.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View(new IdentityUserVM { Username = "Geomimo", Email = "mimoglou22@gmail.com" });
         }
     }
 }

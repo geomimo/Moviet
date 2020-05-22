@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IdentityUserVM
+@{
     ViewData["Title"] = "Account";
 }
 
@@ -7,26 +8,46 @@
 <div class="container h-100">
     <section>
         <h4>Information</h4>
-        <dl>
-            <dt>
-                Username
-            </dt>
-            <dd>
-                Geomimo
-            </dd>
-            <dt>
-                Email
-            </dt>
-            <dd>
-                mimoglou22@gmail.com
-            </dd>
-        </dl>
+        <hr />
+        <div class="row">
+            <div class="col-6">
+                <form asp-controller="Account" asp-action="ChangeUsername">
+                    <div class="form-group row justify-content-between">
+                        <div class="col-3">
+                            <label class="form-label" asp-for="Username"></label>
+                        </div>
+                        <div class="col-5">
+                            <input class="form-control form-control-sm" asp-for="Username" value="@Model.Username" />
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control btn btn-outline-primary btn-sm btn-block" type="submit" value="Change Username" />
+                        </div>
+                    </div>
+                </form>
+
+                <form asp-controller="Account" asp-action="ChangeEmail">
+                    <div class="form-group row justify-content-between">
+                        <div class="col-3">
+                            <label class="form-label" asp-for="Email"></label>
+                        </div>
+                        <div class="col-5">
+                            <input class="form-control form-control-sm" asp-for="Email" value="@Model.Email" />
+                        </div>
+                        <div class="col-4"><input class="form-control btn btn-outline-primary btn-sm" type="submit" value="Change Email" /></div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
     <br />
 
     <section>
-        <h4>Apply for Registrator</h4>
-        <a class="btn btn-outline-success">Apply</a>
+        <div class="jumbotron text-center">
+            <h2>Upload your favorite content.</h2>
+            <h5>Apply for Content Manager!</h5>
+            <p>Choose a movie poster, add your description, share a trailer and let people know about your favorite movie!</p>
+            <a class="btn btn-success" asp-controller="Account" asp-action="Apply" asp-route-id="@Model.Id">Apply</a>
+        </div>
     </section>
 
 </div>

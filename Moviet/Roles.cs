@@ -9,7 +9,7 @@ namespace Moviet
     {
         public static string Administrator = "Administrator";
         public static string Rater = "Rater";
-        public static string Registrator = "Registrator";
+        public static string ContentManager = "ContentManager";
 
     }
 }

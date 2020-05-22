@@ -8,7 +8,7 @@ namespace Moviet.Models
 {
     public class IdentityUserVM
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Display(Name="Username: ")]
         public string Username { get; set; }

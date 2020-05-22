@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Moviet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +10,9 @@ namespace Moviet.Mappings
 {
     public class Maps : Profile
     {
+        public Maps()
+        {
+            CreateMap<IdentityUser, IdentityUserVM>().ReverseMap();
+        }
     }
 }

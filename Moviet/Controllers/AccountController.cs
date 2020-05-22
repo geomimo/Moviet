@@ -2,16 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Models;
+using Moviet.Services;
+using Moviet.Services.Interfaces;
 
 namespace Moviet.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
+
+        public AccountController(UserManager<IdentityUser> userManager, IRoleService roleService, IMapper mapper)
+        {
+            _userManager = userManager;
+            _roleService = roleService;
+            _mapper = mapper;
+        }
+
         public IActionResult Index()
         {
-            return View(new IdentityUserVM { Username = "Geomimo", Email = "mimoglou22@gmail.com" });
+            IdentityUser user = _userManager.GetUserAsync(User).Result;
+            IdentityUserVM model = _mapper.Map<IdentityUserVM>(user);
+            return View(model);
+        }
+
+        [Authorize(Roles = "Rater")]
+        public IActionResult UpgradeRole()
+        {
+            _roleService.UpgradeToContentManager(User);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "ContentManager")]
+        public IActionResult DowngradeRole()
+        {
+            _roleService.DowngradeToRater(User);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moviet.Data
 {
-    public class Registrator : Rater
+    public class ContentManager : Rater
     {
         //public List<Post> OwnPosts { get; set; }
     }

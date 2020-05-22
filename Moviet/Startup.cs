@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using Moviet.Mappings;
 using Microsoft.Extensions.Options;
+using Moviet.Services.Interfaces;
+using Moviet.Services;
 
 namespace Moviet
 {
@@ -52,6 +54,8 @@ namespace Moviet
                 options.SignIn.RequireConfirmedEmail = false;
 
             });
+
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages()

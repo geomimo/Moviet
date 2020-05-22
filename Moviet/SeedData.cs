@@ -44,11 +44,11 @@ namespace Moviet
                 var result = roleManager.CreateAsync(role).Result;
             }
 
-            if (!roleManager.RoleExistsAsync(Roles.Registrator).Result)
+            if (!roleManager.RoleExistsAsync(Roles.ContentManager).Result)
             {
                 var role = new IdentityRole
                 {
-                    Name = Roles.Registrator
+                    Name = Roles.ContentManager
                 };
                 var result = roleManager.CreateAsync(role).Result;
             }

@@ -33,7 +33,9 @@
                         <div class="col-5">
                             <input class="form-control form-control-sm" asp-for="Email" value="@Model.Email" />
                         </div>
-                        <div class="col-4"><input class="form-control btn btn-outline-primary btn-sm" type="submit" value="Change Email" /></div>
+                        <div class="col-4">
+                            <input class="form-control btn btn-outline-primary btn-sm" type="submit" value="Change Email" />
+                        </div>
                     </div>
                 </form>
             </div>
@@ -42,12 +44,25 @@
     <br />
 
     <section>
-        <div class="jumbotron text-center">
-            <h2>Upload your favorite content.</h2>
-            <h5>Apply for Content Manager!</h5>
-            <p>Choose a movie poster, add your description, share a trailer and let people know about your favorite movie!</p>
-            <a class="btn btn-success" asp-controller="Account" asp-action="Apply" asp-route-id="@Model.Id">Apply</a>
-        </div>
+        @if (User.IsInRole(Roles.Rater))
+        {
+            <div class="jumbotron text-center">
+                <h2>Upload your favorite content.</h2>
+                <h5>Apply for Content Manager!</h5>
+                <p>Choose a movie poster, add your description, share a trailer and let people know about your favorite movie!</p>
+                <a class="btn btn-success" asp-controller="Account" asp-action="UpgradeRole" asp-route-id="@Model.Id">Apply</a>
+            </div>
+
+        }
+        else if (User.IsInRole(Roles.ContentManager))
+        {
+            <div class="jumbotron text-center">
+                <h3>Whould you like to stop sharing content?</h3>
+                <h6>Donwgrade to rater!</h6>
+                <a class="btn btn-danger" asp-controller="Account" asp-action="DowngradeRole" asp-route-id="@Model.Id">Downgrade</a>
+            </div>
+        }
+
     </section>
 
 </div>

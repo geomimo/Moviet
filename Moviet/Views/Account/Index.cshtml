@@ -3,7 +3,23 @@
     ViewData["Title"] = "Account";
 }
 
-<h2>Account</h2>
+<div>
+    <h2 style="display: inline-block">Account </h2>
+    @if (User.IsInRole(Roles.Rater))
+    {
+        <span class="badge badge-warning" style="vertical-align:top">Rater</span>
+    }
+    else if (User.IsInRole(Roles.ContentManager))
+    {
+        <span class="badge badge-info" style="vertical-align:top">Content Manager</span>
+
+    }
+    else if (User.IsInRole(Roles.Administrator))
+    {
+        <span class="badge badge-dark" style="vertical-align:top">Administrator</span>
+
+    }
+</div>
 <br />
 <div class="container h-100">
     <section>
@@ -41,6 +57,7 @@
             </div>
         </div>
     </section>
+
     <br />
     <section>
         @if (User.IsInRole(Roles.Rater))

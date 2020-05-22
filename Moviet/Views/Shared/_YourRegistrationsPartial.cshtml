@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
 <li>
-@if (User.IsInRole(Roles.Registrator))
+@if (User.IsInRole(Roles.ContentManager))
 {
-    <a class="nav-link" asp-controller="" asp-action="">Your Registrations</a>
+    <a class="nav-link" asp-controller="" asp-action="">Your Content</a>
 }
 </li>

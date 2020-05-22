@@ -11,6 +11,8 @@ namespace Moviet.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            
         }
+       public DbSet<Movie> Movies { get; set; }
     }
 }

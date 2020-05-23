@@ -5,15 +5,9 @@ using System.Threading.Tasks;
 
 namespace Moviet.Data
 {
-    public enum Genre
+    public class Genre
     {
-        Action,
-        Thriller,
-        Horror,
-        Comedy,
-        Drama,
-        SciFi,
-        Romantic
+
 
     }
 }

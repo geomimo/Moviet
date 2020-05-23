@@ -43,15 +43,18 @@
                                 <a class="dropdown-item" href="#">Thriller</a>
                             </div>
                         </li>
+                        <partial name="_AllUsersPartial" />
+
+                        <partial name="_BanPartial" />
                         <partial name="_YourRatingsPartial" />
                         <partial name="_YourRegistrationsPartial" />
                         <li>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <a class="nav-link" asp-controller="Account" asp-action="Index">Account</a>
-                        }
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a class="nav-link" asp-controller="Account" asp-action="Index">Account</a>
+                            }
                         </li>
-                        </ul>
+                    </ul>
                     </div>
                 </div>
             </nav>

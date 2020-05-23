@@ -7,7 +7,7 @@ namespace Moviet.Data
 {
     public class Genre
     {
-
+        public int GenreId { get; set; }
 
     }
 }

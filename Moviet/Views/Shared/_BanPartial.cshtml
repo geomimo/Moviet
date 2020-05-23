@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+
+@if (User.IsInRole(Roles.Administrator))
+{
+    <li class="@Html.IsActive(actions: "Index", controllers:"Ban") nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Ban
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-action="Post" asp-controller="Ban">Post</a>
+            <a class="dropdown-item" asp-action="Post" asp-controller="User">User</a>        
+        </div>
+    </li>
+}

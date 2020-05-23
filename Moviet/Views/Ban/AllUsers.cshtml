@@ -1,0 +1,46 @@
+﻿@model List<Moviet.Models.IdentityUserVM>
+
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<h1>All Users</h1>
+
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+               Email
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Ban", "BanUser", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

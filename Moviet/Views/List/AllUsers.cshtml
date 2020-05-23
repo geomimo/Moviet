@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>
             <td>
-                @Html.ActionLink("Ban", "BanUser", new { id = item.Id })
+                <a class="btn btn-danger" asp-controller="List" asp-action="BanUser" asp-route-id="@item.Id"><i class="fa fa-ban"></i> Ban</a>
             </td>
         </tr>
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Moviet.Controllers
 {
-    public class MovieController : Controller
+    public class MoviesController : Controller
     {
         public IActionResult Index()
         {

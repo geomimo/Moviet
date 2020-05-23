@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moviet.Data
 {
-    public class Poster : Rater
+    public class ContentManager : Rater
     {
         public Registrator Owner { get; set; }
         public DateTime DateCreated { get; set; }

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Moviet.Data
 {
-    public class Registrator
+    public class Post
     {
+        public ContentManager Owner { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

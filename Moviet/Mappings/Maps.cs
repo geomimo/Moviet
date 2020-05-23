@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Moviet.Data;
 using Moviet.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Moviet.Mappings
         public Maps()
         {
             CreateMap<IdentityUser, IdentityUserVM>().ReverseMap();
+            CreateMap<Genre, GenreVM>().ReverseMap();
         }
     }
 }

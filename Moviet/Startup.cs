@@ -17,6 +17,8 @@ using Moviet.Mappings;
 using Microsoft.Extensions.Options;
 using Moviet.Services.Interfaces;
 using Moviet.Services;
+using Moviet.Contracts;
+using Moviet.Repository;
 
 namespace Moviet
 {
@@ -59,6 +61,7 @@ namespace Moviet
  
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IBanService, BanService>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
 
             services.AddControllersWithViews();
             services.AddRazorPages()

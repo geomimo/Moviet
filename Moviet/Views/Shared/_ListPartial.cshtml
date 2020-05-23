@@ -3,13 +3,13 @@
 
 @if (User.IsInRole(Roles.Administrator))
 {
-    <li class="@Html.IsActive(actions: "Index", controllers:"Ban") nav-item dropdown">
+    <li class="@Html.IsActive(actions: "Index", controllers:"List") nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBan" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Ban
+            List
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" asp-action="Post" asp-controller="Ban">Post</a>
-            <a class="dropdown-item" asp-action="Post" asp-controller="User">User</a>        
+            <a class="dropdown-item" asp-action="AllPosts" asp-controller="List">Posts</a>
+            <a class="dropdown-item" asp-action="AllUsers" asp-controller="List">Users</a>        
         </div>
     </li>
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Moviet.Data
 {
-    public class Genre
+    public class MovieGenre
     {
-        [Key]
         public int GenreId { get; set; }
-        public string Name { get; set; }
+        public Genre Genre { get; set; }
+
+        public int MovieId { get; set; }
+        public Movie Movie { get; set; }
     }
 }

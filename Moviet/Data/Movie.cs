@@ -15,6 +15,6 @@ namespace Moviet.Data
         public float Rating { get; set; }
         public string PosterPath { get; set; }
         public string YoutubeId { get; set; }
-        public List<Genre> Genres { get; set; }
+        public List<MovieGenre> Genres { get; set; }
     }
 }

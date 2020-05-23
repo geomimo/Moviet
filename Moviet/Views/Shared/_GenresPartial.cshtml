@@ -1,0 +1,6 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@if (User.IsInRole(Roles.Administrator))
+{
+    <a class="nav-link" asp-controller="Genres" asp-action="Index">Genres</a>
+}

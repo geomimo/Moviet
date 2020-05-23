@@ -8,7 +8,7 @@ namespace Moviet.Services.Interfaces
 {
     public interface IBanService
     {
-        public void BanUser(string userId);
-        public void BanPost(int postId);
+        public bool BanUser(string userId);
+        public bool BanPost(int postId);
     }
 }

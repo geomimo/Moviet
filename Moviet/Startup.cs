@@ -62,6 +62,7 @@ namespace Moviet
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IBanService, BanService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
 
             services.AddControllersWithViews();
             services.AddRazorPages()

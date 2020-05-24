@@ -12,7 +12,7 @@ namespace Moviet.Data
         public int MovieId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public float Rating { get; set; }
+        public List<Rating> Ratings { get; set; }
         public string PosterPath { get; set; }
         public string YoutubeId { get; set; }
         public List<MovieGenre> Genres { get; set; }

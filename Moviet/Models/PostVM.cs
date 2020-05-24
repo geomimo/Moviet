@@ -9,10 +9,19 @@ namespace Moviet.Models
 {
     public class PostVM
     {
-        public ContentManager Owner { get; set; }
+        public ContentManagerVM Owner { get; set; }
 
         [Display(Name = "Date Created:")]
         public DateTime DateCreated { get; set; }
-        public Movie movie { get; set; }
+        public MovieVM Movie { get; set; }
     }
+    public class CreatePostVM
+    {
+        public ContentManagerVM Owner { get; set; }
+
+        [Display(Name = "Date Created:")]
+        public DateTime DateCreated { get; set; }
+        public CreateMovieVM Movie { get; set; }
+    }
+
 }

@@ -1,0 +1,72 @@
+﻿@model Moviet.Models.CreatePostVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Post</h1>
+
+<h4>New Post</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Movie.Title" class="control-label"></label>
+                <input asp-for="Movie.Title" class="form-control" />
+                <span asp-validation-for="Movie.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Description" class="control-label"></label>
+                <textarea asp-for="Movie.Description" class="form-control"></textarea>
+                <span asp-validation-for="Movie.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-control-file">
+                <label asp-for="Movie.Poster" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Movie.Poster" class="form-control custom-file-input" />
+                    <label class="custom-file-label">Choose Image...</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.YoutubeId" class="control-label"></label>
+                <input asp-for="Movie.YoutubeId" class="form-control" />
+                <span asp-validation-for="Movie.YoutubeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Genres" class="control-label"></label>
+                <select asp-for="Movie.Genres" asp-items="Model.Movie.Genres" class="form-control selectpicker" multiple></select>
+                <span asp-validation-for="Movie.Genres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Rating" class="control-label"></label>
+                <select asp-for="Movie.Rating" class="form-control">
+                    @for(float i = 1; i <= 5; i += 0.5F)
+                    {
+                        <option value=@((float)i)>@i </option>
+                    }
+                </select>
+                <span asp-validation-for="Movie.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+
+@section Scripts
+{
+
+    <script>
+        $(function () {
+            $('select').selectpicker();
+        });
+    </script>
+}

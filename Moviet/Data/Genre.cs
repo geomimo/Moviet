@@ -11,5 +11,7 @@ namespace Moviet.Data
         [Key]
         public int GenreId { get; set; }
         public string Name { get; set; }
+
+        
     }
 }

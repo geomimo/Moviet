@@ -28,7 +28,7 @@ namespace Moviet.Controllers
 
         public IActionResult Details(int id)
         {
-            var movie = _movierepo.Find(id);
+            var movie = _movierepo.FindById(id);
             var model = _mapper.Map<MovieVM>(movie);
             return View(model);
         }

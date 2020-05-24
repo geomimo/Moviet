@@ -8,7 +8,8 @@ namespace Moviet.Contracts
 {
     public interface IMovieRepository : IRepositoryBase<Movie>
     {
-
+        object Find(int id);
+        object FindAll(int id);
     }
 }
 

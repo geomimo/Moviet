@@ -24,7 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Movie.Description)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Genres)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,7 +37,9 @@
                 @Html.DisplayFor(modelItem => item.DateCreated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.PosterPath)
+                <div class="card" style="height: 211px; width: 150px">
+                    <img src=@item.Movie.PosterPath class="card-img-top" />
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Movie.Title)
@@ -43,6 +47,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Movie.Description)
             </td>
+            <th>
+                <ul>
+                    @foreach (var mg in item.Movie.Genres)
+                    {
+                        <li>
+                            @Html.DisplayFor(modelItem => mg.Genre.Name)
+                        </li>
+                    }
+                </ul>
+            </th>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

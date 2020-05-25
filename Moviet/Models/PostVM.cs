@@ -14,6 +14,7 @@ namespace Moviet.Models
         public IdentityUserVM Owner { get; set; }
 
         [Display(Name = "Date Created")]
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
         public MovieVM Movie { get; set; }
     }

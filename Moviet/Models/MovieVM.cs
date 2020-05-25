@@ -16,6 +16,8 @@ namespace Moviet.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public float Rating { get; set; }
+
+        [Display(Name = "Poster")]
         public string PosterPath { get; set; }
         [Display(Name = "Trailer")]
         public string YoutubeId { get; set; }
@@ -36,7 +38,6 @@ namespace Moviet.Models
 
         [Display(Name = "Genres")]
         public List<SelectListItem> AvailableGenres { get; set; }
-
         public List<string> Genres { get; set; }
     }
 }

@@ -63,6 +63,7 @@ namespace Moviet.Repository
                     .ThenInclude(m => m.Ratings)
                 .Include(p => p.Movie)
                     .ThenInclude(m => m.Genres)
+                        .ThenInclude(g => g.Genre)
                 .ToList();
         }
     }

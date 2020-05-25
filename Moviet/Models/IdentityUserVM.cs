@@ -10,10 +10,8 @@ namespace Moviet.Models
     {
         public string Id { get; set; }
 
-        [Display(Name="Username: ")]
         public string UserName { get; set; }
 
-        [Display(Name = "Email: ")]
         public string Email { get; set; }
 
         public string Role { get; set; }

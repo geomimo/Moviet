@@ -57,12 +57,13 @@ namespace Moviet.Repository
 
         private List<Post> IncludeAll()
         {
-            return _db.Posts.Include(p => p.Owner)
-                                .Include(p => p.Movie)
-                                    .ThenInclude(m => m.Ratings)
-                                .Include(p => p.Movie)
-                                    .ThenInclude(m => m.Genres)
-                                .ToList();
+            return _db.Posts
+                .Include(p => p.Owner)
+                .Include(p => p.Movie)
+                    .ThenInclude(m => m.Ratings)
+                .Include(p => p.Movie)
+                    .ThenInclude(m => m.Genres)
+                .ToList();
         }
     }
 }

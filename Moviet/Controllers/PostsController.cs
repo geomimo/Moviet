@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
+using Moviet.Services.Interfaces;
 
 namespace Moviet.Controllers
 {
@@ -22,16 +24,22 @@ namespace Moviet.Controllers
         private readonly IPostRepository _postrepo;
         private readonly IGenreRepository _genrerepo;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IPosterUploadService _posterservice;
+        private readonly IYoutubeService _ytservice;
 
         public PostsController(IPostRepository postrepo,
                                IMapper mapper,
                                IGenreRepository genrerepo,
-                               UserManager<IdentityUser> userManager)
+                               UserManager<IdentityUser> userManager,
+                               IPosterUploadService posterservice,
+                               IYoutubeService ytservice)
         {
             _mapper = mapper;
             _postrepo = postrepo;
             _genrerepo = genrerepo;
             _userManager = userManager;
+            _posterservice = posterservice;
+            _ytservice = ytservice;
         }
 
         public IActionResult Index()
@@ -81,9 +89,21 @@ namespace Moviet.Controllers
             string userId = _userManager.GetUserId(User);
 
             Post post = _mapper.Map<Post>(model);
-            post.OwnerId = userId;
+            post.Owner = _userManager.GetUserAsync(User).Result;
             post.DateCreated = DateTime.Now;
-            post.Movie.Ratings.First().RaterId = userId;
+            post.Movie.Ratings.First().Rater = _userManager.GetUserAsync(User).Result;
+
+            if (model.Movie.Poster != null)
+            {
+                post.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
+            }
+
+            if(model.Movie.YoutubeId != null)
+            {
+                post.Movie.YoutubeId = _ytservice.ConvertUrl(model.Movie.YoutubeId);
+            }
+
+
             _postrepo.Create(post);
 
             return RedirectToAction(nameof(Index));

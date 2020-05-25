@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Moviet.Data
         public int RatingId { get; set; }
 
         public string RaterId { get; set; }
-        public Rater Rater { get; set; }
+        public IdentityUser Rater { get; set; }
 
         public float Value { get; set; }
 

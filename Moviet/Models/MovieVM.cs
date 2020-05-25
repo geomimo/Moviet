@@ -11,15 +11,15 @@ namespace Moviet.Models
 {
     public class MovieVM
     {
-        [Key]
+       
         public int MovieId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public TotalRatingVM Rating { get; set; }
+        public float Rating { get; set; }
         public string PosterPath { get; set; }
         [Display(Name = "Trailer")]
         public string YoutubeId { get; set; }
-        public List<ListMovieGenreVM> Genres { get; set; }
+        public List<MovieGenreVM> Genres { get; set; }
     }
 
     public class CreateMovieVM

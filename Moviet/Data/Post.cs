@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Moviet.Data
         [Key]
         public int PostId { get; set; }
         public string OwnerId { get; set; }
-        public ContentManager Owner { get; set; }
+        public IdentityUser Owner { get; set; }
         public DateTime DateCreated { get; set; }
         public Movie Movie { get; set; }
     }

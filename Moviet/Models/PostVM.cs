@@ -1,4 +1,5 @@
-﻿using Moviet.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Moviet.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,15 +10,16 @@ namespace Moviet.Models
 {
     public class PostVM
     {
-        public ContentManagerVM Owner { get; set; }
+        public int PostID { get; set; }
+        public IdentityUserVM Owner { get; set; }
 
-        [Display(Name = "Date Created:")]
+        [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         public MovieVM Movie { get; set; }
     }
     public class CreatePostVM
     {
-        public ContentManagerVM Owner { get; set; }
+        public IdentityUser Owner { get; set; }
 
         [Display(Name = "Date Created:")]
         public DateTime DateCreated { get; set; }

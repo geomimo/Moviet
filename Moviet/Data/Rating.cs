@@ -10,6 +10,7 @@ namespace Moviet.Data
     {
         public int RatingId { get; set; }
 
+        public string RaterId { get; set; }
         public Rater Rater { get; set; }
 
         public float Value { get; set; }

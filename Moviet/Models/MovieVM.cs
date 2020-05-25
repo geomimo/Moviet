@@ -33,6 +33,10 @@ namespace Moviet.Models
         public IFormFile Poster { get; set; }
         [Display(Name = "Trailer")]
         public string YoutubeId { get; set; }
-        public List<SelectListItem> Genres { get; set; }
+
+        [Display(Name = "Genres")]
+        public List<SelectListItem> AvailableGenres { get; set; }
+
+        public List<string> Genres { get; set; }
     }
 }

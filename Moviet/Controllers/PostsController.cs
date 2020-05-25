@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -17,12 +19,17 @@ namespace Moviet.Controllers
         private readonly IMapper _mapper;
         private readonly IPostRepository _postrepo;
         private readonly IGenreRepository _genrerepo;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public PostsController(IPostRepository postrepo, IMapper mapper, IGenreRepository genrerepo)
+        public PostsController(IPostRepository postrepo,
+                               IMapper mapper,
+                               IGenreRepository genrerepo,
+                               UserManager<IdentityUser> userManager)
         {
             _mapper = mapper;
             _postrepo = postrepo;
             _genrerepo = genrerepo;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -48,21 +55,34 @@ namespace Moviet.Controllers
         {
             var model = new CreatePostVM();
             model.Movie = new CreateMovieVM();
-            model.Movie.Genres = new List<SelectListItem>();
+            model.Movie.AvailableGenres = new List<SelectListItem>();
 
             var availableGenres = _genrerepo.FindAll();
             foreach(var g in availableGenres)
             {
-                model.Movie.Genres.Add(new SelectListItem { Text = g.Name, Value = g.Name });
+                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.Name });
             }
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(PostVM post)
+        public IActionResult Create(CreatePostVM model)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            string userId = _userManager.GetUserId(User);
+
+            Post post = _mapper.Map<Post>(model);
+            post.OwnerId = userId;
+            post.DateCreated = DateTime.Now;
+            post.Movie.Ratings.First().RaterId = userId;
+            _postrepo.Create(post);
+
+            return View();
         }
     }
 }

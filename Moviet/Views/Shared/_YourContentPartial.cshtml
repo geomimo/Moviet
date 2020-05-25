@@ -1,9 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
 
-<li>
+
 @if (User.IsInRole(Roles.ContentManager))
 {
-    <a class="nav-link" asp-controller="" asp-action="">Your Posts</a>
-    <a class="nav-link" asp-controller="Posts" asp-action="Create">New Post <i class="fa fa-plus"></i></a>
+    <li>
+        <a class="nav-link" asp-controller="" asp-action="">Your Posts</a>
+    </li>
+    <li>
+        <a class="nav-link" asp-controller="Posts" asp-action="Create">New Post <i class="fa fa-plus"></i></a>
+    </li>
 }
-</li>

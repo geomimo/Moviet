@@ -10,6 +10,7 @@ namespace Moviet.Data
     {
         [Key]
         public int PostId { get; set; }
+        public string OwnerId { get; set; }
         public ContentManager Owner { get; set; }
         public DateTime DateCreated { get; set; }
         public Movie Movie { get; set; }

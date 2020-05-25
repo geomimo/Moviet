@@ -29,22 +29,17 @@ namespace Moviet.Repository
 
         public List<Post> FindAll()
         {
-            return _db.Posts.Include(p => p.Owner)
-                                .Include(p => p.Movie)
-                                    .ThenInclude(m => m.Ratings)
-                                .Include(p => p.Movie)
-                                    .ThenInclude(m => m.Genres)
-                                .ToList();
+            return IncludeAll();
+        }
+
+        public List<Post> FindAllByUserId(string id)
+        {
+            return IncludeAll().FindAll(p => p.OwnerId == id);
         }
 
         public Post FindById(int id)
         {
-            var post = _db.Posts.Include(p => p.Owner)
-                                .Include(p => p.Movie)
-                                    .ThenInclude(m => m.Ratings)
-                                .Include(p => p.Movie)
-                                    .ThenInclude(m => m.Genres)
-                                .SingleOrDefault(p => p.PostId.Equals(id));
+            var post = IncludeAll().SingleOrDefault(p => p.PostId.Equals(id));
             return post;
 
         }
@@ -58,6 +53,16 @@ namespace Moviet.Repository
         {
             _db.Posts.Update(entity);
             return Save();
+        }
+
+        private List<Post> IncludeAll()
+        {
+            return _db.Posts.Include(p => p.Owner)
+                                .Include(p => p.Movie)
+                                    .ThenInclude(m => m.Ratings)
+                                .Include(p => p.Movie)
+                                    .ThenInclude(m => m.Genres)
+                                .ToList();
         }
     }
 }

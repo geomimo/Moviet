@@ -8,5 +8,6 @@ namespace Moviet.Contracts
 {
     public interface IPostRepository : IRepositoryBase<Post>
     {
+        public List<Post> FindAllByUserId(string id);
     }
 }

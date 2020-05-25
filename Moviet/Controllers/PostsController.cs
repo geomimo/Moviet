@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Moviet.Models;
 
 namespace Moviet.Controllers
 {
+    [Authorize(Roles = "ContentManager")]
     public class PostsController : Controller
     {
         private readonly IMapper _mapper;
@@ -34,7 +36,9 @@ namespace Moviet.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<Post> posts = _postrepo.FindAllByUserId(_userManager.GetUserId(User));
+            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
+            return View(model);
         }
 
         public IActionResult Details(int id)
@@ -82,7 +86,7 @@ namespace Moviet.Controllers
             post.Movie.Ratings.First().RaterId = userId;
             _postrepo.Create(post);
 
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

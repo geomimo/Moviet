@@ -159,3 +159,7 @@ span.multiselect-native-select {
     margin-left: -20px;
     margin-right: 0
 }
+
+.card-bg {
+    background-color: #f5bfab;
+}

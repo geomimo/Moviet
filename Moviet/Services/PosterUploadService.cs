@@ -25,7 +25,7 @@ namespace Moviet.Services
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
             string filePath = Path.Combine(toFolder, uniqueFileName);
             file.CopyTo(new FileStream(filePath, FileMode.Create));
-            return Path.Combine("img", uniqueFileName);
+            return Path.Combine("posters", uniqueFileName);
         }
     }
 }

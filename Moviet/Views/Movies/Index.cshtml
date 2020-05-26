@@ -1,0 +1,44 @@
+﻿@using Moviet.Models
+
+@model List<PostVM>
+@{
+    ViewData["Title"] = "All Movies";
+}
+<h1>All Movies</h1>
+
+<div class="container">
+    <div class="card-deck">
+        @foreach (var post in Model)
+        {
+            <div class="col-4">
+                <div class="card card-bg mb-3">
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@post.PostID">
+                        <img class="card-img-top" src=@post.Movie.PosterPath />
+                    </a>
+                    <div class="card-body">
+                        <div class="d-block">
+                            <h5 class="d-inline">@post.Movie.Title</h5> |
+                            <h6 class="d-inline">
+                                <i class="fa fa-star"></i> @post.Movie.Rating
+                            </h6>
+                        </div>
+                        <p class="card-text">@post.Movie.Description</p>
+                    </div>
+                    <hr />
+                    <ul>
+                        @foreach (var g in post.Movie.Genres)
+                        {
+                            <li>
+                                @g.Genre.Name
+                            </li>
+                        }
+                    </ul>
+                    <div class="card-footer">
+                        <small class="text-muted">Author: @post.Owner.UserName, @Html.DisplayFor(itempost => post.DateCreated)</small>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

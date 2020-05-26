@@ -28,7 +28,7 @@
                 <input asp-for="Movie.LongDescription" class="form-control" />
                 <span asp-validation-for="Movie.LongDescription" class="text-danger"></span>
             </div>
-            <div class="form-group form-control-file">
+            <div class="form-group form-control-file"  id="img-tooltip" data-toggle="tooltip" data-html="true" data-placement="right" title="<div class='text-center'>Current Poster<img src='/@Model.Movie.PosterPath'/></div>">
                 <label asp-for="Movie.Poster" class="control-label"></label>
                 <div class="custom-file">
                     <input asp-for="Movie.Poster" class="form-control custom-file-input" />
@@ -56,9 +56,7 @@
                 <i class="fa fa-star"></i>
                 <span asp-validation-for="Movie.OwnersRating" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            
         </form>
     </div>
 </div>
@@ -81,6 +79,12 @@
                 var filename = $(this).val().split("\\").pop();
                 $(this).next('.custom-file-label').html(filename);
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#img-tooltip").tooltip();
+            $('#video-tooltip').tooltip();
         });
     </script>
 }

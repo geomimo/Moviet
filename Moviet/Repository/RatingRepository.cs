@@ -54,6 +54,7 @@ namespace Moviet.Repository
         public bool Update(Rating entity)
         {
             _db.Ratings.Update(entity);
+            return Save();
         }
 
         private List<Rating> IncludeAll()

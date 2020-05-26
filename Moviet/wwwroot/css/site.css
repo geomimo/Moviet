@@ -186,3 +186,10 @@ span.multiselect-native-select select {
     content: "";
 }
 
+.img-tooltip {
+    display: none;
+}
+
+.img-tooltip :hover{
+    display:block;
+}

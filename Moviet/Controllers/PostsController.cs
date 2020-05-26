@@ -124,7 +124,8 @@ namespace Moviet.Controllers
             }
 
             // Add owner's rating.
-            model.Movie.OwnersRating = _
+            model.Movie.OwnersRating = _ratingrepo.FindAllByUsersId(_userManager.GetUserId(User))
+                                                  .Single(r => r.MovieId == model.Movie.MovieId);
 
             return View(model);
         }

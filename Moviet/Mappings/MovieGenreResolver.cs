@@ -13,10 +13,9 @@ namespace Moviet.Mappings
         public List<MovieGenre> Resolve(CreateMovieVM source, Movie destination, List<MovieGenre> destMember, ResolutionContext context)
         {
             List<MovieGenre> ls = new List<MovieGenre>();
-            foreach(string v in source.Genres)
+            foreach(string id in source.Genres)
             {
-                Genre g = new Genre { Name = v };
-                ls.Add(new MovieGenre { Genre = g, Movie = destination });
+                ls.Add(new MovieGenre { GenreId = Int32.Parse(id), MovieId = destination.MovieId });
             }
 
             return ls;

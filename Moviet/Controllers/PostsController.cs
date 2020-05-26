@@ -72,7 +72,7 @@ namespace Moviet.Controllers
             var availableGenres = _genrerepo.FindAll();
             foreach(var g in availableGenres)
             {
-                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.Name });
+                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.GenreId.ToString()});
             }
 
             return View(model);

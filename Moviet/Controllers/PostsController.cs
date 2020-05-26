@@ -23,6 +23,7 @@ namespace Moviet.Controllers
         private readonly IMapper _mapper;
         private readonly IPostRepository _postrepo;
         private readonly IGenreRepository _genrerepo;
+        private readonly IRatingRepository _ratingrepo;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IPosterUploadService _posterservice;
         private readonly IYoutubeService _ytservice;
@@ -30,6 +31,7 @@ namespace Moviet.Controllers
         public PostsController(IPostRepository postrepo,
                                IMapper mapper,
                                IGenreRepository genrerepo,
+                               IRatingRepository ratingrepo,
                                UserManager<IdentityUser> userManager,
                                IPosterUploadService posterservice,
                                IYoutubeService ytservice)
@@ -37,9 +39,11 @@ namespace Moviet.Controllers
             _mapper = mapper;
             _postrepo = postrepo;
             _genrerepo = genrerepo;
+            _ratingrepo = ratingrepo;
             _userManager = userManager;
             _posterservice = posterservice;
             _ytservice = ytservice;
+            
         }
 
         public IActionResult Index()
@@ -49,19 +53,6 @@ namespace Moviet.Controllers
             return View(model);
         }
 
-        public IActionResult Details(int id)
-        {
-            //var Movie = _movierepo.FindById(id);
-            //var model = _mapper.Map<MovieVM>(Movie);
-
-            var model = new MovieVM
-            {
-                Description = "this is a description",
-                MovieId = 1,
-                Title = "Avengers"
-            };
-            return View(model);
-        }
 
         public IActionResult Create()
         {
@@ -107,6 +98,35 @@ namespace Moviet.Controllers
             _postrepo.Create(post);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Post post = _postrepo.FindById(id);
+            if(post.Owner != _userManager.GetUserAsync(User).Result)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            EditPostVM model = _mapper.Map<EditPostVM>(post);
+            model.Movie.AvailableGenres = new List<SelectListItem>();
+
+            // Add available genres
+            var availableGenres = _genrerepo.FindAll();
+            foreach (var g in availableGenres)
+            {
+                model.Movie.AvailableGenres.Add(new SelectListItem 
+                                                { 
+                                                    Text = g.Name, 
+                                                    Value = g.GenreId.ToString(), 
+                                                    Selected = post.Movie.Genres.Exists(q => q.GenreId == g.GenreId) 
+                                                });
+            }
+
+            // Add owner's rating.
+            model.Movie.OwnersRating = _
+
+            return View(model);
         }
     }
 }

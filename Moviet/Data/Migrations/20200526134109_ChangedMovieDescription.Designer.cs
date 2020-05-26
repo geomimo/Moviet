@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moviet.Data;
 
 namespace Moviet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200526134109_ChangedMovieDescription")]
+    partial class ChangedMovieDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,7 +313,7 @@ namespace Moviet.Data.Migrations
                     b.Property<DateTime>("DateRated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MovieId")
+                    b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<string>("RaterId")
@@ -408,11 +410,9 @@ namespace Moviet.Data.Migrations
 
             modelBuilder.Entity("Moviet.Data.Rating", b =>
                 {
-                    b.HasOne("Moviet.Data.Movie", "Movie")
+                    b.HasOne("Moviet.Data.Movie", null)
                         .WithMany("Ratings")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovieId");
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Rater")
                         .WithMany()

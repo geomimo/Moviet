@@ -9,30 +9,37 @@
 
 <div class="row mt-4">
     <div class="col-4">
-        <img src=/@Model.Movie.PosterPath class="details-img"/>
+        <img src=/@Model.Movie.PosterPath class="details-img" />
     </div>
     <div class="col-8">
         <div class="container">
             <div class="mb-auto">
                 <h2>@Model.Movie.Title</h2>
                 <div class="d-block my-3">
-                    <h6 class="d-inline"><i class="fa fa-star"></i> @Model.Movie.Rating</h6> |
-                    <h6 class="d-inline"><i class="fa fa-user"></i> @Model.Owner.UserName</h6> |
-                    <h6 class="d-inline"><i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => Model.DateCreated)</h6> | 
+                    <h6 class="d-inline">
+                        <i class="fa fa-star"></i> @Model.Movie.Rating
+                    </h6> |
+                    <h6 class="d-inline">
+                        <i class="fa fa-user"></i> @Model.Owner.UserName
+                    </h6> |
+                    <h6 class="d-inline">
+                        <i class="fa fa-calendar"></i> @Html.DisplayFor(modelItem => Model.DateCreated)
+                    </h6> |
                     <i class="fa fa-video-camera"></i>
                     <ul class="ul-inline-comma pl-0">
                         @foreach (var g in Model.Movie.Genres)
                         {
-                            <li class="d-inline"><a asp-controller="" asp-action="" asp-route-id="">@g.Genre.Name</a></li>
+                            <li class="d-inline">
+                                <a asp-controller="" asp-action="" asp-route-id="">@g.Genre.Name</a>
+                            </li>
                         }
                     </ul>
                 </div>
                 <hr />
-                <p>@Model.Movie.Description</p>
-
+                <p>@Model.Movie.LongDescription</p>
+            </div>
         </div>
     </div>
-
 </div>
 <hr />
 <h3 class="mb-2">Trailer</h3>

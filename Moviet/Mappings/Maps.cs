@@ -16,17 +16,23 @@ namespace Moviet.Mappings
             CreateMap<IdentityUser, IdentityUserVM>().ReverseMap();
             CreateMap<Genre, GenreVM>().ReverseMap();
             CreateMap<ContentManager, ContentManagerVM>().ReverseMap();
+            CreateMap<MovieGenre, MovieGenreVM>().ReverseMap();
+
+            // Movie Mappings
             CreateMap<Movie, CreateMovieVM>().ReverseMap()
                 .ForMember(dest => dest.Genres, 
-                           opt => opt.MapFrom<MovieGenreResolver>())
+                           opt => opt.MapFrom<CreateMovieGenreResolver>())
                 .ForMember(dest => dest.Ratings, 
                            opt => opt.MapFrom<RatingResolver>());
+            CreateMap<EditMovieVM, Movie>().ReverseMap();
             CreateMap<MovieVM, Movie>().ReverseMap()
                 .ForMember(dest => dest.Rating,
                            opt => opt.MapFrom<TotalRatingResolver>());
+
+            // Post Mappings
             CreateMap<CreatePostVM, Post>().ReverseMap();
-            CreateMap<MovieGenre, MovieGenreVM>().ReverseMap();
             CreateMap<Post, PostVM>().ReverseMap();
+            CreateMap<Post, EditPostVM>().ReverseMap();
         }
     }
 }

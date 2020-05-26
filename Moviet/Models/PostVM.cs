@@ -20,11 +20,21 @@ namespace Moviet.Models
     }
     public class CreatePostVM
     {
-        public IdentityUser Owner { get; set; }
+        public IdentityUserVM Owner { get; set; }
 
-        [Display(Name = "Date Created:")]
+        [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         public CreateMovieVM Movie { get; set; }
+    }
+
+    public class EditPostVM
+    {
+        public int PostID { get; set; }
+        public IdentityUserVM Owner { get; set; }
+
+        [Display(Name = "Date Created")]
+        public DateTime DateCreated { get; set; }
+        public EditMovieVM Movie { get; set; }
     }
 
 }

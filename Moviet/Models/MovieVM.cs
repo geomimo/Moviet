@@ -14,7 +14,8 @@ namespace Moviet.Models
        
         public int MovieId { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+        public string SortDescription { get; set; }
+        public string LongDescription { get; set; }
         public float Rating { get; set; }
 
         [Display(Name = "Poster")]
@@ -26,10 +27,13 @@ namespace Moviet.Models
 
     public class CreateMovieVM
     {
-        [Key]
-        public int MovieId { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
+
+        [Display(Name ="Sort Description")]
+        public string SortDescription { get; set; }
+
+        [Display(Name = "Long Description")]
+        public string LongDescription { get; set; }
         public float Rating { get; set; }
         public string PosterPath { get; set; }
         public IFormFile Poster { get; set; }
@@ -40,4 +44,27 @@ namespace Moviet.Models
         public List<SelectListItem> AvailableGenres { get; set; }
         public List<string> Genres { get; set; }
     }
+
+    public class EditMovieVM
+    {
+        public int MovieId { get; set; }
+
+        public string Title { get; set; }
+
+        [Display(Name = "Sort Description")]
+        public string SortDescription { get; set; }
+
+        [Display(Name = "Long Description")]
+        public string LongDescription { get; set; }
+        public Rating OwnersRating { get; set; }
+        public string PosterPath { get; set; }
+        public IFormFile Poster { get; set; }
+        [Display(Name = "Trailer")]
+        public string YoutubeId { get; set; }
+
+        [Display(Name = "Genres")]
+        public List<SelectListItem> AvailableGenres { get; set; }
+        public List<MovieGenreVM> Genres { get; set; }
+    }
+
 }

@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Movie.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie.Description)
+                @Html.DisplayNameFor(model => model.Movie.SortDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie.Genres)
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.Description)
+                @Html.DisplayFor(modelItem => item.Movie.SortDescription)
             </td>
             <th>
                 <ul>
@@ -58,7 +58,7 @@
                 </ul>
             </th>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Edit", "Edit", new {  id = item.PostID  }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>

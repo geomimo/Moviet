@@ -65,6 +65,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     font-family: 'Allerta';
+
 }
 
 .footer {
@@ -184,3 +185,4 @@ span.multiselect-native-select select {
 .ul-inline-comma li:last-child:after {
     content: "";
 }
+

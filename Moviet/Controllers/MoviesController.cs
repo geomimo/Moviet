@@ -20,7 +20,7 @@ namespace Moviet.Controllers
         {
             _postrepo = postrepo;
             _mapper = mapper;
-        }   
+        }
 
         public IActionResult Index()
         {
@@ -28,6 +28,29 @@ namespace Moviet.Controllers
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
             return View(model);
         }
+
+        [HttpGet("{mode:regex(topRated|newReleases)}")]
+        public IActionResult Index(string mode)
+        {
+            List<Post> posts = _postrepo.FindAll();
+            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
+            if (mode.Equals("topRated"))
+            {
+                model = model.OrderByDescending(p => p.Movie.Rating).ToList();
+            }
+            else if (mode.Equals("newReleases"))
+            {
+                model = model.OrderByDescending(p => p.DateCreated).ToList();
+            }
+            return View(model);
+        }
+
+        [HttpGet("Index/{genre:alpha}/{id:int}")]
+        public IActionResult Index(string genre, int id)
+        {
+            return View();
+        }
+
 
         public IActionResult Details(int id)
         {

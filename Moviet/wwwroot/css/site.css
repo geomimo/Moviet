@@ -79,18 +79,18 @@ span.multiselect-native-select {
     position: relative
 }
 
-    span.multiselect-native-select select {
-        border: 0 !important;
-        clip: rect(0 0 0 0) !important;
-        height: 1px !important;
-        margin: -1px -1px -1px -3px !important;
-        overflow: hidden !important;
-        padding: 0 !important;
-        position: absolute !important;
-        width: 1px !important;
-        left: 50%;
-        top: 30px
-    }
+span.multiselect-native-select select {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px -1px -1px -3px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    left: 50%;
+    top: 30px
+}
 
 .multiselect-container {
     position: absolute;
@@ -99,52 +99,52 @@ span.multiselect-native-select {
     padding: 0
 }
 
-    .multiselect-container .input-group {
-        margin: 5px
-    }
+.multiselect-container .input-group {
+    margin: 5px
+}
 
-    .multiselect-container .multiselect-reset .input-group {
-        width: 93%
-    }
+.multiselect-container .multiselect-reset .input-group {
+    width: 93%
+}
 
-    .multiselect-container > li {
-        padding: 0
-    }
+.multiselect-container > li {
+    padding: 0
+}
 
-        .multiselect-container > li > a.multiselect-all label {
-            font-weight: 700
-        }
+.multiselect-container > li > a.multiselect-all label {
+    font-weight: 700
+}
 
-        .multiselect-container > li.multiselect-group label {
-            margin: 0;
-            padding: 3px 20px;
-            height: 100%;
-            font-weight: 700
-        }
+.multiselect-container > li.multiselect-group label {
+    margin: 0;
+    padding: 3px 20px;
+    height: 100%;
+    font-weight: 700
+}
 
-        .multiselect-container > li.multiselect-group-clickable label {
-            cursor: pointer
-        }
+.multiselect-container > li.multiselect-group-clickable label {
+    cursor: pointer
+}
 
-        .multiselect-container > li > a {
-            padding: 0
-        }
+.multiselect-container > li > a {
+    padding: 0
+}
 
-            .multiselect-container > li > a > label {
-                margin: 0;
-                height: 100%;
-                cursor: pointer;
-                font-weight: 400;
-                padding: 3px 20px 3px 40px
-            }
+.multiselect-container > li > a > label {
+    margin: 0;
+    height: 100%;
+    cursor: pointer;
+    font-weight: 400;
+    padding: 3px 20px 3px 40px
+}
 
-                .multiselect-container > li > a > label.checkbox, .multiselect-container > li > a > label.radio {
-                    margin: 0
-                }
+.multiselect-container > li > a > label.checkbox, .multiselect-container > li > a > label.radio {
+    margin: 0
+}
 
-                .multiselect-container > li > a > label > input[type=checkbox] {
-                    margin-bottom: 5px
-                }
+.multiselect-container > li > a > label > input[type=checkbox] {
+    margin-bottom: 5px
+}
 
 .btn-group > .btn-group:nth-child(2) > .multiselect.btn {
     border-top-left-radius: 4px;
@@ -162,4 +162,25 @@ span.multiselect-native-select {
 
 .card-bg {
     background-color: #f5bfab;
+}
+
+.details-img {
+    width: 300px;
+    height: 423px;
+}
+
+.ul-inline-comma {
+    display: inline;
+    list-style: none;
+}
+.ul-inline-comma li {
+    display: inline;
+}
+
+.ul-inline-comma li:after {
+    content: ", ";
+}
+
+.ul-inline-comma li:last-child:after {
+    content: "";
 }

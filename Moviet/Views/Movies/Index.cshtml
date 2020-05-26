@@ -6,12 +6,12 @@
 }
 <h1>All Movies</h1>
 
-<div class="container">
-    <div class="card-deck">
+<div class="container-fluid">
+    <div class="row">
         @foreach (var post in Model)
         {
-            <div class="col-4">
-                <div class="card card-bg mb-3">
+            <div class="col-3 d-flex">
+                <div class="card card-bg my-3 flex-fill">
                     <a asp-controller="Movies" asp-action="Details" asp-route-id="@post.PostID">
                         <img class="card-img-top" src=@post.Movie.PosterPath />
                     </a>

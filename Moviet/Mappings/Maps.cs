@@ -5,6 +5,7 @@ using Moviet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Moviet.Mappings
@@ -19,21 +20,27 @@ namespace Moviet.Mappings
             CreateMap<MovieGenre, MovieGenreVM>().ReverseMap();
 
             // Movie Mappings
-            CreateMap<Movie, CreateMovieVM>().ReverseMap()
+            CreateMap<CreateMovieVM, Movie>()
                 .ForMember(dest => dest.Genres,
                            opt => opt.MapFrom<CreateMovieGenreResolver>())
-                .ForMember(dest => dest.Ratings, 
-                           opt => opt.MapFrom<CreateRatingResolver>());
+                .ForMember(dest => dest.Ratings,
+                           opt => opt.MapFrom<CreateRatingResolver>())
+                .ForMember(dest => dest.YoutubeId,
+                           opt => opt.MapFrom<CreateMovieVM2MovieYoutubeIdResolver>());
 
             CreateMap<Movie, EditMovieVM>()
                 .ForMember(dest => dest.Genres,
-                           opt => opt.MapFrom<EditMovieGenreMovie2EditMovieVMResolver>());
+                           opt => opt.MapFrom<EditMovieGenreMovie2EditMovieVMResolver>())
+                .ForMember(dest => dest.YoutubeId,
+                           opt => opt.MapFrom<Movie2EditMovieVMYoutubeIdResolver>());
 
             CreateMap<EditMovieVM, Movie>()
                 .ForMember(dest => dest.Genres,
                            opt => opt.MapFrom<EditMovieGenreEditMovieVM2MovieResolver>())
                 .ForMember(dest => dest.Ratings,
-                           opt => opt.MapFrom<EditRatingResolver>());
+                           opt => opt.MapFrom<EditRatingResolver>())
+                .ForMember(dest => dest.YoutubeId,
+                           opt => opt.MapFrom<EditMovieVM2MovieYoutubeIdResolver>());
 
             CreateMap<MovieVM, Movie>().ReverseMap()
                 .ForMember(dest => dest.Rating,

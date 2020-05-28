@@ -65,7 +65,6 @@ namespace Moviet
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPosterUploadService, PosterUploadService>();
-            services.AddScoped<IYoutubeService, YoutubeService>();
             services.AddScoped<IRatingRepository, RatingRepository>();
 
 

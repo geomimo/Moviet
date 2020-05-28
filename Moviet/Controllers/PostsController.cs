@@ -26,15 +26,13 @@ namespace Moviet.Controllers
         private readonly IRatingRepository _ratingrepo;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IPosterUploadService _posterservice;
-        private readonly IYoutubeService _ytservice;
 
         public PostsController(IPostRepository postrepo,
                                IMapper mapper,
                                IGenreRepository genrerepo,
                                IRatingRepository ratingrepo,
                                UserManager<IdentityUser> userManager,
-                               IPosterUploadService posterservice,
-                               IYoutubeService ytservice)
+                               IPosterUploadService posterservice)
         {
             _mapper = mapper;
             _postrepo = postrepo;
@@ -42,7 +40,6 @@ namespace Moviet.Controllers
             _ratingrepo = ratingrepo;
             _userManager = userManager;
             _posterservice = posterservice;
-            _ytservice = ytservice;
             
         }
 
@@ -90,11 +87,6 @@ namespace Moviet.Controllers
                 post.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
             }
 
-            if(model.Movie.YoutubeId != null)
-            {
-                post.Movie.YoutubeId = _ytservice.ConvertUrl(model.Movie.YoutubeId);
-            }
-
 
             _postrepo.Create(post);
 
@@ -140,22 +132,47 @@ namespace Moviet.Controllers
             }
 
             Post newPost = _mapper.Map<Post>(model);
-            newPost.DateCreated = DateTime.Now;
+            Post oldPost = _postrepo.FindById(model.PostID);
 
-            newPost.Movie.Ratings.First().DateRated = DateTime.Now;
-            //newPost.Movie.Ratings.First().RaterId = _userManager.GetUserId(User);
-            //newPost.Movie.Ratings.First().MovieId = newPost.Movie.MovieId;
-            if (model.Movie.Poster != null)
+            if (newPost.Movie.Title != null)
             {
-                newPost.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
+                oldPost.Movie.Title = newPost.Movie.Title;
             }
 
-            if (model.Movie.YoutubeId != null)
+            if (newPost.Movie.SortDescription != null)
             {
-                newPost.Movie.YoutubeId = _ytservice.ConvertUrl(model.Movie.YoutubeId);
+                oldPost.Movie.SortDescription = newPost.Movie.SortDescription;
             }
 
-            var r = _postrepo.Update(newPost);
+            if (newPost.Movie.LongDescription != null)
+            {
+                oldPost.Movie.LongDescription = newPost.Movie.LongDescription;
+            }
+
+            var newRating = newPost.Movie.Ratings.First();
+            var oldRating = oldPost.Movie.Ratings.Single(r => r.RaterId == oldPost.OwnerId);
+            if (newRating.Value != oldRating.Value)
+            {
+                oldRating.Value = newRating.Value;
+                oldRating.DateRated = DateTime.Now;
+            }
+
+            if(model.Movie.Poster != null)
+            {
+                oldPost.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
+            }
+
+            var newUrl = newPost.Movie.YoutubeId;
+            var oldUrl = oldPost.Movie.YoutubeId;
+            if (newUrl != oldUrl)
+            {
+                oldPost.Movie.YoutubeId = newUrl;
+            }
+
+            oldPost.Movie.Genres = newPost.Movie.Genres;
+            oldPost.DateCreated = DateTime.Now;
+
+            _postrepo.Update(oldPost);
 
 
             return RedirectToAction(nameof(Index));

@@ -82,6 +82,7 @@ namespace Moviet.Controllers
             Post post = _mapper.Map<Post>(model);
             post.Owner = _userManager.GetUserAsync(User).Result;
             post.DateCreated = DateTime.Now;
+            post.Movie.Ratings.First().DateRated = DateTime.Now;
             post.Movie.Ratings.First().Rater = _userManager.GetUserAsync(User).Result;
 
             if (model.Movie.Poster != null)
@@ -124,10 +125,40 @@ namespace Moviet.Controllers
             }
 
             // Add owner's rating.
-            model.Movie.OwnersRating = _ratingrepo.FindAllByUsersId(_userManager.GetUserId(User))
+            model.Movie.Rating = _ratingrepo.FindAllByUsersId(_userManager.GetUserId(User))
                                                   .Single(r => r.MovieId == model.Movie.MovieId);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditPostVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            Post newPost = _mapper.Map<Post>(model);
+            newPost.DateCreated = DateTime.Now;
+
+            newPost.Movie.Ratings.First().DateRated = DateTime.Now;
+            //newPost.Movie.Ratings.First().RaterId = _userManager.GetUserId(User);
+            //newPost.Movie.Ratings.First().MovieId = newPost.Movie.MovieId;
+            if (model.Movie.Poster != null)
+            {
+                newPost.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
+            }
+
+            if (model.Movie.YoutubeId != null)
+            {
+                newPost.Movie.YoutubeId = _ytservice.ConvertUrl(model.Movie.YoutubeId);
+            }
+
+            var r = _postrepo.Update(newPost);
+
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

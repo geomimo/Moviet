@@ -20,19 +20,32 @@ namespace Moviet.Mappings
 
             // Movie Mappings
             CreateMap<Movie, CreateMovieVM>().ReverseMap()
-                .ForMember(dest => dest.Genres, 
+                .ForMember(dest => dest.Genres,
                            opt => opt.MapFrom<CreateMovieGenreResolver>())
                 .ForMember(dest => dest.Ratings, 
-                           opt => opt.MapFrom<RatingResolver>());
-            CreateMap<EditMovieVM, Movie>().ReverseMap();
+                           opt => opt.MapFrom<CreateRatingResolver>());
+
+            CreateMap<Movie, EditMovieVM>()
+                .ForMember(dest => dest.Genres,
+                           opt => opt.MapFrom<EditMovieGenreMovie2EditMovieVMResolver>());
+
+            CreateMap<EditMovieVM, Movie>()
+                .ForMember(dest => dest.Genres,
+                           opt => opt.MapFrom<EditMovieGenreEditMovieVM2MovieResolver>())
+                .ForMember(dest => dest.Ratings,
+                           opt => opt.MapFrom<EditRatingResolver>());
+
             CreateMap<MovieVM, Movie>().ReverseMap()
                 .ForMember(dest => dest.Rating,
                            opt => opt.MapFrom<TotalRatingResolver>());
 
             // Post Mappings
-            CreateMap<CreatePostVM, Post>().ReverseMap();
+            CreateMap<Post, CreatePostVM>().ReverseMap();
             CreateMap<Post, PostVM>().ReverseMap();
             CreateMap<Post, EditPostVM>().ReverseMap();
+
+            // Rating Mappings
+            CreateMap<Rating, RatingVM>().ReverseMap();
         }
     }
 }

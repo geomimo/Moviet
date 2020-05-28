@@ -108,12 +108,13 @@ namespace Moviet
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                /*
                 endpoints.MapControllerRoute(
                     name: "genres",
                     pattern: "Movies/Index/{genre}/{id}");
                 endpoints.MapControllerRoute(
                     name: "orderBy",
-                    pattern: "Movies/Index/{mode}");
+                    pattern: "Movies/Index/{mode}");*/
                 
                 endpoints.MapRazorPages();
             });

@@ -8,13 +8,25 @@ using System.Threading.Tasks;
 
 namespace Moviet.Mappings
 {
-    public class RatingResolver : IValueResolver<CreateMovieVM, Movie, List<Rating>>
+    
+    public class CreateRatingResolver : IValueResolver<CreateMovieVM, Movie, List<Rating>>
     {
         public List<Rating> Resolve(CreateMovieVM source, Movie destination, List<Rating> destMember, ResolutionContext context)
         {
-            return new List<Rating> { new Rating { DateRated = DateTime.Now, Value = source.Rating } };
+            return new List<Rating> { source.Rating };
 
         }
     }
+
+    public class EditRatingResolver : IValueResolver<EditMovieVM, Movie, List<Rating>>
+    {
+        public List<Rating> Resolve(EditMovieVM source, Movie destination, List<Rating> destMember, ResolutionContext context)
+        {
+            return new List<Rating> { source.Rating };
+
+        }
+    }
+
+
 
 }

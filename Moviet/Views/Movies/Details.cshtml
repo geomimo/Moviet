@@ -1,4 +1,5 @@
 ﻿@using Moviet.Models
+@inject SignInManager<IdentityUser> SignInManager
 @model PostVM
 
 @{
@@ -21,6 +22,8 @@
                 <div class="d-block">
                     <h2 class="d-inline">@Model.Movie.Title</h2>
                     <partial name="_ContentManagerPostLinksPartial" view-data="ViewData">
+                        <partial name="_BanPostPartial" view-data="ViewData">
+
                 </div>
                 <div class="d-block my-3">
                     <h6 class="d-inline">
@@ -44,6 +47,33 @@
                 </div>
                 <hr />
                 <p>@Model.Movie.LongDescription</p>
+            </div>
+            <div class="mt-2">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <form asp-controller="Ratings" asp-action="Rate">
+                        <input type="hidden" name="PostId" value="@Model.PostID" />
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-warning d-inline h-auto"><i class="fa fa-star"></i> Rate Movie</button>
+
+                            <select name="Rating" class="d-inline form-control-sm h-auto align-center ml-3">
+                                @for (float i = 5; i >= 1; i -= 0.5F)
+                                {
+                                    <option value=@((float)i)>@i </option>
+                                }
+                            </select>
+                            <span asp-validation-for="Movie.Rating" class="text-danger"></span>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <p class="text-secondary font-italic">
+                        <a asp-area="Identity" asp-page="/Account/Login">Login</a> to rate any movie.
+                    </p>
+                }
+
+
             </div>
         </div>
     </div>

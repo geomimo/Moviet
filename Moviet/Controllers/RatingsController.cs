@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Moviet.Contracts;
+using Moviet.Data;
+using Moviet.Models;
+
+namespace Moviet.Controllers
+{
+    public class RatingsController : Controller
+    {
+        private readonly IRatingRepository _ratingrepo;
+        private readonly IPostRepository _postrepo;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IMapper _mapper;
+
+        public RatingsController(IRatingRepository ratingrepo,
+                                 IPostRepository postrepo,
+                                 UserManager<IdentityUser> userManager,
+                                 IMapper mapper)
+        {
+            _ratingrepo = ratingrepo;
+            _postrepo = postrepo;
+            _userManager = userManager;
+            _mapper = mapper;
+        }
+
+        public IActionResult Index()
+        {
+            List<Rating> ratings = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User));
+            List<RatingVM> model = _mapper.Map<List<RatingVM>>(ratings);
+            return View(model);
+        }
+
+        public IActionResult Rate(IFormCollection form)
+        {
+            Post post = _postrepo.FindById(Int32.Parse(form["PostId"]));
+            List<Rating> ratings = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User));
+
+            // Check if user has already rated the movie. 
+            Rating rating = ratings.Where(r => r.MovieId == post.Movie.MovieId).FirstOrDefault();
+            if(rating != null)
+            {
+                rating.Value = float.Parse(form["Rating"]);
+                rating.DateRated = DateTime.Now;
+                _ratingrepo.Update(rating);
+            }
+            else
+            {
+                rating = new Rating
+                {
+                    DateRated = DateTime.Now,
+                    Movie = post.Movie,
+                    Rater = _userManager.GetUserAsync(User).Result,
+                    Value = float.Parse(form["Rating"])
+                };
+                _ratingrepo.Create(rating);
+            }
+
+            
+
+            return RedirectToAction("Details", "Movies", new { id = post.PostId });
+        }
+    }
+}

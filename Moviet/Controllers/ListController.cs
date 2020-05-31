@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Moviet.Contracts;
 using Moviet.Models;
 using Moviet.Services.Interfaces;
 
@@ -18,17 +19,14 @@ namespace Moviet.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IBanService _banService;
+        private readonly IPostRepository _postrepo;
 
-        public ListController(UserManager<IdentityUser> userManager, IMapper mapper, IBanService banService)
+        public ListController(UserManager<IdentityUser> userManager, IMapper mapper, IBanService banService, IPostRepository postrepo)
         {
             _userManager = userManager;
             _mapper = mapper;
             _banService = banService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            _postrepo = postrepo;
         }
 
         public IActionResult AllUsers()
@@ -46,6 +44,15 @@ namespace Moviet.Controllers
             return View(model);
         }   
 
+        public IActionResult AllPosts()
+        {
+            var posts = _postrepo.FindAll();
+            posts.Sort((p, q) => p.DateCreated.CompareTo(q.DateCreated));
+            var model = _mapper.Map<List<PostVM>>(posts);
+
+            return View(model);
+        }
+
         public IActionResult BanUser(string id)
         {
             var banned = _banService.BanUser(id);
@@ -58,9 +65,16 @@ namespace Moviet.Controllers
 
         }
 
-        public IActionResult AllPosts()
+        public IActionResult BanPost(int id)
         {
-            return View();
+            var banned = _banService.BanPost(id);
+            if (!banned)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(AllPosts));
+
         }
     }
 }

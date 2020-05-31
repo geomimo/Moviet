@@ -1,4 +1,4 @@
-﻿@model List<Moviet.Models.IdentityUserVM>
+﻿@model IEnumerable<Moviet.Models.IdentityUserVM>
 
 @{
     ViewData["Title"] = "All Users";
@@ -6,22 +6,20 @@
 
 <h1>All Users</h1>
 
-<p>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                Username
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
-               Email
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                Role
+                @Html.DisplayNameFor(model => model.Role)
             </th>
             <th>
-                Actions
             </th>
         </tr>
     </thead>

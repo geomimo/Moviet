@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Moviet.Models.RatingVM>
+
+@{
+    ViewData["Title"] = "Your Ratings";
+}
+
+<h1>Your Ratings</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.PosterPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateRated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Movie.Title)
+            </td>
+            <td>
+                <div class="card" style="height: 211px; width: 150px">
+                    <img src="/@item.Movie.PosterPath" class="card-img-top" />
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRated)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.RatingId  }) |
+                @Html.ActionLink("Details", "Details", "Movies" ,new {  id=item.Movie.MovieId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.RatingId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

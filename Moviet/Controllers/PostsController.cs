@@ -50,7 +50,6 @@ namespace Moviet.Controllers
             return View(model);
         }
 
-
         public IActionResult Create()
         {
             var model = new CreatePostVM();
@@ -117,7 +116,7 @@ namespace Moviet.Controllers
             }
 
             // Add owner's rating.
-            model.Movie.Rating = _ratingrepo.FindAllByUsersId(_userManager.GetUserId(User))
+            model.Movie.Rating = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User))
                                                   .Single(r => r.MovieId == model.Movie.MovieId);
 
             return View(model);

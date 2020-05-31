@@ -41,7 +41,7 @@ namespace Moviet.Repository
 
         }
 
-        public List<Rating> FindAllByUsersId(string id)
+        public List<Rating> FindAllByUserId(string id)
         {
             return IncludeAll().Where(r => r.Rater.Id == id).ToList();
         }

@@ -12,6 +12,7 @@ namespace Moviet.Mappings
     {
         public string Resolve(Movie source, EditMovieVM destination, string destMember, ResolutionContext context)
         {
+            // From embed to original
             string id = "";
             if(source.YoutubeId != null)
             {
@@ -25,10 +26,11 @@ namespace Moviet.Mappings
     {
         public string Resolve(CreateMovieVM source, Movie destination, string destMember, ResolutionContext context)
         {
+            // From original to embed
             string id = "";
             if (source.YoutubeId != null)
             {
-                id = "https://www.youtube.com/embed/" + source.YoutubeId.Split("/").Last();
+                id = "https://www.youtube.com/embed/" + source.YoutubeId.Split("v=").Last() + "?autoplay=1";
             }
             return id;
         }
@@ -38,10 +40,11 @@ namespace Moviet.Mappings
     {
         public string Resolve(EditMovieVM source, Movie destination, string destMember, ResolutionContext context)
         {
+            // From original to embed
             string id = "";
             if (source.YoutubeId != null)
             {
-                id = "https://www.youtube.com/embed/" + source.YoutubeId.Split("/").Last();
+                id = "https://www.youtube.com/embed/" + source.YoutubeId.Split("v=").Last() + "?autoplay=1";
             }
             return id;
         }

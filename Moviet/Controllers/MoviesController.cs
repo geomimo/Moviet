@@ -45,6 +45,8 @@ namespace Moviet.Controllers
             return View(model);
         }
 
+
+        // TODO
         [HttpGet("Index/{genre:alpha}/{id:int}")]
         public IActionResult Index(string genre, int id)
         {

@@ -1,0 +1,20 @@
+﻿@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "_ContentManagerPostLinksPartial";
+}
+
+@if (User.IsInRole(Roles.ContentManager) && UserManager.GetUserId(User) == (string)ViewData["OwnerId"])
+{
+    
+    <div class="d-inline ml-2">
+        <a asp-controller="Posts" asp-action="Edit" asp-route-id="@ViewData["PostId"]">
+            Edit
+        </a> |
+        <a asp-controller="Posts" asp-action="Delete" asp-route-id="@ViewData["PostId"]">
+            Delete
+        </a>
+    </div>
+    
+}
+

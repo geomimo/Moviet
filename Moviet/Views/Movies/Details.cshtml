@@ -14,7 +14,10 @@
     <div class="col-8">
         <div class="container">
             <div class="mb-auto">
-                <h2>@Model.Movie.Title</h2>
+                <div class="d-block">
+                    <h2 class="d-inline">@Model.Movie.Title</h2>
+                    <partial name="_EditPostButtonPartial" />
+                </div>
                 <div class="d-block my-3">
                     <h6 class="d-inline">
                         <i class="fa fa-star"></i> @Model.Movie.Rating
@@ -30,7 +33,7 @@
                         @foreach (var g in Model.Movie.Genres)
                         {
                             <li class="d-inline">
-                                <a asp-controller="" asp-action="" asp-route-id="">@g.Genre.Name</a>
+                                <a asp-controller="Movies" asp-action="Index/ByGenre" asp-route-id="@g.Genre.GenreId">@g.Genre.Name</a>
                             </li>
                         }
                     </ul>

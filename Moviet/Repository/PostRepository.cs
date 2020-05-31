@@ -37,6 +37,24 @@ namespace Moviet.Repository
             return IncludeAll().FindAll(p => p.OwnerId == id);
         }
 
+        public List<Post> FindAllByGenreId(int id)
+        {
+            var posts = IncludeAll();
+            List<Post> postsWithGenre = new List<Post>();
+            foreach(var p in posts)
+            {
+                foreach(var mv in p.Movie.Genres)
+                {
+                    if(mv.GenreId == id)
+                    {
+                        postsWithGenre.Add(p);
+                        break;
+                    }
+                }
+            }
+            return postsWithGenre;
+        }
+
         public Post FindById(int id)
         {
             var post = IncludeAll().SingleOrDefault(p => p.PostId.Equals(id));

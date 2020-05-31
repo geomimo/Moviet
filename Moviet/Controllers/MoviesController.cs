@@ -47,10 +47,12 @@ namespace Moviet.Controllers
 
 
         // TODO
-        [HttpGet("Index/{genre:alpha}/{id:int}")]
-        public IActionResult Index(string genre, int id)
+        [HttpGet("Index/ByGenre/{id:int}")]
+        public IActionResult Index(int id)
         {
-            return View();
+            List<Post> posts = _postrepo.FindAllByGenreId(id);
+            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
+            return View(model);
         }
 
 

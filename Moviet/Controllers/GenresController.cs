@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Contracts;
 using Moviet.Data;
@@ -27,6 +28,7 @@ namespace Moviet.Controllers
         {
             List<Genre> genres = _genrerepo.FindAll();
             List<GenreVM> model = _mapper.Map<List<GenreVM>>(genres);
+            
             return View(model);
         }
 

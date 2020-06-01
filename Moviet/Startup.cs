@@ -96,6 +96,7 @@ namespace Moviet
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseResponseCaching();
 
             app.UseAuthentication();
             app.UseAuthorization();

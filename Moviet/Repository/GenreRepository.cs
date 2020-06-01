@@ -1,4 +1,5 @@
-﻿using Moviet.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Moviet.Contracts;
 using Moviet.Data;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,11 @@ namespace Moviet.Repository
         public List<Genre> FindAll()
         {
             return _db.Genres.ToList();
+        }
+
+        public async Task<List<Genre>> FindAllAsync()
+        {
+            return _db.Genres.ToListAsync().Result;
         }
 
         public Genre FindById(int id)

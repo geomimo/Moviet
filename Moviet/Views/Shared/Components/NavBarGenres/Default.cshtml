@@ -1,0 +1,6 @@
+﻿@model List<Moviet.Models.GenreVM>
+
+@foreach (var g in Model)
+{
+    <a class="dropdown-item" asp-controller="Movies" asp-action="ByGenre" asp-route-id=@g.GenreId>@g.Name</a>
+}

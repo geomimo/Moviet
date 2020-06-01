@@ -169,7 +169,6 @@ namespace Moviet.Controllers
             }
 
             oldPost.Movie.Genres = newPost.Movie.Genres;
-            oldPost.DateCreated = DateTime.Now;
 
             _postrepo.Update(oldPost);
 

@@ -50,7 +50,7 @@ namespace Moviet.Models
 
         [Required]
         [Display(Name = "Trailer")]
-        [RegularExpression("(https:\/\/| http:\/\/)?(www.)? youtube.com\/watch\?v=[a - zA - Z0 - 9_] *)")]
+        //[RegularExpression("(https:\/\/| http:\/\/)?(www.)? youtube.com\/watch\?v=[a - zA - Z0 - 9_] *)")]
         public string YoutubeId { get; set; }
 
         [Display(Name = "Genres")]
@@ -86,7 +86,7 @@ namespace Moviet.Models
         public IFormFile Poster { get; set; }
 
         [Display(Name = "Trailer")]
-        [RegularExpression("(https:\/\/| http:\/\/)?(www.)? youtube.com\/watch\?v=[a - zA - Z0 - 9_] *)")]
+        //[RegularExpression("(https:\/\/| http:\/\/)?(www.)? youtube.com\/watch\?v=[a - zA - Z0 - 9_] *)")]
         [Required]
         public string YoutubeId { get; set; }
 

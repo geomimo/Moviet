@@ -11,6 +11,8 @@ namespace Moviet.Models
     {
         public int GenreId { get; set; }
 
+        [Range(1,25)]
+        [Required]
         public string Name { get; set; }
     }
 }

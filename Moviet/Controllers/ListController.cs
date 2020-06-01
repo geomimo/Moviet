@@ -21,7 +21,10 @@ namespace Moviet.Controllers
         private readonly IBanService _banService;
         private readonly IPostRepository _postrepo;
 
-        public ListController(UserManager<IdentityUser> userManager, IMapper mapper, IBanService banService, IPostRepository postrepo)
+        public ListController(UserManager<IdentityUser> userManager,
+                              IMapper mapper,
+                              IBanService banService,
+                              IPostRepository postrepo)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -33,13 +36,19 @@ namespace Moviet.Controllers
         {
             var raters = _userManager.GetUsersInRoleAsync(Roles.Rater).Result;
             var contentManager = _userManager.GetUsersInRoleAsync(Roles.ContentManager).Result;
-
             var allUsers = new List<IdentityUser>();
             allUsers.AddRange(raters);
             allUsers.AddRange(contentManager);
             allUsers.Sort((p, q) => p.UserName.CompareTo(q.UserName));
 
             var model = _mapper.Map<List<IdentityUserVM>>(allUsers);
+
+            foreach (var u in allUsers)
+            {
+                var role = _userManager.GetRolesAsync(u).Result.First();
+                var m = model.Find(uvm => uvm.Id == u.Id);
+                m.Role = role;                
+            }
 
             return View(model);
         }   

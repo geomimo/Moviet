@@ -39,6 +39,45 @@ namespace Moviet.Controllers
             return View(model);
         }
 
+        public IActionResult ChangeUsername(IdentityUser model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            IdentityUser user = _userManager.GetUserAsync(User).Result;
+            user.UserName = model.UserName;
+            var result = _userManager.UpdateAsync(user).Result;
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+            return NotFound();
+
+        }
+
+        public IActionResult ChangeEmail(IdentityUser model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            IdentityUser user = _userManager.GetUserAsync(User).Result;
+            user.Email = model.Email;
+            var result = _userManager.UpdateAsync(user).Result;
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+            return NotFound();
+
+        }
+
+
         [Authorize(Roles = "Rater")]
         public async Task<IActionResult> UpgradeRole()
         {

@@ -169,5 +169,26 @@ namespace Moviet.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        
+        public IActionResult Delete(int id)
+        {
+            Post post = _postrepo.FindById(id);
+            if (post.Owner != _userManager.GetUserAsync(User).Result)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            PostVM model = _mapper.Map<PostVM>(post);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(IFormCollection form)
+        {
+            int id = Int32.Parse(form["PostID"]);
+            Post post = _postrepo.FindById(id);
+            _postrepo.Delete(post);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

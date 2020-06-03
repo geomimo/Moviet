@@ -68,11 +68,6 @@ namespace Moviet.Controllers
         [HttpPost]
         public IActionResult Create(CreatePostVM model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
             string userId = _userManager.GetUserId(User);
 
             Post post = _mapper.Map<Post>(model);

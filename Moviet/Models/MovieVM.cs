@@ -33,16 +33,17 @@ namespace Moviet.Models
         public string Title { get; set; }
 
         [Display(Name ="Sort Description")]
-        [Range(10,50)]
+        [MinLength(10)]
+        [MaxLength(50)]
         [Required]
         public string SortDescription { get; set; }
 
         [Display(Name = "Long Description")]
-        [Range(100, 850)]
+        [MinLength(100)]
+        [MaxLength(850)]
         [Required]
         public string LongDescription { get; set; }
 
-        [Required]
         public Rating Rating { get; set; }
         public string PosterPath { get; set; }
 
@@ -52,7 +53,7 @@ namespace Moviet.Models
 
         [Required]
         [Display(Name = "Trailer")]
-        //[RegularExpression("(https:\/\/| http:\/\/)?(www.)? youtube.com\/watch\?v=[a - zA - Z0 - 9_] *)")]
+        [RegularExpression(@"^(https:\/\/|http:\/\/)?(www.)?youtube.com\/watch\?v=[a-zA-Z0-9_]*$")]
         public string YoutubeId { get; set; }
 
         [Display(Name = "Genres")]
@@ -78,8 +79,6 @@ namespace Moviet.Models
         [Range(100, 850)]
         [Required]
         public string LongDescription { get; set; }
-
-        [Required]
         public Rating Rating { get; set; }
         public string PosterPath { get; set; }
 
@@ -88,7 +87,7 @@ namespace Moviet.Models
         public IFormFile Poster { get; set; }
 
         [Display(Name = "Trailer")]
-        //[RegularExpression("(https:\/\/| http:\/\/)?(www.)? youtube.com\/watch\?v=[a - zA - Z0 - 9_] *)")]
+        [RegularExpression(@"^(https:\/\/|http:\/\/)?(www.)?youtube.com\/watch\?v=[a-zA-Z0-9_]*$")]
         [Required]
         public string YoutubeId { get; set; }
 

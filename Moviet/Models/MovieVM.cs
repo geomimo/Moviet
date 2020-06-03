@@ -23,6 +23,8 @@ namespace Moviet.Models
         [Display(Name = "Trailer")]
         public string YoutubeId { get; set; }
         public List<MovieGenreVM> Genres { get; set; }
+        public bool PostRemoved { get; set; }
+
     }
 
     public class CreateMovieVM

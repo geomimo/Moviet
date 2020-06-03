@@ -6,7 +6,7 @@
 
 @if (User.IsInRole(Roles.ContentManager) && UserManager.GetUserId(User) == (string)ViewData["OwnerId"])
 {
-    
+
     <div class="d-inline ml-2">
         <a class="btn btn-sm btn-outline-info" asp-controller="Posts" asp-action="Edit" asp-route-id="@ViewData["PostId"]">
             Edit
@@ -15,6 +15,16 @@
             Delete
         </a>
     </div>
-    
+
+}
+else if (UserManager.GetUserId(User) == (string)ViewData["OwnerId"])
+{
+    <div class="d-inline ml-2">
+        <div>
+            You have been downgraded to <span class="badge badge-warning">Rater</span>.
+            <a asp-controller="Account" asp-action="Index">Upgrade to Content Manager</a> to edit your post.
+        </div>
+        
+    </div>
 }
 

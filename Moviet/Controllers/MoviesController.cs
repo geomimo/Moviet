@@ -69,9 +69,10 @@ namespace Moviet.Controllers
         }
 
 
-        public IActionResult Details(int postId)
+        public IActionResult Details(int id)
         {
-            Post post = _postrepo.FindById(postId);
+            
+            Post post = _postrepo.FindById(id);
             PostVM model = _mapper.Map<PostVM>(post);
             return View(model);
         }

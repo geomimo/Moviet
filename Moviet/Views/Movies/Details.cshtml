@@ -48,7 +48,7 @@
                 <p>@Model.Movie.LongDescription</p>
             </div>
             <div class="mt-2">
-                @if (SignInManager.IsSignedIn(User))
+                @if (SignInManager.IsSignedIn(User) && !User.IsInRole(Roles.Administrator))
                 {
                     <form asp-controller="Ratings" asp-action="Rate">
                         <input type="hidden" name="PostId" value="@Model.PostID" />

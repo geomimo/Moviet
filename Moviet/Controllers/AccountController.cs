@@ -39,6 +39,7 @@ namespace Moviet.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "ContentManager,Rater")]
         public IActionResult ChangeUsername(IdentityUser model)
         {
             if (!ModelState.IsValid)
@@ -58,6 +59,7 @@ namespace Moviet.Controllers
 
         }
 
+        [Authorize(Roles = "ContentManager,Rater")]
         public IActionResult ChangeEmail(IdentityUser model)
         {
             if (!ModelState.IsValid)

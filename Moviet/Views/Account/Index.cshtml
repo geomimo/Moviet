@@ -27,35 +27,58 @@
         <hr />
         <div class="row">
             <div class="col-6">
-                <form asp-controller="Account" asp-action="ChangeUsername">
-                    <input type="hidden" asp-for="Id" />
+                @if (!User.IsInRole("Administrator"))
+                {
+                    <form asp-controller="Account" asp-action="ChangeUsername">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group row justify-content-between">
+                            <div class="col-3">
+                                <label class="form-label" asp-for="UserName"></label>
+                            </div>
+                            <div class="col-5">
+                                <input class="form-control form-control-sm" asp-for="UserName" value="@Model.UserName" />
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control btn btn-outline-primary btn-sm btn-block" type="submit" value="Change Username" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <form asp-controller="Account" asp-action="ChangeEmail">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group row justify-content-between">
+                            <div class="col-3">
+                                <label class="form-label" asp-for="Email"></label>
+                            </div>
+                            <div class="col-5">
+                                <input class="form-control form-control-sm" asp-for="Email" value="@Model.Email" />
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control btn btn-outline-primary btn-sm" type="submit" value="Change Email" />
+                            </div>
+                        </div>
+                    </form>
+                }
+                else
+                {
                     <div class="form-group row justify-content-between">
                         <div class="col-3">
                             <label class="form-label" asp-for="UserName"></label>
                         </div>
                         <div class="col-5">
-                            <input class="form-control form-control-sm" asp-for="UserName" value="@Model.UserName" />
-                        </div>
-                        <div class="col-4">
-                            <input class="form-control btn btn-outline-primary btn-sm btn-block" type="submit" value="Change Username" />
+                            <input class="form-control form-control-sm" asp-for="UserName" value="@Model.UserName" readonly/>
                         </div>
                     </div>
-                </form>
 
-                <form asp-controller="Account" asp-action="ChangeEmail">
-                    <input type="hidden" asp-for="Id" />
                     <div class="form-group row justify-content-between">
                         <div class="col-3">
                             <label class="form-label" asp-for="Email"></label>
                         </div>
                         <div class="col-5">
-                            <input class="form-control form-control-sm" asp-for="Email" value="@Model.Email" />
-                        </div>
-                        <div class="col-4">
-                            <input class="form-control btn btn-outline-primary btn-sm" type="submit" value="Change Email" />
+                            <input class="form-control form-control-sm" asp-for="Email" value="@Model.Email" readonly />
                         </div>
                     </div>
-                </form>
+                }
             </div>
         </div>
     </section>

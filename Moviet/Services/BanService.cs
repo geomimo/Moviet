@@ -13,16 +13,21 @@ namespace Moviet.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IPostRepository _postrepo;
+        private readonly IMovieRepository _movierepo;
 
-        public BanService(UserManager<IdentityUser> userManager, IPostRepository postrepo)
+        public BanService(UserManager<IdentityUser> userManager, IPostRepository postrepo, IMovieRepository movierepo)
         {
             _userManager = userManager;
             _postrepo = postrepo;
+            _movierepo = movierepo;
         }
 
         public bool BanPost(int postId)
         {
             Post post = _postrepo.FindById(postId);
+            Movie movie = _movierepo.FindById(post.Movie.MovieId);
+            movie.PostRemoved = true;
+            _movierepo.Update(movie);
             return _postrepo.Delete(post);
         }
 

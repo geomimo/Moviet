@@ -24,6 +24,7 @@ namespace Moviet.Controllers
         private readonly IPostRepository _postrepo;
         private readonly IGenreRepository _genrerepo;
         private readonly IRatingRepository _ratingrepo;
+        private readonly IMovieRepository _movierepo;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IPosterUploadService _posterservice;
 
@@ -31,6 +32,7 @@ namespace Moviet.Controllers
                                IMapper mapper,
                                IGenreRepository genrerepo,
                                IRatingRepository ratingrepo,
+                               IMovieRepository movierepo,
                                UserManager<IdentityUser> userManager,
                                IPosterUploadService posterservice)
         {
@@ -38,6 +40,7 @@ namespace Moviet.Controllers
             _postrepo = postrepo;
             _genrerepo = genrerepo;
             _ratingrepo = ratingrepo;
+            _movierepo = movierepo;
             _userManager = userManager;
             _posterservice = posterservice;
             
@@ -187,6 +190,9 @@ namespace Moviet.Controllers
         {
             int id = Int32.Parse(form["PostID"]);
             Post post = _postrepo.FindById(id);
+            Movie movie = _movierepo.FindById(post.Movie.MovieId);
+            movie.PostRemoved = true;
+            _movierepo.Update(movie);
             _postrepo.Delete(post);
             return RedirectToAction(nameof(Index));
         }

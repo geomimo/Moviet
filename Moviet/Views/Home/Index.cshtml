@@ -1,8 +1,72 @@
-﻿@{
+﻿@using Moviet.Models
+@{
     ViewData["Title"] = "Home Page";
+    List<PostVM> newReleases = ViewBag.NewReleases;
+    List<PostVM> topRated = ViewBag.TopRated;
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container clearfix">
+    <div class="jumbotron main-jumbotron shadow">
+        <div class="text-center">
+            <h1 class="display-1">
+                <i class="fa fa-film"></i> Moviet
+            </h1>
+            <h4>Create an account, upgrade to Content Manager</h4>
+            <h4>and start sharing your favourite movies!</h4>
+        </div>
+    </div>
+
+    <section class="my-5">
+        <h3>
+            <a asp-controller="Movies" asp-action="NewReleases">New Releases</a>
+        </h3>
+        <div class="row">
+            @foreach (PostVM post in newReleases)
+            {
+                <div class="col-3 d-flex">
+                    <div class="card card-bg my-3 flex-fill shadow">
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@post.PostID">
+                            <img class="card-img-top" src=/@post.Movie.PosterPath />
+                        </a>
+                        <div class="card-body">
+                            <div class="d-block">
+                                <h5 class="d-inline">@post.Movie.Title</h5> |
+                                <h6 class="d-inline">
+                                    <i class="fa fa-star"></i> @post.Movie.Rating
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="my-5">
+        <h3>
+            <a asp-controller="Movies" asp-action="TopRated">Top Rated</a>
+        </h3>
+        <div class="row">
+            @foreach (PostVM post in topRated)
+            {
+                <div class="col-3 d-flex">
+                    <div class="card card-bg my-3 flex-fill shadow">
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@post.PostID">
+                            <img class="card-img-top" src=/@post.Movie.PosterPath />
+                        </a>
+                        <div class="card-body">
+                            <div class="d-block">
+                                <h5 class="d-inline">@post.Movie.Title</h5> |
+                                <h6 class="d-inline">
+                                    <i class="fa fa-star"></i> @post.Movie.Rating
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
 </div>
+

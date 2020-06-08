@@ -16,21 +16,26 @@ namespace Moviet.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IGenreRepository _genrerepo;
+        private readonly IPostRepository _postrepo;
         private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, IGenreRepository genrerepo, IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, IPostRepository postrepo, IMapper mapper)
         {
             _logger = logger;
-            _genrerepo = genrerepo;
+            _postrepo = postrepo;
             _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            List<Genre> genres = _genrerepo.FindAll();
-            List<GenreVM> model = _mapper.Map<List<GenreVM>>(genres);
-            
+            List<Post> newReleases = _postrepo.FindAll();
+            List<PostVM> model = _mapper.Map<List<PostVM>>(newReleases);
+            ViewBag.NewReleases = model.OrderByDescending(p => p.DateCreated).Take(4).ToList();
+
+            List<Post> topRated = _postrepo.FindAll();
+            model = _mapper.Map<List<PostVM>>(topRated);
+            ViewBag.TopRated = model.OrderByDescending(p => p.Movie.Rating).ToList();
+
             return View();
         }
 

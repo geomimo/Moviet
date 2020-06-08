@@ -65,6 +65,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     font-family: 'Allerta';
+    padding-top: 70px;
 
 }
 
@@ -192,4 +193,8 @@ span.multiselect-native-select select {
 
 .img-tooltip :hover{
     display:block;
+}
+
+.main-jumbotron {
+    background-color: #f5bfab;
 }

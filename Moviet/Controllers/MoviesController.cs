@@ -74,6 +74,7 @@ namespace Moviet.Controllers
             
             Post post = _postrepo.FindById(id);
             PostVM model = _mapper.Map<PostVM>(post);
+
             return View(model);
         }
     }

@@ -7,7 +7,7 @@
 <h1>Your Posts</h1>
 
 <p>
-    <a class="nav-link" asp-controller="Posts" asp-action="Create">New Post <i class="fa fa-plus"></i></a>
+    <a class="btn btn-success" asp-controller="Posts" asp-action="Create"><i class="fa fa-plus"></i> New Post</a>
 </p>
 <table class="table">
     <thead>
@@ -20,9 +20,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Movie.SortDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Movie.Genres)
@@ -45,9 +42,6 @@
                 @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.SortDescription)
-            </td>
-            <th>
                 <ul>
                     @foreach (var mg in item.Movie.Genres)
                     {
@@ -56,11 +50,13 @@
                         </li>
                     }
                 </ul>
-            </th>
+            </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.PostID }) |
-                @Html.ActionLink("Details", "Details", "Movies", new { id = item.PostID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PostID })
+                <div class="btn-group">
+                    <a class="btn btn-dark" asp-controller="Posts" asp-action="Edit" asp-route-id=@item.PostID><i class="fa fa-pencil"></i> Edit</a>
+                    <a class="btn btn-info" asp-controller="Movies" asp-action="Details" asp-route-id=@item.PostID><i class="fa fa-info-circle"></i> Details</a>
+                    <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete" asp-route-id=@item.PostID><i class="fa fa-trash"></i> Delete</a>
+                </div>
             </td>
         </tr>
 }

@@ -68,13 +68,14 @@
                         @Html.DisplayFor(modelItem => item.DateRated)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.RatingId }) |
-                        @Html.ActionLink("Details", "Details", "Movies", new { id = item.Movie.MovieId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.RatingId })
+                        <div class="btn-group">
+                            <a class="btn btn-dark" asp-controller="Ratings" asp-action="Edit" asp-route-id=@item.RatingId><i class="fa fa-pencil"></i> Edit</a>
+                            <a class="btn btn-info" asp-controller="Movies" asp-action="Details" asp-route-id=@item.><i class="fa fa-info-circle"></i> Details</a>
+                            <a class="btn btn-danger" asp-controller="Ratings" asp-action="Delete" asp-route-id=@item.RatingId><i class="fa fa-trash"></i> Delete</a>
+                        </div>
                     </td>
                 </tr>
             }
-
         }
     </tbody>
 </table>

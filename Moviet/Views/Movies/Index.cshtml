@@ -15,7 +15,7 @@
         @foreach (var post in Model)
         {
             <div class="col-3 d-flex">
-                <div class="card card-bg my-3 flex-fill">
+                <div class="card card-bg my-3 flex-fill shadow">
                     <a asp-controller="Movies" asp-action="Details" asp-route-id="@post.PostID">
                         <img class="card-img-top" src=/@post.Movie.PosterPath />
                     </a>

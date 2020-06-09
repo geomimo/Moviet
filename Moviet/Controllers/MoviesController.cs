@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Contracts;
 using Moviet.Data;
@@ -17,16 +18,22 @@ namespace Moviet.Controllers
         private readonly IGenreRepository _genrerepo;
         private readonly IMovieRepository _movierepo;
         private readonly IMapper _mapper;
+        private readonly IRatingRepository _ratingrepo;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public MoviesController(IPostRepository postrepo,
                                 IMapper mapper,
                                 IGenreRepository genrerepo,
-                                IMovieRepository movierepo)
+                                IMovieRepository movierepo,
+                                IRatingRepository ratingrepo,
+                                UserManager<IdentityUser> userManager)
         {
             _postrepo = postrepo;
             _genrerepo = genrerepo;
             _movierepo = movierepo;
             _mapper = mapper;
+            _ratingrepo = ratingrepo;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -78,6 +85,12 @@ namespace Moviet.Controllers
         {           
             Post post = _postrepo.FindById(id);
             PostVM model = _mapper.Map<PostVM>(post);
+
+            Rating userRating = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User))
+                                           .Where(r => r.Movie.MovieId == post.Movie.MovieId)
+                                           .SingleOrDefault();
+
+            model.Movie.UserRating = userRating;
 
             return View(model);
         }

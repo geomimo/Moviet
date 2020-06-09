@@ -18,6 +18,8 @@ namespace Moviet.Models
         public string LongDescription { get; set; }
         public float Rating { get; set; }
 
+        public Rating UserRating { get; set; }
+
         [Display(Name = "Poster")]
         public string PosterPath { get; set; }
         [Display(Name = "Trailer")]

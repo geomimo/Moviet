@@ -64,9 +64,28 @@ namespace Moviet.Controllers
                 _ratingrepo.Create(rating);
             }
 
-            
-
             return RedirectToAction("Details", "Movies", new { id = post.PostId });
+        }
+    
+        public IActionResult Edit(int id)
+        {
+            Rating rating = _ratingrepo.FindById(id);
+            RatingVM model = _mapper.Map<RatingVM>(rating);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(RatingVM model)
+        {
+            Rating rating = _ratingrepo.FindById(model.RatingId);
+            rating.Value = model.Value;
+            rating.DateRated = DateTime.Now;
+
+            _ratingrepo.Update(rating);
+
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }

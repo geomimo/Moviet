@@ -1,0 +1,42 @@
+﻿@model Moviet.Models.RatingVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RatingId"/>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <select name="Value" class="d-inline form-control-sm h-auto align-center ml-3">
+                    @for (float i = 5; i >= 1; i -= 0.5F)
+                    {
+                        @if (Model.Value == i)
+                        {
+                            <option value=@((float)i) selected>@i </option>
+                        }
+                        else
+                        {
+                            <option value=@((float)i)>@i </option>
+                        }
+                    }
+                </select>                
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index"><i class="fa fa-arrow-left"></i> Back</a>
+</div>
+

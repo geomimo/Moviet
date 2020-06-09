@@ -65,7 +65,7 @@
                             <select name="Rating" class="d-inline form-control-sm h-auto align-center ml-3">
                                 @for (float i = 5; i >= 1; i -= 0.5F)
                                 {
-                                    if (Model.Movie.UserRating.Value == i)
+                                    if (Model.Movie.UserRating != null && Model.Movie.UserRating.Value == i)
                                     {
                                         <option value=@((float)i) selected>@i </option>
                                     }

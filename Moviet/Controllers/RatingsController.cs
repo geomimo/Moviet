@@ -87,5 +87,13 @@ namespace Moviet.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+
+        public IActionResult Delete(int id)
+        {
+            Rating rating = _ratingrepo.FindById(id);
+            _ratingrepo.Delete(rating);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace Moviet.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Rename(int id)
+        public IActionResult Edit(int id)
         {
             Genre genre = _genrerepo.FindById(id);
             GenreVM model = _mapper.Map<GenreVM>(genre);
@@ -59,7 +59,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Rename(GenreVM model)
+        public IActionResult Edit(GenreVM model)
         {
             if (!ModelState.IsValid)
             {

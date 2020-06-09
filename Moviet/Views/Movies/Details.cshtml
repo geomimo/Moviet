@@ -22,7 +22,7 @@
                 <div class="d-block">
                     <h2 class="d-inline">@Model.Movie.Title</h2>
                     <partial name="_ContentManagerPostLinksPartial" view-data="ViewData">
-                    <partial name="_BanPostPartial" view-data="ViewData">
+                        <partial name="_BanPostPartial" view-data="ViewData">
                 </div>
                 <div class="d-block my-3">
                     <h6 class="d-inline">
@@ -59,7 +59,7 @@
                             }
                             else
                             {
-                                <button type="submit" class="btn btn-warning d-inline h-auto"><i class="fa fa-star"></i> Update Rating</button> 
+                                <button type="submit" class="btn btn-warning d-inline h-auto"><i class="fa fa-star"></i> Update Rating</button>
                             }
 
                             <select name="Rating" class="d-inline form-control-sm h-auto align-center ml-3">
@@ -78,6 +78,13 @@
                             <span asp-validation-for="Movie.Rating" class="text-danger"></span>
                         </div>
                     </form>
+                }
+                else if (SignInManager.IsSignedIn(User) && User.IsInRole(Roles.Administrator))
+                {
+                    <p class="text-secondary font-italic">
+                        You cannot rate movies as <span class="badge badge-dark" style="vertical-align:top">Administrator</span>
+
+                    </p>
                 }
                 else
                 {

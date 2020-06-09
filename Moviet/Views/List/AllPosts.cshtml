@@ -40,9 +40,10 @@
                 @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                <a class="btn btn-danger" asp-controller="Movies" asp-action="Details" asp-route-id="@item.PostID"><i class="fa fa-info-circle"></i> Details</a>
-                <a class="btn btn-danger" asp-controller="List" asp-action="BanPost" asp-route-id="@item.PostID"><i class="fa fa-ban"></i> Ban</a>
-            </td>
+                <div class="btn-group">
+                    <a class="btn btn-info" asp-controller="Movies" asp-action="Details" asp-route-id="@item.PostID"><i class="fa fa-info-circle"></i> Details</a>
+                    <a class="btn btn-danger" asp-controller="List" asp-action="BanPost" asp-route-id="@item.PostID"><i class="fa fa-ban"></i> Ban</a>
+                </div></td>
         </tr>
         }
     </tbody>

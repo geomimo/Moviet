@@ -9,6 +9,14 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20200526144144_FixedRating.cs" />
     <Compile Remove="Data\Migrations\20200526144144_FixedRating.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200608172927_AddedPostInRating.cs" />
+    <Compile Remove="Data\Migrations\20200608172927_AddedPostInRating.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200608173231_AddedPostInRating.cs" />
+    <Compile Remove="Data\Migrations\20200608173231_AddedPostInRating.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200608173616_AddedPostInRating.cs" />
+    <Compile Remove="Data\Migrations\20200608173616_AddedPostInRating.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200608175340_test.cs" />
+    <Compile Remove="Data\Migrations\20200608175340_test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

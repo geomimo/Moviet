@@ -45,7 +45,7 @@ namespace Moviet.Controllers
             List<Rating> ratings = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User));
 
             // Check if user has already rated the movie. 
-            Rating rating = ratings.Where(r => r.MovieId == post.Movie.MovieId).FirstOrDefault();
+            Rating rating = ratings.Where(r => r.Movie.MovieId == post.Movie.MovieId).FirstOrDefault();
             if(rating != null)
             {
                 rating.Value = float.Parse(form["Rating"]);

@@ -15,12 +15,17 @@ namespace Moviet.Controllers
     {
         private readonly IPostRepository _postrepo;
         private readonly IGenreRepository _genrerepo;
+        private readonly IMovieRepository _movierepo;
         private readonly IMapper _mapper;
 
-        public MoviesController(IPostRepository postrepo, IMapper mapper, IGenreRepository genrerepo)
+        public MoviesController(IPostRepository postrepo,
+                                IMapper mapper,
+                                IGenreRepository genrerepo,
+                                IMovieRepository movierepo)
         {
             _postrepo = postrepo;
             _genrerepo = genrerepo;
+            _movierepo = movierepo;
             _mapper = mapper;
         }
 
@@ -70,12 +75,18 @@ namespace Moviet.Controllers
 
 
         public IActionResult Details(int id)
-        {
-            
+        {           
             Post post = _postrepo.FindById(id);
             PostVM model = _mapper.Map<PostVM>(post);
 
             return View(model);
+        }
+
+        public IActionResult DetailsByMovie(int id)
+        {
+            Post post = _postrepo.FindAll().Where(p => p.Movie.MovieId == id).SingleOrDefault();
+
+            return RedirectToAction(nameof(Details), new { id = post.PostId });
         }
     }
 }

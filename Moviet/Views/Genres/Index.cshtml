@@ -7,7 +7,7 @@
 <h1>Genres</h1>
 
 <p>
-    <a class="btn btn-success" asp-action="Create"><i class="fa fa-plus"></i> Add</a>
+    <a class="btn btn-success" asp-action="Create"><i class="fa fa-plus"></i> New Genre</a>
 </p>
 <table class="table">
     <thead>
@@ -19,16 +19,19 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a class="btn btn-outline-info" asp-action="Rename" asp-route-id="@item.GenreId"><i class="fa fa-pencil"></i> Rename</a>
-                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.GenreId"><i class="fa fa-trash"></i> Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.GenreId"><i class="fa fa-pencil"></i> Edit</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.GenreId"><i class="fa fa-trash"></i> Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

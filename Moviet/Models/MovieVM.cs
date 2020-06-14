@@ -16,6 +16,8 @@ namespace Moviet.Models
         public string Title { get; set; }
         public string SortDescription { get; set; }
         public string LongDescription { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:0.##}")]
         public float Rating { get; set; }
 
         public Rating UserRating { get; set; }
@@ -36,7 +38,7 @@ namespace Moviet.Models
 
         [Display(Name ="Sort Description")]
         [MinLength(10)]
-        [MaxLength(50)]
+        [MaxLength(150)]
         [Required]
         public string SortDescription { get; set; }
 

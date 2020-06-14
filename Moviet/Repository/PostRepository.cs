@@ -84,5 +84,10 @@ namespace Moviet.Repository
                         .ThenInclude(g => g.Genre)
                 .ToList();
         }
+
+        public bool ExistsByMovieTitle(string title)
+        {
+            return IncludeAll().Exists(p => p.Movie.Title == title);
+        }
     }
 }

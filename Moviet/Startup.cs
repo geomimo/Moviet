@@ -80,7 +80,9 @@ namespace Moviet
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
                               UserManager<IdentityUser> userManager,
-                              RoleManager<IdentityRole> roleManager)
+                              RoleManager<IdentityRole> roleManager,
+                              IGenreRepository genrerepo,
+                              IPostRepository postrepo)
         {
             if (env.IsDevelopment())
             {
@@ -102,7 +104,7 @@ namespace Moviet
             app.UseAuthentication();
             app.UseAuthorization();
 
-            SeedData.Seed(userManager, roleManager);
+            SeedData.Seed(userManager, roleManager, genrerepo, postrepo);
 
             app.UseEndpoints(endpoints =>
             {

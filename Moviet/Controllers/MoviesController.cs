@@ -41,8 +41,6 @@ namespace Moviet.Controllers
             List<Post> posts = _postrepo.FindAll();
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
 
-            List<Genre> genres = _genrerepo.FindAll();
-            List<GenreVM> genresVM = _mapper.Map<List<GenreVM>>(genres); 
 
 
             ViewData["Title"] = "All Movies";

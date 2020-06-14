@@ -29,7 +29,7 @@ namespace Moviet.Repository
 
         public List<Post> FindAll()
         {
-            return IncludeAll();
+            return IncludeAll().Where(p => !p.Movie.PostRemoved).ToList();
         }
 
         public List<Post> FindAllByUserId(string id)

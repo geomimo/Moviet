@@ -19,5 +19,6 @@ namespace Moviet.Data
         public string PosterPath { get; set; }
         public string YoutubeId { get; set; }
         public List<MovieGenre> Genres { get; set; }
+        public bool PostRemoved { get; set; }
     }
 }

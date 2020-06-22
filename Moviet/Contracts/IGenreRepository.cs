@@ -8,5 +8,7 @@ namespace Moviet.Contracts
 {
     public interface IGenreRepository : IRepositoryBase<Genre>
     {
+        bool ExistsByName(string name);
+        public int GetIdByName(string name);
     }
 }

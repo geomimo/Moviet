@@ -15,13 +15,11 @@ namespace Moviet.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IPostRepository _postrepo;
         private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, IPostRepository postrepo, IMapper mapper)
+        public HomeController(IPostRepository postrepo, IMapper mapper)
         {
-            _logger = logger;
             _postrepo = postrepo;
             _mapper = mapper;
         }
@@ -40,10 +38,5 @@ namespace Moviet.Controllers
         }
 
         
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

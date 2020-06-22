@@ -29,7 +29,7 @@ namespace Moviet.Repository
 
         public List<Post> FindAll()
         {
-            return IncludeAll();
+            return IncludeAll().Where(p => !p.Movie.PostRemoved).ToList();
         }
 
         public List<Post> FindAllByUserId(string id)
@@ -41,11 +41,11 @@ namespace Moviet.Repository
         {
             var posts = IncludeAll();
             List<Post> postsWithGenre = new List<Post>();
-            foreach(var p in posts)
+            foreach (var p in posts)
             {
-                foreach(var mv in p.Movie.Genres)
+                foreach (var mv in p.Movie.Genres)
                 {
-                    if(mv.GenreId == id)
+                    if (mv.GenreId == id)
                     {
                         postsWithGenre.Add(p);
                         break;
@@ -83,6 +83,11 @@ namespace Moviet.Repository
                     .ThenInclude(m => m.Genres)
                         .ThenInclude(g => g.Genre)
                 .ToList();
+        }
+
+        public bool ExistsByMovieTitle(string title)
+        {
+            return IncludeAll().Exists(p => p.Movie.Title == title);
         }
     }
 }

@@ -33,7 +33,7 @@
                         @foreach (var g in Model.Movie.Genres)
                         {
                             <li class="d-inline">
-                                <a asp-controller="Movies" asp-action="Index/ByGenre" asp-route-id="@g.Genre.GenreId">@g.Genre.Name</a>
+                                <a>@g.Genre.Name</a>
                             </li>
                         }
                     </ul>

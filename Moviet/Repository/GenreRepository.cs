@@ -1,4 +1,5 @@
-﻿using Moviet.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Moviet.Contracts;
 using Moviet.Data;
 using System;
 using System.Collections.Generic;
@@ -28,14 +29,29 @@ namespace Moviet.Repository
             return Save();
         }
 
+        public bool ExistsByName(string name)
+        {
+            return _db.Genres.ToList().Exists(g => g.Name == name);
+        }
+
         public List<Genre> FindAll()
         {
             return _db.Genres.ToList();
         }
 
+        public async Task<List<Genre>> FindAllAsync()
+        {
+            return _db.Genres.ToListAsync().Result;
+        }
+
         public Genre FindById(int id)
         {
             return _db.Genres.Find(id);
+        }
+
+        public int GetIdByName(string name)
+        {
+            return _db.Genres.ToList().SingleOrDefault(g => g.Name == name).GenreId;
         }
 
         public bool Save()

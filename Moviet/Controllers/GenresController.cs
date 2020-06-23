@@ -49,34 +49,7 @@ namespace Moviet.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Rename(int id)
-        {
-            Genre genre = _genrerepo.FindById(id);
-            GenreVM model = _mapper.Map<GenreVM>(genre);
-            return View(model);
-        }
 
-        [HttpPost]
-        public IActionResult Rename(GenreVM model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            Genre genre = _mapper.Map<Genre>(model);
-            _genrerepo.Update(genre);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Delete(int id)
-        {
-            Genre genre = _genrerepo.FindById(id);
-            _genrerepo.Delete(genre);
-
-            return RedirectToAction(nameof(Index));
-        }
 
 
     }

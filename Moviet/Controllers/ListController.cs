@@ -58,9 +58,5 @@ namespace Moviet.Controllers
 
         }
 
-        public IActionResult AllPosts()
-        {
-            return View();
-        }
     }
 }

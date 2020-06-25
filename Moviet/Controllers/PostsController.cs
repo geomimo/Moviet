@@ -131,8 +131,12 @@ namespace Moviet.Controllers
                 return View(model);
             }
 
-            Post newPost = _mapper.Map<Post>(model);
+            Post newPost = _mapper.Map<Post>(model);    
             Post oldPost = _postrepo.FindById(model.PostID);
+            if (oldPost.Owner != _userManager.GetUserAsync(User).Result)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
             if (newPost.Movie.Title != null)
             {

@@ -191,8 +191,13 @@ namespace Moviet.Controllers
         [HttpPost]
         public IActionResult Delete(IFormCollection form)
         {
+
             int id = Int32.Parse(form["PostID"]);
             Post post = _postrepo.FindById(id);
+            if (post.Owner != _userManager.GetUserAsync(User).Result)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             Movie movie = _movierepo.FindById(post.Movie.MovieId);
             movie.PostRemoved = true;
             _movierepo.Update(movie);

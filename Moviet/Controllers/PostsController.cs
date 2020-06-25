@@ -71,7 +71,6 @@ namespace Moviet.Controllers
         [HttpPost]
         public IActionResult Create(CreatePostVM model)
         {
-            string userId = _userManager.GetUserId(User);
 
             Post post = _mapper.Map<Post>(model);
             post.Owner = _userManager.GetUserAsync(User).Result;
@@ -82,6 +81,10 @@ namespace Moviet.Controllers
             if (model.Movie.Poster != null)
             {
                 post.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
+            }
+            else
+            {
+                post.Movie.PosterPath = "82edbb4a-e688-4d7d-9ce8-06356a837ca9_noposter.jpg";
             }
 
 

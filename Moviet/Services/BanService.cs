@@ -16,11 +16,6 @@ namespace Moviet.Services
             _userManager = userManager;
         }
 
-        public bool BanPost(int postId)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool BanUser(string userId)
         {
             IdentityUser user = _userManager.FindByIdAsync(userId).Result;

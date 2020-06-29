@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Moviet.Contracts;
 using Moviet.Models;
 using Moviet.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Moviet.Controllers
 {
@@ -47,11 +44,11 @@ namespace Moviet.Controllers
             {
                 var role = _userManager.GetRolesAsync(u).Result.First();
                 var m = model.Find(uvm => uvm.Id == u.Id);
-                m.Role = role;                
+                m.Role = role;
             }
 
             return View(model);
-        }   
+        }
 
         public IActionResult AllPosts()
         {

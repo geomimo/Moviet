@@ -1,9 +1,7 @@
 ﻿using Moviet.Contracts;
 using Moviet.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Repository
 {
@@ -33,11 +31,11 @@ namespace Moviet.Repository
             return movies;
         }
 
-        public Movie FindById( int id)
+        public Movie FindById(int id)
         {
-           Movie movies = _db.Movies.Find(id);
-           return movies;
-        } 
+            Movie movies = _db.Movies.Find(id);
+            return movies;
+        }
 
         public bool Save()
         {
@@ -52,6 +50,6 @@ namespace Moviet.Repository
     }
 }
 
-    
-    
+
+
 

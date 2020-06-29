@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Moviet.Controllers
 {
@@ -50,7 +47,7 @@ namespace Moviet.Controllers
         public IActionResult TopRated()
         {
             List<Post> posts = _postrepo.FindAll();
-            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);         
+            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
             model = model.OrderByDescending(p => p.Movie.Rating).ToList();
 
             ViewData["Title"] = "Top Rated";
@@ -60,7 +57,7 @@ namespace Moviet.Controllers
         public IActionResult NewReleases()
         {
             List<Post> posts = _postrepo.FindAll();
-            List<PostVM> model = _mapper.Map<List<PostVM>>(posts); 
+            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
             model = model.OrderByDescending(p => p.DateCreated).ToList();
 
             ViewData["Title"] = "New Releases";
@@ -80,7 +77,7 @@ namespace Moviet.Controllers
 
 
         public IActionResult Details(int id)
-        {           
+        {
             Post post = _postrepo.FindById(id);
             PostVM model = _mapper.Map<PostVM>(post);
 

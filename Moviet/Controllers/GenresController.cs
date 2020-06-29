@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
+using System.Collections.Generic;
 
 namespace Moviet.Controllers
 {
-    [Authorize(Roles="Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class GenresController : Controller
     {
         private readonly IGenreRepository _genrerepo;
@@ -28,7 +24,7 @@ namespace Moviet.Controllers
         {
             List<Genre> genres = _genrerepo.FindAll();
             List<GenreVM> model = _mapper.Map<List<GenreVM>>(genres);
-            
+
             return View(model);
         }
 
@@ -47,7 +43,7 @@ namespace Moviet.Controllers
 
             Genre genre = _mapper.Map<Genre>(model);
             _genrerepo.Create(genre);
-            
+
             return RedirectToAction(nameof(Index));
         }
 

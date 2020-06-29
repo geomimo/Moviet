@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
 using Moviet.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Moviet.Controllers
 {
@@ -43,7 +40,7 @@ namespace Moviet.Controllers
             _movierepo = movierepo;
             _userManager = userManager;
             _posterservice = posterservice;
-            
+
         }
 
         public IActionResult Index()
@@ -60,9 +57,9 @@ namespace Moviet.Controllers
             model.Movie.AvailableGenres = new List<SelectListItem>();
 
             var availableGenres = _genrerepo.FindAll();
-            foreach(var g in availableGenres)
+            foreach (var g in availableGenres)
             {
-                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.GenreId.ToString()});
+                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.GenreId.ToString() });
             }
 
             return View(model);
@@ -96,7 +93,7 @@ namespace Moviet.Controllers
         public IActionResult Edit(int id)
         {
             Post post = _postrepo.FindById(id);
-            if(post.Owner != _userManager.GetUserAsync(User).Result)
+            if (post.Owner != _userManager.GetUserAsync(User).Result)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -108,12 +105,12 @@ namespace Moviet.Controllers
             var availableGenres = _genrerepo.FindAll();
             foreach (var g in availableGenres)
             {
-                model.Movie.AvailableGenres.Add(new SelectListItem 
-                                                { 
-                                                    Text = g.Name, 
-                                                    Value = g.GenreId.ToString(), 
-                                                    Selected = post.Movie.Genres.Exists(q => q.GenreId == g.GenreId) 
-                                                });
+                model.Movie.AvailableGenres.Add(new SelectListItem
+                {
+                    Text = g.Name,
+                    Value = g.GenreId.ToString(),
+                    Selected = post.Movie.Genres.Exists(q => q.GenreId == g.GenreId)
+                });
             }
 
             // Add owner's rating.
@@ -131,7 +128,7 @@ namespace Moviet.Controllers
                 return View(model);
             }
 
-            Post newPost = _mapper.Map<Post>(model);    
+            Post newPost = _mapper.Map<Post>(model);
             Post oldPost = _postrepo.FindById(model.PostID);
             if (oldPost.Owner != _userManager.GetUserAsync(User).Result)
             {
@@ -161,7 +158,7 @@ namespace Moviet.Controllers
                 oldRating.DateRated = DateTime.Now;
             }
 
-            if(model.Movie.Poster != null)
+            if (model.Movie.Poster != null)
             {
                 oldPost.Movie.PosterPath = _posterservice.UploadImage(model.Movie.Poster);
             }
@@ -179,7 +176,7 @@ namespace Moviet.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
+
         public IActionResult Delete(int id)
         {
             Post post = _postrepo.FindById(id);

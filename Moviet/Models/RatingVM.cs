@@ -1,9 +1,5 @@
-﻿using Moviet.Data;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Models
 {
@@ -13,7 +9,7 @@ namespace Moviet.Models
         public IdentityUserVM Rater { get; set; }
         public MovieVM Movie { get; set; }
         public float Value { get; set; }
-        
+
         [Display(Name = "Date Rated")]
         public DateTime DateRated { get; set; }
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Moviet.Controllers
 {
@@ -46,7 +45,7 @@ namespace Moviet.Controllers
 
             // Check if user has already rated the movie. 
             Rating rating = ratings.Where(r => r.Movie.MovieId == post.Movie.MovieId).FirstOrDefault();
-            if(rating != null)
+            if (rating != null)
             {
                 rating.Value = float.Parse(form["Rating"]);
                 rating.DateRated = DateTime.Now;
@@ -66,7 +65,7 @@ namespace Moviet.Controllers
 
             return RedirectToAction("Details", "Movies", new { id = post.PostId });
         }
-    
+
         public IActionResult Edit(int id)
         {
             Rating rating = _ratingrepo.FindById(id);

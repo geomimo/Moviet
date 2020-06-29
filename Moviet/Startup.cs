@@ -1,24 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Moviet.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AutoMapper;
-using Moviet.Mappings;
-using Microsoft.Extensions.Options;
-using Moviet.Services.Interfaces;
-using Moviet.Services;
 using Moviet.Contracts;
+using Moviet.Data;
+using Moviet.Mappings;
 using Moviet.Repository;
+using Moviet.Services;
+using Moviet.Services.Interfaces;
 
 namespace Moviet
 {
@@ -59,7 +52,7 @@ namespace Moviet
 
             });
 
- 
+
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IBanService, BanService>();
             services.AddScoped<IGenreRepository, GenreRepository>();
@@ -118,7 +111,7 @@ namespace Moviet
                 endpoints.MapControllerRoute(
                     name: "orderBy",
                     pattern: "Movies/Index/{mode}");*/
-                
+
                 endpoints.MapRazorPages();
             });
         }

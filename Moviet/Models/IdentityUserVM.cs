@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Models
 {
@@ -10,7 +7,7 @@ namespace Moviet.Models
     {
         public string Id { get; set; }
 
-        [Range(1,25)]
+        [Range(1, 25)]
         public string UserName { get; set; }
 
         public string Email { get; set; }

@@ -29,7 +29,7 @@
                 <input asp-for="Movie.LongDescription" class="form-control" />
                 <span asp-validation-for="Movie.LongDescription" class="text-danger"></span>
             </div>
-            <div class="form-group form-control-file"  id="img-tooltip" data-toggle="tooltip" data-html="true" data-placement="right" title="<div class='text-center'>Current Poster<img src='/@Model.Movie.PosterPath'/></div>">
+            <div class="form-group form-control-file"  id="img-tooltip" data-toggle="tooltip" data-html="true" data-placement="right" title="<div class='text-center'>Current Poster<div class='card' style='height: 211px; width: 150px'><img src='/@Model.Movie.PosterPath' class='card-img-top' /></div></div>">
                 <label asp-for="Movie.Poster" class="control-label"></label>
                 <div class="custom-file">
                     <input asp-for="Movie.Poster" class="form-control custom-file-input" />

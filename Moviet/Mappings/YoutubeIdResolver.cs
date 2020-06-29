@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Moviet.Data;
 using Moviet.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Mappings
 {
@@ -14,7 +11,7 @@ namespace Moviet.Mappings
         {
             // From embed to original
             string id = "";
-            if(source.YoutubeId != null)
+            if (source.YoutubeId != null)
             {
                 id = "https://www.youtube.com/watch?v=" + source.YoutubeId.Split("/").Last();
             }

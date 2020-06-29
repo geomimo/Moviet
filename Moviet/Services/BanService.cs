@@ -2,10 +2,6 @@
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Services
 {

@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moviet.Contracts;
 using Moviet.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Repository
 {
@@ -41,11 +39,11 @@ namespace Moviet.Repository
         {
             var posts = IncludeAll();
             List<Post> postsWithGenre = new List<Post>();
-            foreach(var p in posts)
+            foreach (var p in posts)
             {
-                foreach(var mv in p.Movie.Genres)
+                foreach (var mv in p.Movie.Genres)
                 {
-                    if(mv.GenreId == id)
+                    if (mv.GenreId == id)
                     {
                         postsWithGenre.Add(p);
                         break;

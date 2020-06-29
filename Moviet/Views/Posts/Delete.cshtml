@@ -19,7 +19,7 @@
                     @Html.DisplayFor(model => model.Movie.Title)
                 </div>
             </dd>
-        
+
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Movie.Genres)
             </dt>
@@ -37,9 +37,10 @@
 
         <form asp-action="Delete">
             <input type="hidden" asp-for="PostID" />
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Delete" class="btn btn-danger" />
         </form>
+        <a class="btn btn-secondary mt-3" asp-action="Index"><i class="fa fa-arrow-left"></i> Back</a>
+
     </div>
     <div class="col-6">
         <div class="mt-4">
@@ -47,3 +48,4 @@
         </div>
     </div>
 </div>
+

@@ -4,14 +4,12 @@ using Moviet.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Models
 {
     public class MovieVM
     {
-       
+
         public int MovieId { get; set; }
         public string Title { get; set; }
         public string SortDescription { get; set; }
@@ -36,7 +34,7 @@ namespace Moviet.Models
         [Required]
         public string Title { get; set; }
 
-        [Display(Name ="Sort Description")]
+        [Display(Name = "Sort Description")]
         [MinLength(10)]
         [MaxLength(150)]
         [Required]

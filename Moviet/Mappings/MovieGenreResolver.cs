@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Moviet.Data;
 using Moviet.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Mappings
 {
@@ -13,7 +10,7 @@ namespace Moviet.Mappings
         public List<MovieGenre> Resolve(CreateMovieVM source, Movie destination, List<MovieGenre> destMember, ResolutionContext context)
         {
             List<MovieGenre> ls = new List<MovieGenre>();
-            foreach(int id in source.Genres)
+            foreach (int id in source.Genres)
             {
                 ls.Add(new MovieGenre { GenreId = id, MovieId = destination.MovieId });
             }
@@ -27,7 +24,7 @@ namespace Moviet.Mappings
         public List<int> Resolve(Movie source, EditMovieVM destination, List<int> destMember, ResolutionContext context)
         {
             List<int> ls = new List<int>();
-            foreach(MovieGenre mv in source.Genres)
+            foreach (MovieGenre mv in source.Genres)
             {
                 ls.Add(mv.Genre.GenreId);
             }
@@ -41,7 +38,7 @@ namespace Moviet.Mappings
         public List<MovieGenre> Resolve(EditMovieVM source, Movie destination, List<MovieGenre> destMember, ResolutionContext context)
         {
             List<MovieGenre> ls = new List<MovieGenre>();
-            foreach(int gid in source.Genres)
+            foreach (int gid in source.Genres)
             {
                 ls.Add(new MovieGenre { GenreId = gid, MovieId = source.MovieId });
             }

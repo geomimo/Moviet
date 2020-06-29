@@ -4,7 +4,6 @@ using Moviet.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet
 {
@@ -23,7 +22,7 @@ namespace Moviet
 
         public static void SeedUsers(UserManager<IdentityUser> userManager)
         {
-            if(userManager.FindByNameAsync(Roles.Administrator).Result == null)
+            if (userManager.FindByNameAsync(Roles.Administrator).Result == null)
             {
                 var user = new IdentityUser
                 {
@@ -39,7 +38,7 @@ namespace Moviet
             }
 
             // Create 3 raters.
-            for(int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 3; i++)
             {
                 if (userManager.FindByNameAsync("rater" + i.ToString()).Result == null)
                 {

@@ -2,11 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Moviet.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Moviet.Services
 {
@@ -17,7 +13,7 @@ namespace Moviet.Services
         public PosterUploadService(IWebHostEnvironment hostingEnviroment)
         {
             _hostingEnvironment = hostingEnviroment;
-        }   
+        }
 
         public string UploadImage(IFormFile file)
         {

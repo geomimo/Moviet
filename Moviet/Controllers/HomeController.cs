@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
-using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Moviet.Controllers
 {
@@ -37,6 +32,6 @@ namespace Moviet.Controllers
             return View();
         }
 
-        
+
     }
 }

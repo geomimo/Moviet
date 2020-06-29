@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Moviet.Helpers
 {
@@ -11,7 +9,7 @@ namespace Moviet.Helpers
     {
         public static string IsActive(this IHtmlHelper htmlHelper, string controllers = null, string actions = null, string page = null, string cssClass = "active")
         {
-            if(page != null)
+            if (page != null)
             {
                 string currentPage = htmlHelper.ViewContext.RouteData.Values["page"]?.ToString().Split("/").Last();
                 string acceptedPage = page;

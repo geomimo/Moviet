@@ -2,6 +2,7 @@
 using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace Moviet.Services
 {
@@ -10,12 +11,14 @@ namespace Moviet.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IPostRepository _postrepo;
         private readonly IMovieRepository _movierepo;
+        private readonly IRatingRepository _ratingrepo;
 
-        public BanService(UserManager<IdentityUser> userManager, IPostRepository postrepo, IMovieRepository movierepo)
+        public BanService(UserManager<IdentityUser> userManager, IPostRepository postrepo, IMovieRepository movierepo, IRatingRepository ratingrepo)
         {
             _userManager = userManager;
             _postrepo = postrepo;
             _movierepo = movierepo;
+            _ratingrepo = ratingrepo;
         }
 
         public bool BanPost(int postId)
@@ -30,6 +33,12 @@ namespace Moviet.Services
         public bool BanUser(string userId)
         {
             IdentityUser user = _userManager.FindByIdAsync(userId).Result;
+            List<Rating> userRatings = _ratingrepo.FindAllByUserId(user.Id);
+            foreach(var r in userRatings)
+            {
+                _ratingrepo.Delete(r);
+            }
+
             return _userManager.DeleteAsync(user).Result.Succeeded;
         }
     }

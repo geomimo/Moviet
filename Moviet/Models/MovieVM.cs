@@ -31,7 +31,7 @@ namespace Moviet.Models
 
     public class CreateMovieVM
     {
-        [Required]
+        [Required(ErrorMessage = "Title")]
         public string Title { get; set; }
 
         [Display(Name = "Sort Description")]

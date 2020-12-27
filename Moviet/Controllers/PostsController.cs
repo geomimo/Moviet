@@ -52,15 +52,7 @@ namespace Moviet.Controllers
 
         public IActionResult Create()
         {
-            var model = new CreatePostVM();
-            model.Movie = new CreateMovieVM();
-            model.Movie.AvailableGenres = new List<SelectListItem>();
-
-            var availableGenres = _genrerepo.FindAll();
-            foreach (var g in availableGenres)
-            {
-                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.GenreId.ToString() });
-            }
+            var model = initPostModel();
 
             return View(model);
         }
@@ -68,6 +60,12 @@ namespace Moviet.Controllers
         [HttpPost]
         public IActionResult Create(CreatePostVM model)
         {
+            if (!ModelState.IsValid)
+            {
+                var return_model = initPostModel();
+
+                return View(return_model);
+            }
 
             Post post = _mapper.Map<Post>(model);
             post.Owner = _userManager.GetUserAsync(User).Result;
@@ -205,5 +203,21 @@ namespace Moviet.Controllers
             _postrepo.Delete(post);
             return RedirectToAction(nameof(Index));
         }
+    
+        private CreatePostVM initPostModel()
+        {
+            var model = new CreatePostVM();
+            model.Movie = new CreateMovieVM();
+            model.Movie.AvailableGenres = new List<SelectListItem>();
+
+            var availableGenres = _genrerepo.FindAll();
+            foreach (var g in availableGenres)
+            {
+                model.Movie.AvailableGenres.Add(new SelectListItem { Text = g.Name, Value = g.GenreId.ToString() });
+            }
+
+            return model;
+        }
+    
     }
 }

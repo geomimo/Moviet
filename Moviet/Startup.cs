@@ -48,8 +48,6 @@ namespace Moviet
                 // Signin settings.
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
-
-
             });
 
 

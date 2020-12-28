@@ -7,7 +7,6 @@ namespace Moviet.Models
     {
         public string Id { get; set; }
 
-        [Range(1, 25)]
         public string UserName { get; set; }
 
         public string Email { get; set; }

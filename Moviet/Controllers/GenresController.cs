@@ -34,6 +34,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(GenreVM model)
         {
             if (!ModelState.IsValid)
@@ -55,6 +56,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(GenreVM model)
         {
             if (!ModelState.IsValid)

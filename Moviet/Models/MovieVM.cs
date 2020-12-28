@@ -31,7 +31,7 @@ namespace Moviet.Models
 
     public class CreateMovieVM
     {
-        [Required(ErrorMessage = "Title")]
+        [Required]
         public string Title { get; set; }
 
         [Display(Name = "Sort Description")]
@@ -49,7 +49,6 @@ namespace Moviet.Models
         public Rating Rating { get; set; }
         public string PosterPath { get; set; }
 
-        [FileExtensions(Extensions = "jpg,gif,png")]
         [Required]
         public IFormFile Poster { get; set; }
 

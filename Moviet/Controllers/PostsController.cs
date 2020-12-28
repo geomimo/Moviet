@@ -58,6 +58,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatePostVM model)
         {
             if (!ModelState.IsValid)
@@ -119,6 +120,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(EditPostVM model)
         {
             if (!ModelState.IsValid)
@@ -188,6 +190,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(IFormCollection form)
         {
 

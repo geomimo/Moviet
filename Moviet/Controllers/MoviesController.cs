@@ -69,9 +69,14 @@ namespace Moviet.Controllers
             List<Post> posts = _postrepo.FindAllByGenreId(id);
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
 
-            string genre = _genrerepo.FindById(id).Name;
+            Genre genre = _genrerepo.FindById(id);
+            string name = "";
+            if(genre != null)
+            {
+                name = genre.Name;
+            }
 
-            ViewData["Title"] = genre + " Movies";
+            ViewData["Title"] = name + " Movies";
             return View("Index", model);
         }
 
@@ -79,6 +84,10 @@ namespace Moviet.Controllers
         public IActionResult Details(int id)
         {
             Post post = _postrepo.FindById(id);
+            if(post == null)
+            {
+                return NotFound();
+            }
             PostVM model = _mapper.Map<PostVM>(post);
 
             Rating userRating = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User))

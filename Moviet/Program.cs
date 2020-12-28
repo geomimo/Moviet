@@ -23,7 +23,7 @@ namespace Moviet
         public static IWebHost BuildWebHost(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
             .UseStartup<Startup>()
-            //.UseKestrel(options => options.ConfigureEndpoints())
+            .UseKestrel(options => options.ConfigureEndpoints())
             .Build();
     }
 }
@@ -90,7 +90,7 @@ public static class KestrelServerOptionsExtensions
                 var certificate = store.Certificates.Find(
                     X509FindType.FindBySubjectName,
                     config.Host,
-                    validOnly: !environment.IsDevelopment());
+                    validOnly: environment.IsDevelopment());
 
                 if (certificate.Count == 0)
                 {

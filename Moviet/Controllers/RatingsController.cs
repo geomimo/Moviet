@@ -75,6 +75,7 @@ namespace Moviet.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(RatingVM model)
         {
             Rating rating = _ratingrepo.FindById(model.RatingId);

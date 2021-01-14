@@ -21,10 +21,10 @@ namespace Moviet
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-        WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>()
-            .UseKestrel(options => options.ConfigureEndpoints())
-            .Build();
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseKestrel(options => options.ConfigureEndpoints())
+                .Build();
     }
 }
 
@@ -34,7 +34,7 @@ public static class KestrelServerOptionsExtensions
     public static void ConfigureEndpoints(this KestrelServerOptions options)
     {
         var configuration = options.ApplicationServices.GetRequiredService<IConfiguration>();
-        var environment = options.ApplicationServices.GetRequiredService<Microsoft.AspNetCore.Hosting.IHostingEnvironment>();
+        var environment = options.ApplicationServices.GetRequiredService<IWebHostEnvironment>();
 
         var endpoints = configuration.GetSection("HttpServer:Endpoints")
             .GetChildren()
@@ -53,7 +53,6 @@ public static class KestrelServerOptionsExtensions
             var ipAddresses = new List<IPAddress>();
             if (config.Host == "localhost")
             {
-                ipAddresses.Add(IPAddress.IPv6Loopback);
                 ipAddresses.Add(IPAddress.Loopback);
             }
             else if (IPAddress.TryParse(config.Host, out var address))
@@ -80,7 +79,7 @@ public static class KestrelServerOptionsExtensions
         }
     }
 
-    private static X509Certificate2 LoadCertificate(EndpointConfiguration config, Microsoft.AspNetCore.Hosting.IHostingEnvironment environment)
+    private static X509Certificate2 LoadCertificate(EndpointConfiguration config, IWebHostEnvironment environment)
     {
         if (config.StoreName != null && config.StoreLocation != null)
         {
@@ -90,7 +89,7 @@ public static class KestrelServerOptionsExtensions
                 var certificate = store.Certificates.Find(
                     X509FindType.FindBySubjectName,
                     config.Host,
-                    validOnly: environment.IsDevelopment());
+                    validOnly: true);
 
                 if (certificate.Count == 0)
                 {

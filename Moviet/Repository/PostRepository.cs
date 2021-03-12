@@ -89,5 +89,23 @@ namespace Moviet.Repository
         {
             return IncludeAll().Exists(p => p.Movie.Title == title);
         }
+
+        public void SetIdentityInsert(bool set)
+        {
+            if (set)
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Posts ON");
+            }
+            else
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Posts OFF");
+            }
+        }
+
+        public void Clear()
+        {
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Genres");
+            Save();
+        }
     }
 }

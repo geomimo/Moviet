@@ -10,5 +10,7 @@ namespace Moviet.Contracts
         bool Update(T entity);
         bool Delete(T entity);
         bool Save();
+        void SetIdentityInsert(bool set);
+        void Clear();
     }
 }

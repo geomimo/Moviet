@@ -16,6 +16,12 @@ namespace Moviet.Repository
             _db = db;
         }
 
+        public void Clear()
+        {
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Genres");
+            Save();
+        }
+
         public bool Create(Genre entity)
         {
             _db.Genres.Add(entity);
@@ -56,6 +62,18 @@ namespace Moviet.Repository
         public bool Save()
         {
             return _db.SaveChanges() > 0;
+        }
+
+        public void SetIdentityInsert(bool set)
+        {
+            if (set)
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Genres ON");
+            }
+            else
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Genres OFF");
+            }
         }
 
         public bool Update(Genre entity)

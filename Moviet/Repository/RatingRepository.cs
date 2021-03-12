@@ -62,6 +62,22 @@ namespace Moviet.Repository
                               .ToList();
         }
 
+        public void SetIdentityInsert(bool set)
+        {
+            if (set)
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Ratings ON");
+            }
+            else
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Ratings OFF");
+            }
+        }
 
+        public void Clear()
+        {
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Genres");
+            Save();
+        }
     }
 }

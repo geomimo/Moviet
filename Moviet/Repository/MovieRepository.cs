@@ -1,4 +1,5 @@
-﻿using Moviet.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using Moviet.Contracts;
 using Moviet.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace Moviet.Repository
         public MovieRepository(ApplicationDbContext db)
         {
             _db = db;
+        }
+
+        public void Clear()
+        {
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Genres");
+            Save();
         }
 
         public bool Create(Movie entity)
@@ -40,6 +47,18 @@ namespace Moviet.Repository
         public bool Save()
         {
             return _db.SaveChanges() > 0;
+        }
+
+        public void SetIdentityInsert(bool set)
+        {
+            if (set)
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Movies ON");
+            }
+            else
+            {
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Movies OFF");
+            }
         }
 
         public bool Update(Movie entity)

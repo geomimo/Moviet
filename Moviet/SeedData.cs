@@ -3,6 +3,7 @@ using Moviet.Contracts;
 using Moviet.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Moviet
@@ -18,62 +19,6 @@ namespace Moviet
             SeedUsers(userManager);
             SeedGenres(genrerepo);
             SeedPosts(postrepo, genrerepo, userManager);
-        }
-
-        public static void SeedUsers(UserManager<IdentityUser> userManager)
-        {
-            if (userManager.FindByNameAsync(Roles.Administrator).Result == null)
-            {
-                var user = new IdentityUser
-                {
-                    Email = "admin@admin.com",
-                    UserName = "admin@admin.com"
-                };
-
-                var result = userManager.CreateAsync(user, "admin").Result;
-                if (result.Succeeded)
-                {
-                    userManager.AddToRoleAsync(user, Roles.Administrator).Wait();
-                }
-            }
-
-            // Create 3 raters.
-            for (int i = 1; i <= 3; i++)
-            {
-                if (userManager.FindByNameAsync("rater" + i.ToString()).Result == null)
-                {
-                    var user = new IdentityUser
-                    {
-                        Email = string.Format("rater{0}@rater.com", i),
-                        UserName = "rater" + i.ToString()
-                    };
-
-                    var result = userManager.CreateAsync(user, "rater" + i.ToString()).Result;
-                    if (result.Succeeded)
-                    {
-                        userManager.AddToRoleAsync(user, Roles.Rater).Wait();
-                    }
-                }
-            }
-
-            // Create 3 Content Managers
-            for (int i = 1; i <= 3; i++)
-            {
-                if (userManager.FindByNameAsync("content_manager" + i.ToString()).Result == null)
-                {
-                    var user = new IdentityUser
-                    {
-                        Email = string.Format("content_manager{0}@content_manager.com", i),
-                        UserName = "content_manager" + i.ToString()
-                    };
-
-                    var result = userManager.CreateAsync(user, "content_manager" + i.ToString()).Result;
-                    if (result.Succeeded)
-                    {
-                        userManager.AddToRoleAsync(user, Roles.ContentManager).Wait();
-                    }
-                }
-            }
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
@@ -106,56 +51,154 @@ namespace Moviet
             }
         }
 
+        public static void SeedUsers(UserManager<IdentityUser> userManager)
+        {
+            //Truncate
+            var users = userManager.Users.ToList();
+            foreach(var u in users)
+            {
+                userManager.RemoveFromRoleAsync(u, userManager.GetRolesAsync(u).Result.First());
+                var r = userManager.DeleteAsync(u).Result;
+            }
+
+            // Create Admin
+            var admin = new IdentityUser
+            {
+                Email = "admin@admin.com",
+                UserName = "admin"
+            };
+            var result = userManager.CreateAsync(admin, "admin").Result;
+            if (result.Succeeded)
+            {
+                userManager.AddToRoleAsync(admin, Roles.Administrator).Wait();
+            }
+
+            using (FileStream fs = File.Open("InitData\\users.csv", FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                var parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(fs);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(new string[] { "," });
+
+                while (!parser.EndOfData)
+                {
+                    // 0: index, 1: userId, 2: is_content_manager
+                    string[] row = parser.ReadFields();
+
+                    var user = new IdentityUser
+                    {
+                        Id = row[1],
+                        Email = string.Format("user{0}@user.com", row[1]),
+                        UserName = string.Format("user{0}", row[1])
+                    };
+
+                    var res = userManager.CreateAsync(user, string.Format("user{0}", row[1])).Result;
+                    if (bool.Parse(row[2]))
+                    {
+                        userManager.AddToRoleAsync(user, Roles.ContentManager).Wait();
+                    }
+                    else
+                    {
+                        userManager.AddToRoleAsync(user, Roles.Rater).Wait();
+                    }
+                }
+            }
+        }   
+
         public static void SeedGenres(IGenreRepository genrerepo)
         {
-            if (!genrerepo.ExistsByName("Action"))
+            using (FileStream fs = File.Open("InitData\\genres.csv", FileMode.Open, FileAccess.Read, FileShare.None))
             {
-                var genre = new Genre
-                {
-                    Name = "Action"
-                };
-                genrerepo.Create(genre);
-            }
+                var parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(fs);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(new string[] { "," });
 
-            if (!genrerepo.ExistsByName("Adventure"))
-            {
-                var genre = new Genre
+                genrerepo.Clear();
+                genrerepo.SetIdentityInsert(true);
+                while (!parser.EndOfData)
                 {
-                    Name = "Adventure"
-                };
-                genrerepo.Create(genre);
-            }
+                    // 0: index, 1: genreId, 2: genre
+                    string[] row = parser.ReadFields();
+                    var genre = new Genre
+                    {
+                        GenreId = Int32.Parse(row[1]),
+                        Name = row[2]
+                    };
+                }
+                genrerepo.SetIdentityInsert(false);
 
-            if (!genrerepo.ExistsByName("Comedy"))
-            {
-                var genre = new Genre
-                {
-                    Name = "Comedy"
-                };
-                genrerepo.Create(genre);
-            }
-
-            if (!genrerepo.ExistsByName("Drama"))
-            {
-                var genre = new Genre
-                {
-                    Name = "Drama"
-                };
-                genrerepo.Create(genre);
-            }
-
-            if (!genrerepo.ExistsByName("Thriller"))
-            {
-                var genre = new Genre
-                {
-                    Name = "Thriller"
-                };
-                genrerepo.Create(genre);
             }
         }
 
-        public static void SeedPosts(IPostRepository postrepo, IGenreRepository genrerepo, UserManager<IdentityUser> userManager)
+        public static void SeedMovies(IMovieRepository movierepo)
         {
+            using (FileStream fs = File.Open("InitData\\movies.csv", FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                var movie_parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(fs);
+                movie_parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                movie_parser.SetDelimiters(new string[] { "," });
+
+                movierepo.Clear();
+                movierepo.SetIdentityInsert(true);
+                while (!movie_parser.EndOfData)
+                {
+                    //0: index, 1: movieId, 2: title, 3: overview, 4: poster_path, 5: video_key, ** genresId
+                    string[] row = movie_parser.ReadFields();
+                    var movie = new Movie
+                    {
+                        MovieId = Int32.Parse(row[1]),
+                        Title = row[2],
+                        SortDescription = row[3],
+                        LongDescription = row[3],
+                        PosterPath = row[4],
+                        YoutubeId = row[5]
+                    };
+
+                    var genres = new List<MovieGenre>();
+                    for (int i = 6; i < row.Length; i++)
+                    {
+                        genres.Add(new MovieGenre
+                        {
+                            GenreId = Int32.Parse(row[i])
+                        });
+                    }
+
+                    movie.Genres = genres;
+
+                    movierepo.Create(movie);
+                }
+                movierepo.SetIdentityInsert(false);
+
+            }
+        }
+
+
+        public static void SeedPosts(IPostRepository postrepo, IGenreRepository genrerepo, UserManager<IdentityUser> userManager, IMovieRepository movierepo)
+        {
+            using (FileStream fs = File.Open("InitData\\posts.csv", FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                var post_parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(fs);
+                post_parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                post_parser.SetDelimiters(new string[] { "," });
+
+               
+                postrepo.Clear();
+                while (!post_parser.EndOfData)
+                {
+                    // 0: index, 1: userId, 2: movieId
+                    string[] row = post_parser.ReadFields();
+                    var post = new Post
+                    {
+                        OwnerId = row[1],
+                        Movie = movierepo.FindById(Int32.Parse(row[2])),
+                        DateCreated = DateTime.Now
+                    };
+                    postrepo.Create(post);
+                }
+                postrepo.SetIdentityInsert(false);
+
+            }
+
+
             if (!postrepo.ExistsByMovieTitle("Aladdin"))
             {
                 var genres = new List<MovieGenre>

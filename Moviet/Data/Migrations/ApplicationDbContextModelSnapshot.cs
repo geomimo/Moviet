@@ -237,9 +237,7 @@ namespace Moviet.Data.Migrations
             modelBuilder.Entity("Moviet.Data.Movie", b =>
                 {
                     b.Property<int>("MovieId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("LongDescription")
                         .HasColumnType("nvarchar(max)");
@@ -290,6 +288,7 @@ namespace Moviet.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("MovieId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("OwnerId")
@@ -402,7 +401,9 @@ namespace Moviet.Data.Migrations
                 {
                     b.HasOne("Moviet.Data.Movie", "Movie")
                         .WithMany()
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Owner")
                         .WithMany()

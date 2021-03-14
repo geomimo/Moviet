@@ -18,6 +18,26 @@
     <Compile Remove="Data\Migrations\20200608173616_AddedPostInRating.Designer.cs" />
     <Compile Remove="Data\Migrations\20200608175340_test.cs" />
     <Compile Remove="Data\Migrations\20200608175340_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312180035_ChangedMovieGenre.cs" />
+    <Compile Remove="Data\Migrations\20210312180035_ChangedMovieGenre.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312180507_ChangedMovieGenre.cs" />
+    <Compile Remove="Data\Migrations\20210312180507_ChangedMovieGenre.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312182105_ChangedMovieGenre.cs" />
+    <Compile Remove="Data\Migrations\20210312182105_ChangedMovieGenre.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312182146_ChangedMovieGenre.cs" />
+    <Compile Remove="Data\Migrations\20210312182146_ChangedMovieGenre.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312182538_ChangedRating.cs" />
+    <Compile Remove="Data\Migrations\20210312182538_ChangedRating.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312183318_ChangedRating.cs" />
+    <Compile Remove="Data\Migrations\20210312183318_ChangedRating.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312183724_ChangedMovieGenre_v1.cs" />
+    <Compile Remove="Data\Migrations\20210312183724_ChangedMovieGenre_v1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312184557_ChangedMovieGenre_v2.cs" />
+    <Compile Remove="Data\Migrations\20210312184557_ChangedMovieGenre_v2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210312215432_fix_v1.cs" />
+    <Compile Remove="Data\Migrations\20210312215432_fix_v1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210314150516_AddedMovieGenreConf.cs" />
+    <Compile Remove="Data\Migrations\20210314150516_AddedMovieGenreConf.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +59,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataInit\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MovietML.Model\MovietML.Model.csproj" />
   </ItemGroup>
 
 </Project>

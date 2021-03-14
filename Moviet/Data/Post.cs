@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Moviet.Data
 {
@@ -11,6 +12,9 @@ namespace Moviet.Data
         public string OwnerId { get; set; }
         public IdentityUser Owner { get; set; }
         public DateTime DateCreated { get; set; }
+    
+        [Required]
+        [ForeignKey("MovieId")]
         public Movie Movie { get; set; }
     }
 }

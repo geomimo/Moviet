@@ -61,18 +61,19 @@ namespace Moviet.Repository
 
         public bool Save()
         {
-            return _db.SaveChanges() > 0;
+            bool res = _db.SaveChanges() > 0;
+            return res;
         }
 
         public void SetIdentityInsert(bool set)
         {
             if (set)
             {
-                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Genres ON");
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Genres] ON");
             }
             else
             {
-                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Genres OFF");
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Genres] OFF");
             }
         }
 

@@ -5,6 +5,7 @@ using Moviet.Data;
 using Moviet.Models;
 using System.Collections.Generic;
 using System.Linq;
+using MovietML.Model;
 
 namespace Moviet.Controllers
 {
@@ -28,6 +29,7 @@ namespace Moviet.Controllers
             List<Post> topRated = _postrepo.FindAll();
             model = _mapper.Map<List<PostVM>>(topRated);
             ViewBag.TopRated = model.OrderByDescending(p => p.Movie.Rating).Take(4).ToList();
+
 
             return View();
         }

@@ -16,7 +16,8 @@ namespace Moviet.Repository
 
         public void Clear()
         {
-            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Genres");
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.MovieGenres");
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Movies");
             Save();
         }
 
@@ -53,11 +54,11 @@ namespace Moviet.Repository
         {
             if (set)
             {
-                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Movies ON");
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Movies] ON");
             }
             else
             {
-                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Movies OFF");
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Movies] OFF");
             }
         }
 

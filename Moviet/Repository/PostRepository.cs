@@ -94,17 +94,17 @@ namespace Moviet.Repository
         {
             if (set)
             {
-                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Posts ON");
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Posts] ON");
             }
             else
             {
-                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Posts OFF");
+                _db.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Posts] OFF");
             }
         }
 
         public void Clear()
         {
-            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Genres");
+            _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Posts");
             Save();
         }
     }

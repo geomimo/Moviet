@@ -73,7 +73,9 @@ namespace Moviet
                               UserManager<IdentityUser> userManager,
                               RoleManager<IdentityRole> roleManager,
                               IGenreRepository genrerepo,
-                              IPostRepository postrepo)
+                              IPostRepository postrepo,
+                              IMovieRepository movierepo,
+                              IRatingRepository ratingrepo)
         {
             if (env.IsDevelopment())
             {
@@ -95,7 +97,7 @@ namespace Moviet
             app.UseAuthentication();
             app.UseAuthorization();
 
-            SeedData.Seed(userManager, roleManager, genrerepo, postrepo);
+            //SeedData.Seed(userManager, roleManager, genrerepo, movierepo, postrepo, ratingrepo);
 
             app.UseEndpoints(endpoints =>
             {

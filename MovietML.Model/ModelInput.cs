@@ -6,16 +6,24 @@ namespace MovietML.Model
 {
     public class ModelInput
     {
-        [ColumnName("userId"), LoadColumn(0)]
-        public float UserId { get; set; }
+        [ColumnName("RatingId"), LoadColumn(0)]
+        public float RatingId { get; set; }
 
 
-        [ColumnName("movieId"), LoadColumn(1)]
+        [ColumnName("RaterId"), LoadColumn(1)]
+        public float RaterId { get; set; }
+
+
+        [ColumnName("Value"), LoadColumn(2)]
+        public float Value { get; set; }
+
+
+        [ColumnName("DateRated"), LoadColumn(3)]
+        public string DateRated { get; set; }
+
+
+        [ColumnName("MovieId"), LoadColumn(4)]
         public float MovieId { get; set; }
-
-
-        [ColumnName("rating"), LoadColumn(2)]
-        public float Rating { get; set; }
 
 
     }

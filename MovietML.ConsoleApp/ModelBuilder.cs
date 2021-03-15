@@ -8,24 +8,29 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using MovietML.Model;
 using Microsoft.ML.Trainers;
+using Moviet.Data;
+using System.Threading.Tasks;
 
 namespace MovietML.ConsoleApp
 {
     public static class ModelBuilder
     {
-        private static string TRAIN_DATA_FILEPATH = @"C:\Users\geomimo\source\repos\Moviet\Web scraping\train.csv";
+        private static string TRAIN_DATA_FILEPATH = @"C:\Users\geomimo\AppData\Local\Temp\TrainData.tsv";
         private static string MODEL_FILEPATH = @"C:\Users\geomimo\AppData\Local\Temp\MLVSTools\MovietML\MovietML.Model\MLModel.zip";
         // Create MLContext to be shared across the model creation workflow objects 
         // Set a random seed for repeatable/deterministic results across multiple trainings.
         private static MLContext mlContext = new MLContext(seed: 1);
 
-        public static void CreateModel()
+        public static void CreateModel(List<Rating> data)
         {
+            // Export Data to .tsv
+            ExportData(data).Wait();
+
             // Load Data
             IDataView trainingDataView = mlContext.Data.LoadFromTextFile<ModelInput>(
                                             path: TRAIN_DATA_FILEPATH,
                                             hasHeader: true,
-                                            separatorChar: ',',
+                                            separatorChar: '\t',
                                             allowQuoting: true,
                                             allowSparse: false);
 
@@ -42,13 +47,28 @@ namespace MovietML.ConsoleApp
             SaveModel(mlContext, mlModel, MODEL_FILEPATH, trainingDataView.Schema);
         }
 
+        public static async Task ExportData(List<Rating> data)
+        {
+            string[] lines = new string[data.Count() + 1];
+            lines[0] = "RatingId\tRaterId\tValue\tDateRated\tMovieId";
+            for(int i = 1; i < data.Count() + 1; i++)
+            {
+                lines[i] = data[i].RatingId.ToString() + "\t" +
+                           data[i].RaterId.ToString() + "\t" +
+                           data[i].Value.ToString() + "\t" +
+                           data[i].DateRated.ToString() + "\t" +
+                           data[i].MovieId.ToString();
+            }
+            await File.WriteAllLinesAsync(TRAIN_DATA_FILEPATH, lines);
+        }
+
         public static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations 
-            var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("userId", "userId")
-                                      .Append(mlContext.Transforms.Conversion.MapValueToKey("movieId", "movieId"));
+            var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("RaterId", "RaterId")
+                                      .Append(mlContext.Transforms.Conversion.MapValueToKey("MovieId", "MovieId"));
             // Set the training algorithm 
-            var trainer = mlContext.Recommendation().Trainers.MatrixFactorization(new MatrixFactorizationTrainer.Options() { NumberOfIterations = 10, LearningRate = 0.1f, ApproximationRank = 128, Lambda = 0.05f, LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossRegression, Alpha = 1E-06f, C = 0.0001f, LabelColumnName = "rating", MatrixColumnIndexColumnName = "userId", MatrixRowIndexColumnName = "movieId" });
+            var trainer = mlContext.Recommendation().Trainers.MatrixFactorization(new MatrixFactorizationTrainer.Options() { NumberOfIterations = 10, LearningRate = 0.1f, ApproximationRank = 64, Lambda = 0.05f, LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossRegression, Alpha = 1E-06f, C = 0.0001f, LabelColumnName = "Value", MatrixColumnIndexColumnName = "RaterId", MatrixRowIndexColumnName = "MovieId" });
 
             var trainingPipeline = dataProcessPipeline.Append(trainer);
 

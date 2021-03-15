@@ -10,6 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MovietML.Model\MovietML.Model.csproj" />
+    <ProjectReference Include="..\Moviet\Moviet.csproj" />
   </ItemGroup>
 
   <ItemGroup>

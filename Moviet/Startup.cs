@@ -58,6 +58,8 @@ namespace Moviet
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPosterUploadService, PosterUploadService>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+            services.AddScoped<IRecommendationService, RecommendationService>();
+
 
 
             services.AddControllersWithViews();
@@ -70,7 +72,7 @@ namespace Moviet
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
-                              UserManager<IdentityUser> userManager,
+                              UserManager<ApplicationUser> userManager,
                               RoleManager<IdentityRole> roleManager,
                               IGenreRepository genrerepo,
                               IPostRepository postrepo,

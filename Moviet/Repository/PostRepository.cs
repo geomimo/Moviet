@@ -107,5 +107,10 @@ namespace Moviet.Repository
             _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Posts");
             Save();
         }
+
+        public List<Post> FindAllRatedByUserId(string id)
+        {
+            return IncludeAll().Where(p => p.Movie.Ratings.Any(r => r.Rater.Id == id)).ToList();
+        }
     }
 }

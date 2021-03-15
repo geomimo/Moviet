@@ -6,6 +6,9 @@ using Moviet.Models;
 using System.Collections.Generic;
 using System.Linq;
 using MovietML.Model;
+using System.Web;
+using Moviet.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace Moviet.Controllers
 {
@@ -13,11 +16,18 @@ namespace Moviet.Controllers
     {
         private readonly IPostRepository _postrepo;
         private readonly IMapper _mapper;
+        private readonly IRecommendationService _recommendationService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(IPostRepository postrepo, IMapper mapper)
+        public HomeController(IPostRepository postrepo,
+                              IMapper mapper,
+                              IRecommendationService recommendationService,
+                              UserManager<ApplicationUser> userManager)
         {
             _postrepo = postrepo;
             _mapper = mapper;
+            _recommendationService = recommendationService;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -30,6 +40,14 @@ namespace Moviet.Controllers
             model = _mapper.Map<List<PostVM>>(topRated);
             ViewBag.TopRated = model.OrderByDescending(p => p.Movie.Rating).Take(4).ToList();
 
+            bool isLogged = User?.Identity.IsAuthenticated == true;
+            model = null;
+            if (isLogged)
+            {
+                var recommendations = _recommendationService.GetRecommendation(4, _userManager.GetUserId(User));
+                model = _mapper.Map<List<PostVM>>(recommendations);
+            }
+            ViewBag.Recommendations = model;
 
             return View();
         }

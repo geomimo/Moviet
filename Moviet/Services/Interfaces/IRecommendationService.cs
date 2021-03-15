@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moviet.Services.Interfaces
 {
-    interface IRecommendationService
+    public interface IRecommendationService
     {
         public List<Post> GetRecommendation(int n, string userId);
         public void Train();

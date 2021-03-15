@@ -12,8 +12,13 @@ namespace Moviet.Services.Interfaces
     public class RecommendationService : IRecommendationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IRatingRepository _ratingsrepo;
         private readonly IPostRepository _postrepo;
+
+        public RecommendationService(UserManager<ApplicationUser> userManager, IPostRepository postrepo)
+        {
+            _userManager = userManager;
+            _postrepo = postrepo;
+        }
 
         public List<Post> GetRecommendation(int n, string userId)
         {
@@ -47,7 +52,7 @@ namespace Moviet.Services.Interfaces
                 var movieRatingDict = PredictRatings(topMovieIdsNotWatched, userId);
 
                 // Get top 40%
-                var topMovieIds = movieRatingDict.OrderBy(d => d.Value)
+                var topMovieIds = movieRatingDict.OrderByDescending(d => d.Value)
                                                  .Take((int)Math.Round(movieRatingDict.Count * 0.4, 0))
                                                  .Select(d => d.Key)
                                                  .ToList();
@@ -80,7 +85,7 @@ namespace Moviet.Services.Interfaces
             }
 
             int take = genreCounts.Count() >= 3 ? 3 : genreCounts.Count();
-            return genreCounts.OrderBy(d => d.Value).Take(take).Select(d => d.Key).ToList();
+            return genreCounts.OrderByDescending(d => d.Value).Take(take).Select(d => d.Key).ToList();
         }
 
         private Dictionary<int, float> PredictRatings(List<int> movieIds, string userId)
@@ -110,7 +115,7 @@ namespace Moviet.Services.Interfaces
             for (int i = 0; i < n; i++)
             {
                 var index = random.Next(topPosts.Count());
-                result.Append(topPosts[index]);
+                result.Add(topPosts[index]);
                 topPosts.RemoveAt(index);
             }
 

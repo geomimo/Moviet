@@ -10,7 +10,7 @@ namespace Moviet
 {
     public static class SeedData
     {
-        public static void Seed(UserManager<IdentityUser> userManager,
+        public static void Seed(UserManager<ApplicationUser> userManager,
                                 RoleManager<IdentityRole> roleManager,
                                 IGenreRepository genrerepo,
                                 IMovieRepository movierepo,
@@ -69,11 +69,11 @@ namespace Moviet
             }
         }
 
-        public static void SeedUsers(UserManager<IdentityUser> userManager)
+        public static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
             
             // Create Admin
-            var admin = new IdentityUser
+            var admin = new ApplicationUser
             {
                 Email = "admin@admin.com",
                 UserName = "admin"
@@ -101,7 +101,7 @@ namespace Moviet
                         first = false;
                         continue;
                     }
-                    var user = new IdentityUser
+                    var user = new ApplicationUser
                     {
                         Id = row[1],
                         Email = string.Format("user{0}@user.com", row[1]),

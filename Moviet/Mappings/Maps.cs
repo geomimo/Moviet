@@ -9,7 +9,7 @@ namespace Moviet.Mappings
     {
         public Maps()
         {
-            CreateMap<IdentityUser, IdentityUserVM>().ReverseMap();
+            CreateMap<ApplicationUser, IdentityUserVM>().ReverseMap();
             CreateMap<Genre, GenreVM>().ReverseMap();
             CreateMap<MovieGenre, MovieGenreVM>().ReverseMap();
 

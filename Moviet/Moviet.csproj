@@ -40,6 +40,8 @@
     <Compile Remove="Data\Migrations\20210314150516_AddedMovieGenreConf.Designer.cs" />
     <Compile Remove="Data\Migrations\20210315111613_AddedAppUser.cs" />
     <Compile Remove="Data\Migrations\20210315111613_AddedAppUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210315131508_AddedAppUser_v2.cs" />
+    <Compile Remove="Data\Migrations\20210315131508_AddedAppUser_v2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

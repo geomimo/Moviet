@@ -10,7 +10,7 @@ namespace Moviet.Data
         [Key]
         public int PostId { get; set; }
         public string OwnerId { get; set; }
-        public IdentityUser Owner { get; set; }
+        public ApplicationUser Owner { get; set; }
         public DateTime DateCreated { get; set; }
     
         [Required]

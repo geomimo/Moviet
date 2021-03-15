@@ -9,7 +9,7 @@ namespace Moviet.Data
         [Key]
         public int RatingId { get; set; }
         public string RaterId { get; set; }
-        public IdentityUser Rater { get; set; }
+        public ApplicationUser Rater { get; set; }
 
         public int MovieId { get; set; }
         public Movie Movie { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Moviet.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -14,6 +14,17 @@ namespace Moviet.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>(b =>
+            {
+                b.HasKey(u => u.Id);
+
+                b.HasIndex(u => u.NormalizedUserName).HasName("UserNameIndex").IsUnique();
+                b.HasIndex(u => u.NormalizedEmail).HasName("EmailIndex");
+
+                b.ToTable("AspNetUsers");
+
+            });
 
             modelBuilder.Entity<MovieGenre>()
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });

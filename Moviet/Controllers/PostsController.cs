@@ -69,10 +69,10 @@ namespace Moviet.Controllers
             }
 
             Post post = _mapper.Map<Post>(model);
-            post.Owner = _userManager.GetUserAsync(User).Result;
+            post.Owner = (ApplicationUser)_userManager.GetUserAsync(User).Result;
             post.DateCreated = DateTime.Now;
             post.Movie.Ratings.First().DateRated = DateTime.Now;
-            post.Movie.Ratings.First().Rater = _userManager.GetUserAsync(User).Result;
+            post.Movie.Ratings.First().Rater = (ApplicationUser)_userManager.GetUserAsync(User).Result;
 
             if (model.Movie.Poster != null)
             {

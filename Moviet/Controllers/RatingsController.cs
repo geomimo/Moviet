@@ -57,7 +57,7 @@ namespace Moviet.Controllers
                 {
                     DateRated = DateTime.Now,
                     Movie = post.Movie,
-                    Rater = _userManager.GetUserAsync(User).Result,
+                    Rater = (ApplicationUser)_userManager.GetUserAsync(User).Result,
                     Value = float.Parse(form["Rating"])
                 };
                 _ratingrepo.Create(rating);

@@ -83,6 +83,8 @@ namespace Moviet.Controllers
                 post.Movie.PosterPath = "82edbb4a-e688-4d7d-9ce8-06356a837ca9_noposter.jpg";
             }
 
+            post.IsNew = true;
+
 
             _postrepo.Create(post);
 

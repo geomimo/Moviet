@@ -12,10 +12,12 @@
         <div class="col-8">
             <div class="row">
                 <div class="col-6">
-                    Total Users: @ViewData["numberOfUsers"]
+                    <span class="text-info">Total Users: @ViewData["numberOfUsers"]</span><br />
+                    <span class="text-danger">New   Users: @ViewData["numberOfNewUsers"]</span>
                 </div>
                 <div class="col-6">
-                    Total Posts: @ViewData["numberOfPosts"]
+                    <span class="text-info">Total Posts: @ViewData["numberOfPosts"]</span><br />
+                    <span class="text-danger">New   Posts: @ViewData["numberOfNewPosts"]</span>
                 </div>
             </div>
         </div>

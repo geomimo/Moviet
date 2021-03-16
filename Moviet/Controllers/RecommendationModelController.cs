@@ -37,11 +37,15 @@ namespace Moviet.Controllers
 
         public IActionResult Index()
         {
-            int numberOfUsers = _userManager.Users.Count();
-            int numberOfPosts = _postrepo.FindAll().Count();
+            var users = _userManager.Users;
+            var posts = _postrepo.FindAll();
 
-            ViewData["numberOfUsers"] = numberOfUsers;
-            ViewData["numberOfPosts"] = numberOfPosts;
+            ViewData["numberOfUsers"] = users.Count();
+            ViewData["numberOfNewUsers"] = users.Where(u => u.IsNew).Count();
+
+            ViewData["numberOfPosts"] = posts.Count();
+            ViewData["numberOfNewPosts"] = posts.Where(p => p.IsNew).Count();
+
 
             var results = _evaluationResultsRepo.FindAll();
             var model = _mapper.Map<List<EvaluationResultsVM>>(results);

@@ -41,7 +41,7 @@ namespace Moviet.Controllers
 
             bool isLogged = User?.Identity.IsAuthenticated == true;
             model = null;
-            if (isLogged)
+            if (isLogged && !User.IsInRole(Roles.Administrator))
             {
                 var recommendations = _recommendationService.GetRecommendation(4, _userManager.GetUserId(User));
                 model = _mapper.Map<List<PostVM>>(recommendations);

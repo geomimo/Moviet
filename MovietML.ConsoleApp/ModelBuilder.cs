@@ -21,7 +21,7 @@ namespace MovietML.ConsoleApp
         // Set a random seed for repeatable/deterministic results across multiple trainings.
         private static MLContext mlContext = new MLContext(seed: 1);
 
-        public static void CreateModel(List<Rating> data)
+        public static EvaluationResults CreateModel(List<Rating> data)
         {
             // Export Data to .tsv
             ExportData(data).Wait();
@@ -41,10 +41,12 @@ namespace MovietML.ConsoleApp
             ITransformer mlModel = TrainModel(mlContext, trainingDataView, trainingPipeline);
 
             // Evaluate quality of Model
-            Evaluate(mlContext, trainingDataView, trainingPipeline);
+            var results = Evaluate(mlContext, trainingDataView, trainingPipeline);
 
             // Save model
             SaveModel(mlContext, mlModel, MODEL_FILEPATH, trainingDataView.Schema);
+
+            return results;
         }
 
         public static async Task ExportData(List<Rating> data)
@@ -85,11 +87,16 @@ namespace MovietML.ConsoleApp
             return model;
         }
 
-        private static void Evaluate(MLContext mlContext, IDataView trainingDataView, IEstimator<ITransformer> trainingPipeline)
+        private static EvaluationResults Evaluate(MLContext mlContext, IDataView trainingDataView, IEstimator<ITransformer> trainingPipeline)
         {
             // Cross-Validate with single dataset (since we don't have two datasets, one for training and for evaluate)
             // in order to evaluate and get the model's accuracy metrics
             Console.WriteLine("=============== Cross-validating to get model's accuracy metrics ===============");
+            var crossValidationResults = mlContext.Regression.CrossValidate(trainingDataView, trainingPipeline, 10);
+
+            var results = PrintRegressionFoldsAverageMetrics(crossValidationResults);
+
+            return results;
         }
 
         private static void SaveModel(MLContext mlContext, ITransformer mlModel, string modelRelativePath, DataViewSchema modelInputSchema)
@@ -123,23 +130,29 @@ namespace MovietML.ConsoleApp
             Console.WriteLine($"*************************************************");
         }
 
-        public static void PrintRegressionFoldsAverageMetrics(IEnumerable<TrainCatalogBase.CrossValidationResult<RegressionMetrics>> crossValidationResults)
+        public static EvaluationResults PrintRegressionFoldsAverageMetrics(IEnumerable<TrainCatalogBase.CrossValidationResult<RegressionMetrics>> crossValidationResults)
         {
-            var L1 = crossValidationResults.Select(r => r.Metrics.MeanAbsoluteError);
-            var L2 = crossValidationResults.Select(r => r.Metrics.MeanSquaredError);
-            var RMS = crossValidationResults.Select(r => r.Metrics.RootMeanSquaredError);
-            var lossFunction = crossValidationResults.Select(r => r.Metrics.LossFunction);
-            var R2 = crossValidationResults.Select(r => r.Metrics.RSquared);
+            var results = new EvaluationResults()
+            {
+                L1 = crossValidationResults.Select(r => r.Metrics.MeanAbsoluteError).Average(),
+                L2 = crossValidationResults.Select(r => r.Metrics.MeanSquaredError).Average(),
+                RMS = crossValidationResults.Select(r => r.Metrics.RootMeanSquaredError).Average(),
+                LossFunction = crossValidationResults.Select(r => r.Metrics.LossFunction).Average(),
+                R2 = crossValidationResults.Select(r => r.Metrics.RSquared).Average()
+            };
+            
 
             Console.WriteLine($"*************************************************************************************************************");
             Console.WriteLine($"*       Metrics for Recommendation model      ");
             Console.WriteLine($"*------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine($"*       Average L1 Loss:       {L1.Average():0.###} ");
-            Console.WriteLine($"*       Average L2 Loss:       {L2.Average():0.###}  ");
-            Console.WriteLine($"*       Average RMS:           {RMS.Average():0.###}  ");
-            Console.WriteLine($"*       Average Loss Function: {lossFunction.Average():0.###}  ");
-            Console.WriteLine($"*       Average R-squared:     {R2.Average():0.###}  ");
+            Console.WriteLine($"*       Average L1 Loss:       {results.L1:0.###} ");
+            Console.WriteLine($"*       Average L2 Loss:       {results.L2:0.###}  ");
+            Console.WriteLine($"*       Average RMS:           {results.RMS:0.###}  ");
+            Console.WriteLine($"*       Average Loss Function: {results.LossFunction:0.###}  ");
+            Console.WriteLine($"*       Average R-squared:     {results.R2:0.###}  ");
             Console.WriteLine($"*************************************************************************************************************");
+
+            return results;
         }
     }
 }

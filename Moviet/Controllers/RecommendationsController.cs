@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Data;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Moviet.Controllers
 {
+    [Authorize(Roles = "ContentManager,Rater")]
     public class RecommendationsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

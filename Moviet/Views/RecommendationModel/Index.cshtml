@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Moviet.Models.EvaluationResultsVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container">
+    <h1>Recommendation Model</h1>
+
+    <div class="row justify-content-between mt-3">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    Total Users: @ViewData["numberOfUsers"]
+                </div>
+                <div class="col-6">
+                    Total Posts: @ViewData["numberOfPosts"]
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <a class="btn btn-dark float-right" asp-controller="RecommendationModel" asp-action="Train"><i class="fa fa-graduation-cap"></i> Train Model</a>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.L1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.L2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RMS)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LossFunction)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.R2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateTrained)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.L1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.L2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RMS)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LossFunction)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.R2)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -47,6 +47,9 @@ namespace Moviet.Mappings
 
             // Rating Mappings
             CreateMap<Rating, RatingVM>().ReverseMap();
+
+            // EvaluationResults Mappings
+            CreateMap<EvaluationResults, EvaluationResultsVM>().ReverseMap();
         }
     }
 }

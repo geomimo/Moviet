@@ -38,5 +38,6 @@ namespace Moviet.Data
         public DbSet<MovieGenre> MovieGenres { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<EvaluationResults> EvaluationResults { get; set; }
     }
 }

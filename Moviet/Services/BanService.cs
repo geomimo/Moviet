@@ -8,12 +8,12 @@ namespace Moviet.Services
 {
     public class BanService : IBanService
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPostRepository _postrepo;
         private readonly IMovieRepository _movierepo;
         private readonly IRatingRepository _ratingrepo;
 
-        public BanService(UserManager<IdentityUser> userManager, IPostRepository postrepo, IMovieRepository movierepo, IRatingRepository ratingrepo)
+        public BanService(UserManager<ApplicationUser> userManager, IPostRepository postrepo, IMovieRepository movierepo, IRatingRepository ratingrepo)
         {
             _userManager = userManager;
             _postrepo = postrepo;
@@ -32,7 +32,7 @@ namespace Moviet.Services
 
         public bool BanUser(string userId)
         {
-            IdentityUser user = _userManager.FindByIdAsync(userId).Result;
+            var user = _userManager.FindByIdAsync(userId).Result;
             List<Rating> userRatings = _ratingrepo.FindAllByUserId(user.Id);
             foreach(var r in userRatings)
             {

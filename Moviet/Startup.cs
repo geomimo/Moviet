@@ -58,6 +58,7 @@ namespace Moviet
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IPosterUploadService, PosterUploadService>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+            services.AddScoped<IEvaluationResultsRepository, EvaluationResultsRepository>();
             services.AddScoped<IRecommendationService, RecommendationService>();
 
 

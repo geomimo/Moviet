@@ -22,7 +22,7 @@ namespace Moviet.Controllers
         private readonly IGenreRepository _genrerepo;
         private readonly IRatingRepository _ratingrepo;
         private readonly IMovieRepository _movierepo;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPosterUploadService _posterservice;
 
         public PostsController(IPostRepository postrepo,
@@ -30,7 +30,7 @@ namespace Moviet.Controllers
                                IGenreRepository genrerepo,
                                IRatingRepository ratingrepo,
                                IMovieRepository movierepo,
-                               UserManager<IdentityUser> userManager,
+                               UserManager<ApplicationUser> userManager,
                                IPosterUploadService posterservice)
         {
             _mapper = mapper;

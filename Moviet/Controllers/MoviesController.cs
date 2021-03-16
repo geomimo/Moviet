@@ -16,14 +16,14 @@ namespace Moviet.Controllers
         private readonly IMovieRepository _movierepo;
         private readonly IMapper _mapper;
         private readonly IRatingRepository _ratingrepo;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public MoviesController(IPostRepository postrepo,
                                 IMapper mapper,
                                 IGenreRepository genrerepo,
                                 IMovieRepository movierepo,
                                 IRatingRepository ratingrepo,
-                                UserManager<IdentityUser> userManager)
+                                UserManager<ApplicationUser> userManager)
         {
             _postrepo = postrepo;
             _genrerepo = genrerepo;

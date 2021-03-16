@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Moviet.Data;
 using Moviet.Models;
 using Moviet.Services.Interfaces;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ namespace Moviet.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public AccountController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager,
+        public AccountController(UserManager<ApplicationUser> userManager,
+                                 SignInManager<ApplicationUser> signInManager,
                                  IRoleService roleService,
                                  IMapper mapper)
         {
@@ -42,7 +43,7 @@ namespace Moviet.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            IdentityUser user = _userManager.GetUserAsync(User).Result;
+            var user = _userManager.GetUserAsync(User).Result;
             user.UserName = model.UserName;
             var result = _userManager.UpdateAsync(user).Result;
             if (result.Succeeded)
@@ -62,7 +63,7 @@ namespace Moviet.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            IdentityUser user = _userManager.GetUserAsync(User).Result;
+            var user = _userManager.GetUserAsync(User).Result;
             user.Email = model.Email;
             var result = _userManager.UpdateAsync(user).Result;
             if (result.Succeeded)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moviet.Contracts;
+using Moviet.Data;
 using Moviet.Models;
 using Moviet.Services.Interfaces;
 using System;
@@ -15,7 +16,7 @@ namespace Moviet.Controllers
     [Authorize(Roles = "Administrator")]
     public class ListController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IBanService _banService;
         private readonly IPostRepository _postrepo;
@@ -88,7 +89,7 @@ namespace Moviet.Controllers
             return true;
         }
 
-        public ListController(UserManager<IdentityUser> userManager,
+        public ListController(UserManager<ApplicationUser> userManager,
                               IMapper mapper,
                               IBanService banService,
                               IPostRepository postrepo)
@@ -103,7 +104,7 @@ namespace Moviet.Controllers
         {
             var raters = _userManager.GetUsersInRoleAsync(Roles.Rater).Result;
             var contentManager = _userManager.GetUsersInRoleAsync(Roles.ContentManager).Result;
-            var allUsers = new List<IdentityUser>();
+            var allUsers = new List<ApplicationUser>();
             allUsers.AddRange(raters);
             allUsers.AddRange(contentManager);
             allUsers.Sort((p, q) => p.UserName.CompareTo(q.UserName));

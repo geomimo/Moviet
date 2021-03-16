@@ -1,0 +1,47 @@
+﻿@using Moviet.Models
+
+@model List<PostVM>
+
+<h1>Recommendations</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        @if (Model.Count == 0)
+        {
+            <div class="text-center justify-content-center w-100 mt-5">
+                <h3 class="text-info">Oups! No available movies right now...</h3>
+            </div>
+        }
+        @foreach (var post in Model)
+        {
+            <div class="col-3 d-flex">
+                <div class="card card-bg my-3 flex-fill shadow">
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@post.PostID">
+                        <img class="card-img-top" src=@post.Movie.PosterPath />
+                    </a>
+                    <div class="card-body">
+                        <div class="d-block">
+                            <h5 class="d-inline">@post.Movie.Title</h5> |
+                            <h6 class="d-inline">
+                                <i class="fa fa-star"></i> @post.Movie.Rating
+                            </h6>
+                        </div>
+                    </div>
+                    <hr />
+                    <ul>
+                        @foreach (var g in post.Movie.Genres)
+                        {
+                            <li>
+                                @g.Genre.Name
+                            </li>
+                        }
+                    </ul>
+                    <div class="card-footer">
+                        <small class="text-muted">Author: @post.Owner.UserName, @Html.DisplayFor(itempost => post.DateCreated)</small>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

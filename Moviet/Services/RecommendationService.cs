@@ -37,30 +37,7 @@ namespace Moviet.Services.Interfaces
             // Get the movieId list of postNotSeen
             var topMovieIdsNotWatched = postNotWatched.Select(p => p.Movie.MovieId).ToList();
 
-            // Check if user is new -> no trained model for him
-            var userIsNew = _userManager.FindByIdAsync(userId).Result.IsNew;
-            List<Post> result;
-            if (userIsNew)
-            {
-                // Just pick random non watched movies
-                result = GetRandomPosts(n, postNotWatched, topMovieIdsNotWatched);
-
-            }
-            else
-            {
-                // For each movie not watched, predict its rating
-                var movieRatingDict = PredictRatings(topMovieIdsNotWatched, userId);
-
-                // Get top 40%
-                var topMovieIds = movieRatingDict.OrderByDescending(d => d.Value)
-                                                 .Take((int)Math.Round(movieRatingDict.Count * 0.4, 0))
-                                                 .Select(d => d.Key)
-                                                 .ToList();
-
-                result = GetRandomPosts(n, postNotWatched, topMovieIds);
-            }
-
-            return result;
+            return GetRecommenedPostsForUser(n, postNotWatched, topMovieIdsNotWatched, userId);
 
         }
 
@@ -120,6 +97,28 @@ namespace Moviet.Services.Interfaces
             }
 
             return result;
+        }
+        private List<Post> GetRecommenedPostsForUser(int n, List<Post> posts, List<int> movieIds, string  userId)
+        {
+            // Check if user is new -> no trained model for him
+            var userIsNew = _userManager.FindByIdAsync(userId).Result.IsNew;
+            List<Post> result;
+            if (!userIsNew)
+            {
+                // For each movie not watched, predict its rating
+                var movieRatingDict = PredictRatings(movieIds, userId);
+
+                // Get top 40%
+                movieIds = movieRatingDict.OrderByDescending(d => d.Value)
+                                                 .Take((int)Math.Round(movieRatingDict.Count * 0.4, 0))
+                                                 .Select(d => d.Key)
+                                                 .ToList();
+            }
+            // If user is new, just pick random non watched movies
+            result = GetRandomPosts(n, posts, movieIds);
+
+            return result;
+
         }
     }
 }

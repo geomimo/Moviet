@@ -3,6 +3,7 @@
 <li>
 @if(User.IsInRole(Roles.Rater) || User.IsInRole(Roles.ContentManager))
 {
+    <a class="nav-link" asp-controller="Recommendations" asp-action="Index">Recommendations</a>
     <a class="nav-link" asp-controller="Ratings" asp-action="Index">Your Ratings</a>
 }
 </li>

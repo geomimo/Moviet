@@ -17,12 +17,12 @@ namespace Moviet.Controllers
     {
         private readonly IRatingRepository _ratingrepo;
         private readonly IPostRepository _postrepo;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
         public RatingsController(IRatingRepository ratingrepo,
                                  IPostRepository postrepo,
-                                 UserManager<IdentityUser> userManager,
+                                 UserManager<ApplicationUser> userManager,
                                  IMapper mapper)
         {
             _ratingrepo = ratingrepo;

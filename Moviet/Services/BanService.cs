@@ -27,6 +27,7 @@ namespace Moviet.Services
             Movie movie = _movierepo.FindById(post.Movie.MovieId);
             movie.PostRemoved = true;
             _movierepo.Update(movie);
+
             return _postrepo.Delete(post);
         }
 

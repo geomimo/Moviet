@@ -112,5 +112,11 @@ namespace Moviet.Repository
         {
             return IncludeAll().Where(p => p.Movie.Ratings.Any(r => r.RaterId == id)).ToList();
         }
+
+        public void SetIsNewFalse()
+        {
+            _db.Posts.Where(p => p.IsNew).ForEachAsync(p => p.IsNew = false);
+            Save();
+        }
     }
 }

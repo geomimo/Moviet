@@ -16,5 +16,7 @@ namespace Moviet.Data
         [Required]
         [ForeignKey("MovieId")]
         public Movie Movie { get; set; }
+
+        public bool IsNew { get; set; }
     }
 }

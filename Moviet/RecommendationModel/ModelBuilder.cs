@@ -6,17 +6,16 @@ using System.IO;
 using System.Linq;
 using Microsoft.ML;
 using Microsoft.ML.Data;
-using MovietML.Model;
 using Microsoft.ML.Trainers;
 using Moviet.Data;
 using System.Threading.Tasks;
 
-namespace MovietML.ConsoleApp
+namespace Moviet.RecommendationModel
 {
     public static class ModelBuilder
     {
-        private static string TRAIN_DATA_FILEPATH = @"C:\Users\geomimo\AppData\Local\Temp\TrainData.tsv";
-        private static string MODEL_FILEPATH = @"C:\Users\geomimo\AppData\Local\Temp\MLVSTools\MovietML\MovietML.Model\MLModel.zip";
+        private static string TRAIN_DATA_FILEPATH = Path.Join(System.IO.Directory.GetCurrentDirectory(), "\\RecommendationModel\\TrainData\\TrainData.tsv");
+        private static string MODEL_FILEPATH = Path.Join(System.IO.Directory.GetCurrentDirectory(), "\\RecommendationModel\\Models\\MLModel.zip");
         // Create MLContext to be shared across the model creation workflow objects 
         // Set a random seed for repeatable/deterministic results across multiple trainings.
         private static MLContext mlContext = new MLContext(seed: 1);
@@ -53,9 +52,9 @@ namespace MovietML.ConsoleApp
         {
             string[] lines = new string[data.Count() + 1];
             lines[0] = "RatingId\tRaterId\tValue\tDateRated\tMovieId";
-            for(int i = 1; i < data.Count() + 1; i++)
+            for(int i = 0; i < data.Count(); i++)
             {
-                lines[i] = data[i].RatingId.ToString() + "\t" +
+                lines[i + 1] = data[i].RatingId.ToString() + "\t" +
                            data[i].RaterId.ToString() + "\t" +
                            data[i].Value.ToString() + "\t" +
                            data[i].DateRated.ToString() + "\t" +
@@ -69,12 +68,29 @@ namespace MovietML.ConsoleApp
             // Data process configuration with pipeline data transformations 
             var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("RaterId", "RaterId")
                                       .Append(mlContext.Transforms.Conversion.MapValueToKey("MovieId", "MovieId"));
-            // Set the training algorithm 
-            var trainer = mlContext.Recommendation().Trainers.MatrixFactorization(new MatrixFactorizationTrainer.Options() { NumberOfIterations = 10, LearningRate = 0.1f, ApproximationRank = 64, Lambda = 0.05f, LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossRegression, Alpha = 1E-06f, C = 0.0001f, LabelColumnName = "Value", MatrixColumnIndexColumnName = "RaterId", MatrixRowIndexColumnName = "MovieId" });
+            MatrixFactorizationTrainer trainer = GetTrainer(mlContext);
 
             var trainingPipeline = dataProcessPipeline.Append(trainer);
 
             return trainingPipeline;
+        }
+
+        private static MatrixFactorizationTrainer GetTrainer(MLContext mlContext)
+        {
+            // Set the training algorithm 
+            return mlContext.Recommendation().Trainers.MatrixFactorization(new MatrixFactorizationTrainer.Options()
+            {
+                NumberOfIterations = 20,
+                LearningRate = 0.1f,
+                ApproximationRank = 64,
+                Lambda = 0.05f,
+                LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossRegression,
+                Alpha = 1E-06f,
+                C = 0.0001f,
+                LabelColumnName = "Value",
+                MatrixColumnIndexColumnName = "RaterId",
+                MatrixRowIndexColumnName = "MovieId"
+            });
         }
 
         public static ITransformer TrainModel(MLContext mlContext, IDataView trainingDataView, IEstimator<ITransformer> trainingPipeline)
@@ -92,7 +108,7 @@ namespace MovietML.ConsoleApp
             // Cross-Validate with single dataset (since we don't have two datasets, one for training and for evaluate)
             // in order to evaluate and get the model's accuracy metrics
             Console.WriteLine("=============== Cross-validating to get model's accuracy metrics ===============");
-            var crossValidationResults = mlContext.Regression.CrossValidate(trainingDataView, trainingPipeline, 10);
+            var crossValidationResults = mlContext.Regression.CrossValidate(trainingDataView, trainingPipeline, 10, "Value");
 
             var results = PrintRegressionFoldsAverageMetrics(crossValidationResults);
 
@@ -139,7 +155,8 @@ namespace MovietML.ConsoleApp
                 L2 = crossValidationResults.Select(r => r.Metrics.MeanSquaredError).Average(),
                 RMS = crossValidationResults.Select(r => r.Metrics.RootMeanSquaredError).Average(),
                 LossFunction = crossValidationResults.Select(r => r.Metrics.LossFunction).Average(),
-                R2 = crossValidationResults.Select(r => r.Metrics.RSquared).Average()
+                R2 = crossValidationResults.Select(r => r.Metrics.RSquared).Average(),
+                DateTrained = DateTime.Now
             };
             
 

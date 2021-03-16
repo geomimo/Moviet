@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Moviet.Contracts;
 using Moviet.Data;
-using MovietML.Model;
+using Moviet.RecommendationModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +13,24 @@ namespace Moviet.Services.Interfaces
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPostRepository _postrepo;
+        private readonly IRatingRepository _ratingrepo;
+        private readonly IEvaluationResultsRepository _evalResRepo;
 
-        public RecommendationService(UserManager<ApplicationUser> userManager, IPostRepository postrepo)
+        public RecommendationService(UserManager<ApplicationUser> userManager,
+                                     IPostRepository postrepo,
+                                     IRatingRepository ratingrepo,
+                                     IEvaluationResultsRepository evalResRepo)
         {
             _userManager = userManager;
             _postrepo = postrepo;
+            _ratingrepo = ratingrepo;
+            _evalResRepo = evalResRepo;
         }
 
         public List<Post> GetRecommendation(int n, string userId)
         {
-            // Find all posts that the users has rated
-            var ratedPosts = _postrepo.FindAllRatedByUserId(userId);
+            // Find all posts that the users has rated and they are not new
+            var ratedPosts = _postrepo.FindAllRatedByUserId(userId).Where(p => !p.IsNew).ToList();
 
             // Find top 3 genres of the movies.
             var topGenres = GetTopGenres(ratedPosts);
@@ -31,8 +38,9 @@ namespace Moviet.Services.Interfaces
             // Get all posts that have movie with genre in top 3 and have not yet watched.
 
             var postNotWatched = _postrepo.FindAll().Where(p => p.Movie.Genres.Any(g => topGenres.Contains(g.GenreId))) // top genres
-                                                 .Where(p => !ratedPosts.Select(p => p.PostId).ToList().Contains(p.PostId))
-                                                 .ToList(); // not watched
+                                                 .Where(p => !ratedPosts.Select(p => p.PostId).ToList().Contains(p.PostId)) // not watched
+                                                 .Where(p => !p.IsNew) // Not new
+                                                 .ToList(); 
 
             // Get the movieId list of postNotSeen
             var topMovieIdsNotWatched = postNotWatched.Select(p => p.Movie.MovieId).ToList();
@@ -43,7 +51,24 @@ namespace Moviet.Services.Interfaces
 
         public void Train()
         {
-            throw new NotImplementedException();
+            var ratings = _ratingrepo.FindAll();
+            var results = ModelBuilder.CreateModel(ratings);
+            SaveResults(results);
+
+            // Set IsNew = false for all posts -> they have been used for training
+            _postrepo.SetIsNewFalse();
+            // Set IsNew = false for all users -> they have been used for training
+            var users = _userManager.Users.Where(u => u.IsNew);
+            foreach(var user in users)
+            {
+                user.IsNew = false;
+                _userManager.UpdateAsync(user);
+            }
+        }
+
+        private void SaveResults(EvaluationResults results)
+        {
+            var r = _evalResRepo.Create(results);
         }
 
         private List<int> GetTopGenres(List<Post> ratedPosts)

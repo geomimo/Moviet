@@ -5,7 +5,6 @@ using Moviet.Data;
 using Moviet.Models;
 using System.Collections.Generic;
 using System.Linq;
-using MovietML.Model;
 using System.Web;
 using Moviet.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;

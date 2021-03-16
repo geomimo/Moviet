@@ -9,5 +9,6 @@ namespace Moviet.Contracts
         public List<Post> FindAllByGenreId(int id);
         public bool ExistsByMovieTitle(string title);
         public List<Post> FindAllRatedByUserId(string id);
+        public void SetIsNewFalse();
     }
 }

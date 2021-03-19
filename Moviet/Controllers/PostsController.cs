@@ -24,6 +24,7 @@ namespace Moviet.Controllers
         private readonly IMovieRepository _movierepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IPosterUploadService _posterservice;
+        private readonly IPornDetectorService _pornDetectorService;
 
         public PostsController(IPostRepository postrepo,
                                IMapper mapper,
@@ -31,7 +32,8 @@ namespace Moviet.Controllers
                                IRatingRepository ratingrepo,
                                IMovieRepository movierepo,
                                UserManager<ApplicationUser> userManager,
-                               IPosterUploadService posterservice)
+                               IPosterUploadService posterservice,
+                               IPornDetectorService pornDetectorService)
         {
             _mapper = mapper;
             _postrepo = postrepo;
@@ -40,6 +42,7 @@ namespace Moviet.Controllers
             _movierepo = movierepo;
             _userManager = userManager;
             _posterservice = posterservice;
+            _pornDetectorService = pornDetectorService;
 
         }
 
@@ -81,6 +84,15 @@ namespace Moviet.Controllers
             else
             {
                 post.Movie.PosterPath = "82edbb4a-e688-4d7d-9ce8-06356a837ca9_noposter.jpg";
+            }
+
+            var textToCheck = post.Movie.Title + " " + post.Movie.LongDescription + " " + post.Movie.SortDescription;
+            var isPorn = _pornDetectorService.IsPorn(post.Movie.PosterPath, textToCheck);
+
+            if (isPorn)
+            {
+                var return_model = initPostModel();
+                return View(return_model);
             }
 
             post.IsNew = true;

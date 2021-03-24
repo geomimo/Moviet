@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Moviet.Services
@@ -46,24 +48,37 @@ namespace Moviet.Services
         private int CheckImage(string image_path)
         {
             // 0: safe, 1: porn
-            return Run_cmd("..\\PornImageDetection\\porn_image_detection.py", image_path);
+            var py_path = Path.GetFullPath("../PornImageDetection/porn_image_detection.py");
+            var image_full_path = Path.GetFullPath("wwwroot\\"+image_path);
+            return Run_cmd(py_path, image_full_path);
         }
 
         private int Run_cmd(string cmd, string args)
         {
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = "C:\\Users\\geomimo\\anaconda3\\python.exe";
-            start.Arguments = string.Format("{0} {1}", cmd, args);
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            using (Process process = Process.Start(start))
+            var process = new Process
             {
-                using (StreamReader reader = process.StandardOutput)
+                StartInfo = new ProcessStartInfo
                 {
-                    string result = reader.ReadToEnd();
-                    return Int32.Parse(result);
+                    FileName = "C:/Users/geomimo/anaconda3/python.exe",
+                    Arguments = string.Format("{0} {1}", cmd, args),
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
                 }
-            }
+            };
+          
+            process.Start();
+            Thread.Sleep(3000);
+
+            StreamReader myStreamReader = process.StandardOutput;
+            string output = myStreamReader.ReadToEnd();
+            process.WaitForExit();
+            process.Close();
+
+
+            return Int32.Parse(output.Split('/')[0]);
+
+
+
         }
     }
 }

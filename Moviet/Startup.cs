@@ -60,7 +60,9 @@ namespace Moviet
             services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IEvaluationResultsRepository, EvaluationResultsRepository>();
             services.AddScoped<IRecommendationService, RecommendationService>();
+            services.AddScoped<IPornDetectorService, PornDetectorService>();
             services.AddScoped<IInitRepository, InitRepository>();
+
 
 
 

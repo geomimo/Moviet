@@ -34,6 +34,7 @@ namespace Moviet.Models
         [Required]
         public string Title { get; set; }
 
+
         [Display(Name = "Sort Description")]
         [MinLength(10)]
         [MaxLength(150)]

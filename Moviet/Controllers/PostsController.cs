@@ -92,6 +92,7 @@ namespace Moviet.Controllers
             if (isPorn)
             {
                 var return_model = initPostModel();
+                ViewData["PornMessage"] = "You cannot upload porn content!";
                 return View(return_model);
             }
 

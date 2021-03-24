@@ -20,7 +20,7 @@ namespace Moviet
         {
 
 
-            var alreadyInit = SeedInit(initRepository);
+            var alreadyInit = SeedInit(initrepo);
             if (alreadyInit)
             {
                 return;
@@ -31,6 +31,10 @@ namespace Moviet
             SeedMovies(movierepo);
             SeedPosts(postrepo, movierepo);
             SeedRatings(ratingrepo);
+        }
+        private static bool SeedInit(IInitRepository initRepository)
+        {
+            return initRepository.IsInit();
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)

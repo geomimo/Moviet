@@ -15,25 +15,19 @@ namespace Moviet
                                 IGenreRepository genrerepo,
                                 IMovieRepository movierepo,
                                 IPostRepository postrepo,
-                                IRatingRepository ratingrepo)
+                                IRatingRepository ratingrepo,
+                                IInitRepository initrepo)
         {
 
-            //ratingrepo.Clear();
-            //postrepo.Clear();
-            //genrerepo.Clear();
-            
 
-            //Clear
-            //var users = userManager.Users.ToList();
-            //foreach (var u in users)
-            //{
-            //    userManager.RemoveFromRoleAsync(u, userManager.GetRolesAsync(u).Result.First()).Wait();
-            //    var r = userManager.DeleteAsync(u).Result;
-            //}
-
+            var alreadyInit = SeedInit(initRepository);
+            if (alreadyInit)
+            {
+                return;
+            }
             SeedRoles(roleManager);
-            //SeedUsers(userManager);
-            //SeedGenres(genrerepo);
+            SeedUsers(userManager);
+            SeedGenres(genrerepo);
             SeedMovies(movierepo);
             SeedPosts(postrepo, movierepo);
             SeedRatings(ratingrepo);

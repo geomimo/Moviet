@@ -39,5 +39,7 @@ namespace Moviet.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<EvaluationResults> EvaluationResults { get; set; }
+
+        public DbSet<Init> Init { get; set; }
     }
 }

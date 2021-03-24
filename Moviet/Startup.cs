@@ -60,6 +60,8 @@ namespace Moviet
             services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IEvaluationResultsRepository, EvaluationResultsRepository>();
             services.AddScoped<IRecommendationService, RecommendationService>();
+            services.AddScoped<IInitRepository, InitRepository>();
+
 
 
 
@@ -78,7 +80,8 @@ namespace Moviet
                               IGenreRepository genrerepo,
                               IPostRepository postrepo,
                               IMovieRepository movierepo,
-                              IRatingRepository ratingrepo)
+                              IRatingRepository ratingrepo,
+                              IInitRepository initrepo)
         {
             if (env.IsDevelopment())
             {
@@ -100,7 +103,7 @@ namespace Moviet
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //SeedData.Seed(userManager, roleManager, genrerepo, movierepo, postrepo, ratingrepo);
+            SeedData.Seed(userManager, roleManager, genrerepo, movierepo, postrepo, ratingrepo, initrepo);
 
             app.UseEndpoints(endpoints =>
             {

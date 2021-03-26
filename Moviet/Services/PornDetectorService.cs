@@ -48,34 +48,48 @@ namespace Moviet.Services
         private int CheckImage(string image_path)
         {
             // 0: safe, 1: porn
-            var py_path = Path.GetFullPath("../PornImageDetection/porn_image_detection.py");
+            var py_path = Path.GetFullPath("..\\PornImageDetection\\porn_image_detection.py");
             var image_full_path = Path.GetFullPath("wwwroot\\"+image_path);
             return Run_cmd(py_path, image_full_path);
         }
 
         private int Run_cmd(string cmd, string args)
         {
-            var process = new Process
+
+            var start = new ProcessStartInfo
             {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "C:/Users/geomimo/anaconda3/python.exe",
-                    Arguments = string.Format("{0} {1}", cmd, args),
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                }
+                FileName = @"cmd.exe",
+                //Arguments = string.Format("C:\\Users\\geomimo\\anaconda3\\python.exe {0} {1}", cmd, args),
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true,
+                CreateNoWindow = true
             };
-          
-            process.Start();
-            Thread.Sleep(3000);
 
-            StreamReader myStreamReader = process.StandardOutput;
-            string output = myStreamReader.ReadToEnd();
-            process.WaitForExit();
-            process.Close();
+            var process = Process.Start(start);
+
+            using (StreamWriter sw = process.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    sw.WriteLine("conda activate");
+                    sw.WriteLine(string.Format("C:\\Users\\geomimo\\anaconda3\\python.exe {0} {1}", cmd, args));
+                }
+            }
+
+            List<string> results = new List<string>();
+            
+            using (StreamReader reader = process.StandardOutput)
+            {
+                while (!reader.EndOfStream)
+                {
+                    results.Add(reader.ReadLine());
+                }
+            }
+            
 
 
-            return Int32.Parse(output.Split('/')[0]);
+            return Int32.Parse(results[results.Count - 3]);
 
 
 

@@ -2,9 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Moviet.Contracts;
 using Moviet.Data;
 using Moviet.Models;
 using Moviet.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Moviet.Controllers
@@ -16,16 +20,25 @@ namespace Moviet.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
+        private readonly IPostRepository _postrepo;
+        private readonly IRatingRepository _ratingrepo;
+        private static List<Post> _showedMovies;
+        
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                  SignInManager<ApplicationUser> signInManager,
                                  IRoleService roleService,
-                                 IMapper mapper)
+                                 IMapper mapper,
+                                 IPostRepository postrepo,
+                                 IRatingRepository ratingrepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleService = roleService;
             _mapper = mapper;
+            _postrepo = postrepo;
+            _ratingrepo = ratingrepo;
+
         }
 
         public IActionResult Index()
@@ -94,6 +107,51 @@ namespace Moviet.Controllers
             await _signInManager.RefreshSignInAsync(await _userManager.GetUserAsync(User));
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult SetPreferences(int id = -1)
+        {
+            if(id != -1)
+            {
+                var post = _postrepo.FindById(id);
+                var rating = new Rating()
+                {
+                    MovieId = post.Movie.MovieId,
+                    RaterId = _userManager.GetUserId(User),
+                    Value = 5.0F,
+                    DateRated = DateTime.Now
+                };
+
+                _ratingrepo.Create(rating);
+            }
+            else
+            {
+                _showedMovies = new List<Post>();
+            }
+
+            if(_showedMovies.Count == 4 * 5)
+            {
+                _showedMovies.Clear();
+                return RedirectToAction("Index", "Home");
+            }
+
+            var posts = _postrepo.FindAll();
+            posts = posts.OrderByDescending(p => p.Movie.Ratings.Average(r => r.Value)).ToList();
+            var prefToShow = new  List<Post>();
+            int threshold = 4;
+            for(int i = 0; i < posts.Count; i++)
+            {
+                if (prefToShow.Count == threshold) break;
+
+                if (_showedMovies.Select(p=>p.PostId).Any(pid => pid == posts[i].PostId)) continue;
+
+                prefToShow.Add(posts[i]);
+                _showedMovies.Add(posts[i]);
+            }
+
+            var model = _mapper.Map<List<PostVM>>(prefToShow);
+            return View(model);
         }
     }
 }

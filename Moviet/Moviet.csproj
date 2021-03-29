@@ -42,6 +42,8 @@
     <Compile Remove="Data\Migrations\20210315111613_AddedAppUser.Designer.cs" />
     <Compile Remove="Data\Migrations\20210315131508_AddedAppUser_v2.cs" />
     <Compile Remove="Data\Migrations\20210315131508_AddedAppUser_v2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210329175555_ChangedForeignKeiRating.cs" />
+    <Compile Remove="Data\Migrations\20210329175555_ChangedForeignKeiRating.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

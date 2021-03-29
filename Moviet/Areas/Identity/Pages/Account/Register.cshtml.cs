@@ -19,18 +19,15 @@ namespace Moviet.Areas.Identity.Pages.Account
         private readonly SignInManager<Moviet.Data.ApplicationUser> _signInManager;
         private readonly UserManager<Moviet.Data.ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<Moviet.Data.ApplicationUser> userManager,
             SignInManager<Moviet.Data.ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
         }
 
         [BindProperty]
@@ -105,7 +102,7 @@ namespace Moviet.Areas.Identity.Pages.Account
 
                     // If uncomment above, then delete this
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("SetPreferences", "Account");
                 }
                 foreach (var error in result.Errors)
                 {

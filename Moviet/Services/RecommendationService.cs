@@ -29,23 +29,42 @@ namespace Moviet.Services.Interfaces
 
         public List<Post> GetRecommendation(int n, string userId)
         {
-            // Find all posts that the users has rated and they are not new
-            var ratedPosts = _postrepo.FindAllRatedByUserId(userId).Where(p => !p.IsNew).ToList();
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (!user.IsNew)
+            {
+                // Find all posts that the users has rated 
+                var ratedPosts = _postrepo.FindAllRatedByUserId(userId).ToList();
 
-            // Find top 3 genres of the movies.
-            var topGenres = GetTopGenres(ratedPosts);
+                // Find top 3 genres of the movies.
+                var topGenres = GetTopGenres(ratedPosts);
 
-            // Get all posts that have movie with genre in top 3 and have not yet watched.
+                // Get all posts that have movie with genre in top 3 and have not yet watched.
 
-            var postNotWatched = _postrepo.FindAll().Where(p => p.Movie.Genres.Any(g => topGenres.Contains(g.GenreId))) // top genres
-                                                 .Where(p => !ratedPosts.Select(p => p.PostId).ToList().Contains(p.PostId)) // not watched
-                                                 .Where(p => !p.IsNew) // Not new
-                                                 .ToList(); 
+                var postNotWatched = _postrepo.FindAll().Where(p => p.Movie.Genres.Any(g => topGenres.Contains(g.GenreId))) // top genres
+                                                     .Where(p => !ratedPosts.Select(p => p.PostId).ToList().Contains(p.PostId)) // not watched
+                                                     .Where(p => !p.IsNew) // Not new
+                                                     .ToList();
 
-            // Get the movieId list of postNotSeen
-            var topMovieIdsNotWatched = postNotWatched.Select(p => p.Movie.MovieId).ToList();
+                // Get the movieId list of postNotSeen
+                var topMovieIdsNotWatched = postNotWatched.Select(p => p.Movie.MovieId).ToList();
 
-            return GetRecommenedPostsForUser(n, postNotWatched, topMovieIdsNotWatched, userId);
+                return GetRecommenedPostsForUser(n, postNotWatched, topMovieIdsNotWatched, userId);
+            }
+            else // if user is new, return random posts
+            {
+                var posts = _postrepo.FindAll();
+                var result = new List<Post>();
+                var random = new Random();
+                for (int i = 0; i < n; i++)
+                {
+                    var index = random.Next(posts.Count());
+                    result.Add(posts[index]);
+                    posts.RemoveAt(index);
+                }
+
+                return result;
+            }
+            
 
         }
 
@@ -125,21 +144,18 @@ namespace Moviet.Services.Interfaces
         }
         private List<Post> GetRecommenedPostsForUser(int n, List<Post> posts, List<int> movieIds, string  userId)
         {
-            // Check if user is new -> no trained model for him
-            var userIsNew = _userManager.FindByIdAsync(userId).Result.IsNew;
             List<Post> result;
-            if (!userIsNew)
-            {
-                // For each movie not watched, predict its rating
-                var movieRatingDict = PredictRatings(movieIds, userId);
+            
+            // For each movie not watched, predict its rating
+            var movieRatingDict = PredictRatings(movieIds, userId);
 
-                // Get top 40%
-                movieIds = movieRatingDict.OrderByDescending(d => d.Value)
-                                                 .Take((int)Math.Round(movieRatingDict.Count * 0.4, 0))
-                                                 .Select(d => d.Key)
-                                                 .ToList();
-            }
-            // If user is new, just pick random non watched movies
+            // Get top 40%
+            movieIds = movieRatingDict.OrderByDescending(d => d.Value)
+                                                .Take((int)Math.Round(movieRatingDict.Count * 0.4, 0))
+                                                .Select(d => d.Key)
+                                                .ToList();
+            
+            
             result = GetRandomPosts(n, posts, movieIds);
 
             return result;

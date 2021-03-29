@@ -40,6 +40,7 @@ namespace Moviet.Controllers
             ViewBag.TopRated = model.OrderByDescending(p => p.Movie.Rating).Take(4).ToList();
 
             bool isLogged = User?.Identity.IsAuthenticated == true;
+            //bool isNew = _userManager.GetUserAsync(User).Result?.IsNew == true;
             model = null;
             if (isLogged && !User.IsInRole(Roles.Administrator))
             {

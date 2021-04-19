@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using Moviet.Contracts;
 using Moviet.Data;
 using System.Collections.Generic;
@@ -66,6 +67,12 @@ namespace Moviet.Repository
         {
             _db.Movies.Update(entity);
             return Save();
+        }
+
+        public void InsertBulk(List<Movie> movies)
+        {
+            _db.Movies.BulkInsert(movies);
+            _db.BulkSaveChanges();
         }
     }
 }

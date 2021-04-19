@@ -10,5 +10,6 @@ namespace Moviet.Contracts
         public bool ExistsByMovieTitle(string title);
         public List<Post> FindAllRatedByUserId(string id);
         public void SetIsNewFalse();
+        public void InsertBulk(List<Post> posts);
     }
 }

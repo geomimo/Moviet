@@ -118,5 +118,12 @@ namespace Moviet.Repository
             _db.Posts.Where(p => p.IsNew).ForEachAsync(p => p.IsNew = false);
             Save();
         }
+
+        public void InsertBulk(List<Post> posts)
+        {
+            _db.Posts.BulkInsert(posts);
+            _db.BulkSaveChanges();
+
+        }
     }
 }

@@ -16,7 +16,8 @@ namespace Moviet
                                 IMovieRepository movierepo,
                                 IPostRepository postrepo,
                                 IRatingRepository ratingrepo,
-                                IInitRepository initrepo)
+                                IInitRepository initrepo,
+                                IMovieGenreRepository moviegenrerepo)
         {
 
 
@@ -28,7 +29,7 @@ namespace Moviet
             SeedRoles(roleManager);
             SeedUsers(userManager);
             SeedGenres(genrerepo);
-            SeedMovies(movierepo);
+            SeedMovies(movierepo, moviegenrerepo);
             SeedPosts(postrepo, movierepo);
             SeedRatings(ratingrepo);
         }
@@ -154,7 +155,7 @@ namespace Moviet
             }
         }
 
-        public static void SeedMovies(IMovieRepository movierepo)
+        public static void SeedMovies(IMovieRepository movierepo, IMovieGenreRepository moviegenrerepo)
         {
             using (FileStream fs = File.Open("DataInit\\movies.csv", FileMode.Open, FileAccess.Read, FileShare.None))
             {
@@ -166,6 +167,8 @@ namespace Moviet
                 //movierepo.SetIdentityInsert(true);
 
                 bool first = true;
+                List<Movie> movies = new List<Movie>();
+                List<MovieGenre> movieGenres = new List<MovieGenre>();
                 while (!movie_parser.EndOfData)
                 {
                     
@@ -183,26 +186,26 @@ namespace Moviet
                         Title = row[2],
                         SortDescription = row[3],
                         LongDescription = row[3],
-                        PosterPath = Path.Combine("~/posters", row[4].Substring(1)), // ignore 1st char '/'
+                        PosterPath = Path.Combine("\\posters", row[4].Substring(1)), // ignore 1st char '/'
                         YoutubeId = row[5]
                     };
 
                     string[] gerne_ids = row[6].Split(',');
-                    var genres = new List<MovieGenre>();
                     for (int i = 0; i < gerne_ids.Length; i++)
                     {
-                        genres.Add(new MovieGenre
+                        movieGenres.Add(new MovieGenre
                         {
                             GenreId = Int32.Parse(gerne_ids[i]),
                             MovieId = movie.MovieId
-                           
+
                         });
                     }
 
-                    movie.Genres = genres;
 
-                    movierepo.Create(movie);
+                    movies.Add(movie);
                 }
+                movierepo.InsertBulk(movies);
+                moviegenrerepo.InsertBulk(movieGenres);
                 //movierepo.SetIdentityInsert(false);
 
             }
@@ -222,6 +225,7 @@ namespace Moviet
 
 
                 bool first = true;
+                List<Post> posts = new List<Post>();
                 while (!parser.EndOfData)
                 {
 
@@ -239,8 +243,9 @@ namespace Moviet
                         Movie = movierepo.FindById(Int32.Parse(row[2])),
                         DateCreated = DateTime.Now
                     };
-                    postrepo.Create(post);
+                    posts.Add(post);
                 }
+                postrepo.InsertBulk(posts);
                 //postrepo.SetIdentityInsert(false);
 
             }
@@ -257,10 +262,17 @@ namespace Moviet
                 //ratingrepo.SetIdentityInsert(true);
 
                 //ratingrepo.Clear();
+                List<Rating> ratings = new List<Rating>();
                 var first = true;
+                var counter = 0;
                 while (!parser.EndOfData)
                 {
-                    
+                    counter++;
+                    if (counter % 5000 == 0)
+                    {
+                        ratingrepo.InsertBulk(ratings);
+                        ratings.Clear();
+                    }              
                     // 0: index, 1: userId, 2: movieId, 3: rating
                     string[] row = parser.ReadFields();
                     if (first)
@@ -275,8 +287,9 @@ namespace Moviet
                         Value = float.Parse(row[3]),
                         DateRated = DateTime.Now
                     };
-                    ratingrepo.Create(rating);
+                    ratings.Add(rating);
                 }
+                ratingrepo.InsertBulk(ratings);
                // ratingrepo.SetIdentityInsert(false);
 
             }

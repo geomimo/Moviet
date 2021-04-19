@@ -1,4 +1,6 @@
-﻿namespace Moviet.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Moviet.Data
 {
     public class MovieGenre
     {

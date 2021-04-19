@@ -6,5 +6,7 @@ namespace Moviet.Contracts
     public interface IRatingRepository : IRepositoryBase<Rating>
     {
         public List<Rating> FindAllByUserId(string id);
+        public void InsertBulk(List<Rating> ratings);
+
     }
 }

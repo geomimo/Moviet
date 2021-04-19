@@ -79,5 +79,13 @@ namespace Moviet.Repository
             _db.Database.ExecuteSqlRaw("TRUNCATE TABLE dbo.Ratings");
             Save();
         }
+
+        public void InsertBulk(List<Rating> ratings)
+        {
+            _db.Ratings.BulkInsert(ratings);
+            _db.BulkSaveChanges();
+
+        }
+
     }
 }

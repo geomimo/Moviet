@@ -55,7 +55,6 @@ namespace Moviet.Services
 
         private int Run_cmd(string cmd, string args)
         {
-
             var start = new ProcessStartInfo
             {
                 FileName = @"cmd.exe",
@@ -67,7 +66,6 @@ namespace Moviet.Services
             };
 
             var process = Process.Start(start);
-
             using (StreamWriter sw = process.StandardInput)
             {
                 if (sw.BaseStream.CanWrite)
@@ -78,21 +76,15 @@ namespace Moviet.Services
             }
 
             List<string> results = new List<string>();
-            
             using (StreamReader reader = process.StandardOutput)
             {
                 while (!reader.EndOfStream)
                 {
                     results.Add(reader.ReadLine());
                 }
-            }
-            
-
+            }         
 
             return Int32.Parse(results[results.Count - 3]);
-
-
-
         }
     }
 }

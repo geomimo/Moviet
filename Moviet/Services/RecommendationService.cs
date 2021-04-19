@@ -63,9 +63,7 @@ namespace Moviet.Services.Interfaces
                 }
 
                 return result;
-            }
-            
-
+            }         
         }
 
         public void Train()
@@ -77,11 +75,11 @@ namespace Moviet.Services.Interfaces
             // Set IsNew = false for all posts -> they have been used for training
             _postrepo.SetIsNewFalse();
             // Set IsNew = false for all users -> they have been used for training
-            var users = _userManager.Users.Where(u => u.IsNew);
+            var users = _userManager.Users.Where(u => u.IsNew).ToList();
             foreach(var user in users)
             {
                 user.IsNew = false;
-                _userManager.UpdateAsync(user);
+                var res = _userManager.UpdateAsync(user).Result;
             }
         }
 

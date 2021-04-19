@@ -7,15 +7,14 @@ from tqdm import tqdm
 import numpy as np
 
 
-def download_img(img_url, title):
+def download_img(img_url):
     my_url = f'https://image.tmdb.org/t/p/w342/{img_url}'
     response = requests.get(my_url, stream=True)
     file_size = int(response.headers.get("Content-Length", 0))
-    file_name = img_url.split('/')[-1].split('.')[0] + "_" + title.replace(' ', '_') + '.jpg'
-    with open('posters/' + file_name, "wb") as f:
+    with open('posters/' + img_url, "wb") as f:
         for data in response.iter_content(1024):
             f.write(data)
-    return file_name
+    return img_url
 
 def get_data(id):
     try:
@@ -23,7 +22,8 @@ def get_data(id):
         title = movie_response['title']
         overview = movie_response['overview']
         poster_path = movie_response['poster_path']
-        poster_path = download_img(poster_path, title)
+        poster_path = download_img(poster_path)
+        print(poster_path)
 
         video_response = requests.get(f'{API_URL}/{id}/videos{API_KEY}').json()
         video_key = None

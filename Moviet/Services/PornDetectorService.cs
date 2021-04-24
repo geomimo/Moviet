@@ -71,7 +71,8 @@ namespace Moviet.Services
                 if (sw.BaseStream.CanWrite)
                 {
                     sw.WriteLine("conda activate");
-                    sw.WriteLine(string.Format("C:\\Users\\geomimo\\anaconda3\\python.exe {0} {1}", cmd, args));
+                    string python_path = "C:\\Users\\geomimo\\anaconda3\\python.exe";
+                    sw.WriteLine(string.Format("{0} {1} {2}", python_path, cmd, args));
                 }
             }
 

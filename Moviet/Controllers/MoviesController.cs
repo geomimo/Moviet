@@ -6,6 +6,7 @@ using Moviet.Data;
 using Moviet.Models;
 using System.Collections.Generic;
 using System.Linq;
+using X.PagedList;
 
 namespace Moviet.Controllers
 {
@@ -33,7 +34,7 @@ namespace Moviet.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index(string searchString=null)
+        public IActionResult Index(int? page, string searchString=null)
         {
             List<Post> posts = _postrepo.FindAll();
             ViewData["Title"] = "All Movies";
@@ -45,8 +46,11 @@ namespace Moviet.Controllers
             }
 
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
-            
-            return View("Index", model);
+
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+
+            return View("Index", model.ToPagedList(pageNumber, pageSize));
         }
 
         public IActionResult Search(string searchString)

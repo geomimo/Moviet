@@ -1,6 +1,7 @@
-﻿@using Moviet.Models
-
-@model List<PostVM>
+﻿@model X.PagedList.IPagedList<Moviet.Models.PostVM>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h1>@ViewData["Title"]</h1>
 <partial name="_SearchBoxPartial" />
@@ -46,3 +47,14 @@
 
     </div>
 </div>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+    new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })

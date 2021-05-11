@@ -34,16 +34,49 @@ namespace Moviet.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index(int? page, string searchString=null)
+        public IActionResult Index(int? page, string searchString = null, int genreId = -1, bool topRated = false, bool newReleases = false)
         {
-            List<Post> posts = _postrepo.FindAll();
-            ViewData["Title"] = "All Movies";
-
+            List<Post> posts = new List<Post>();
             if (!string.IsNullOrEmpty(searchString))
             {
+                posts = _postrepo.FindAll();
                 posts = posts.Where(p => p.Movie.Title.ToLower().Contains(searchString.ToLower())).ToList();
                 ViewData["Title"] = "Seached for " + searchString;
             }
+            else if (genreId != -1)
+            {
+                posts = _postrepo.FindAllByGenreId(genreId);
+                Genre genre = _genrerepo.FindById(genreId);
+                string name = "";
+                if (genre != null)
+                {
+                    name = genre.Name;
+                }
+
+                ViewData["Title"] = name + " Movies";
+            }
+            else if (topRated)
+            {
+                posts = _postrepo.FindAll();
+                posts = posts.OrderByDescending(p => p.Movie.Ratings.Sum(r => r.Value)).ToList();
+                ViewData["Title"] = "Top Rated";
+            }
+            else if (newReleases)
+            {
+                posts = _postrepo.FindAll();
+                posts = posts.OrderByDescending(p => p.DateCreated).ToList();
+            }
+            else
+            {
+                posts = _postrepo.FindAll();
+            }
+
+            ViewBag.searchString = searchString;
+            ViewBag.genreId = genreId;
+            ViewBag.topRated = topRated;
+            ViewBag.newReleases = newReleases;
+
+
 
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
 
@@ -51,48 +84,6 @@ namespace Moviet.Controllers
             int pageNumber = (page ?? 1);
 
             return View("Index", model.ToPagedList(pageNumber, pageSize));
-        }
-
-        public IActionResult Search(string searchString)
-        {
-            return RedirectToAction("Index", "Movies", new { searchString = searchString });
-        }
-
-
-        public IActionResult TopRated()
-        {
-            List<Post> posts = _postrepo.FindAll();
-            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
-            model = model.OrderByDescending(p => p.Movie.Rating).ToList();
-
-            ViewData["Title"] = "Top Rated";
-            return View("Index", model);
-        }
-
-        public IActionResult NewReleases()
-        {
-            List<Post> posts = _postrepo.FindAll();
-            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
-            model = model.OrderByDescending(p => p.DateCreated).ToList();
-
-            ViewData["Title"] = "New Releases";
-            return View("Index", model);
-        }
-
-        public IActionResult ByGenre(int id)
-        {
-            List<Post> posts = _postrepo.FindAllByGenreId(id);
-            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
-
-            Genre genre = _genrerepo.FindById(id);
-            string name = "";
-            if(genre != null)
-            {
-                name = genre.Name;
-            }
-
-            ViewData["Title"] = name + " Movies";
-            return View("Index", model);
         }
 
 

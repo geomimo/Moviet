@@ -33,16 +33,27 @@ namespace Moviet.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString=null)
         {
             List<Post> posts = _postrepo.FindAll();
-            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
-
-
-
             ViewData["Title"] = "All Movies";
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                posts = posts.Where(p => p.Movie.Title.ToLower().Contains(searchString.ToLower())).ToList();
+                ViewData["Title"] = "Seached for " + searchString;
+            }
+
+            List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
+            
             return View("Index", model);
         }
+
+        public IActionResult Search(string searchString)
+        {
+            return RedirectToAction("Index", "Movies", new { searchString = searchString });
+        }
+
 
         public IActionResult TopRated()
         {

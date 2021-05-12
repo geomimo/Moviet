@@ -1,44 +1,68 @@
-﻿@model IEnumerable<Moviet.Models.IdentityUserVM>
-
+﻿@model X.PagedList.IPagedList<Moviet.Models.IdentityUserVM>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewData["Title"] = "All Users";
 }
 
-<h1>All Users</h1>
+@if (ViewData["CurrentFilter"] != null)
+{
+    <h1>Searched for @ViewData["CurrentFilter"]</h1>
+
+}
+else
+{
+    <h1>All Users</h1>
+}
+<partial name="_SearchBoxUsersAdminPartial" />
+
 
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                Username
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Role)
+                Role
             </th>
             <th>
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                <a class="btn btn-danger" asp-controller="List" asp-action="BanUser" asp-route-id="@item.Id"><i class="fa fa-ban"></i> Ban</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    <a class="btn btn-danger" asp-controller="List" asp-action="BanUser" asp-route-id="@item.Id"><i class="fa fa-ban"></i> Ban</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+@Html.PagedListPager(Model, page => Url.Action("AllUsers",
+    new { page, searchString = ViewData["CurrentFilter"] }),
+    new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })
+

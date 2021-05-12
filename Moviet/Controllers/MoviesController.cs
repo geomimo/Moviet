@@ -65,6 +65,8 @@ namespace Moviet.Controllers
             {
                 posts = _postrepo.FindAll();
                 posts = posts.OrderByDescending(p => p.DateCreated).ToList();
+                ViewData["Title"] = "New Releases";
+
             }
             else
             {
@@ -75,8 +77,6 @@ namespace Moviet.Controllers
             ViewBag.genreId = genreId;
             ViewBag.topRated = topRated;
             ViewBag.newReleases = newReleases;
-
-
 
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
 

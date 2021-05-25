@@ -35,8 +35,6 @@ namespace Moviet.Controllers
 
         public IActionResult AllUsers(int? page, string searchString = null)
         {
-
-
             var raters = _userManager.GetUsersInRoleAsync(Roles.Rater).Result;
             var contentManager = _userManager.GetUsersInRoleAsync(Roles.ContentManager).Result;
             var allUsers = new List<ApplicationUser>();

@@ -9,6 +9,7 @@ using Moviet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using X.PagedList;
 
 namespace Moviet.Controllers
 {
@@ -31,11 +32,21 @@ namespace Moviet.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page, string searchString = null)
         {
             List<Rating> ratings = _ratingrepo.FindAllByUserId(_userManager.GetUserId(User));
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ViewData["CurrentFilter"] = searchString;
+                ratings = ratings.Where(r => r.Movie.Title.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
             List<RatingVM> model = _mapper.Map<List<RatingVM>>(ratings);
-            return View(model);
+
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+            return View(model.ToPagedList(pageNumber, pageSize));
         }
 
         public IActionResult Rate(IFormCollection form)

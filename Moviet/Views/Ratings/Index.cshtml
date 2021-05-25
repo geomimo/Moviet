@@ -1,26 +1,38 @@
-﻿@model IEnumerable<Moviet.Models.RatingVM>
+﻿@model X.PagedList.IPagedList<Moviet.Models.RatingVM>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewData["Title"] = "Your Ratings";
 }
 
 <h1>Your Ratings</h1>
+@if (ViewData["CurrentFilter"] != null)
+{
+    <h3>Searched for @ViewData["CurrentFilter"]</h3>
 
+}
+
+<form class="form-inline my-2 ml-3" asp-controller="Ratings" asp-action="Index">
+    <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="searchString">
+    <button class="btn btn-success my-2 ml-2" type="submit">Search</button>
+</form>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Movie.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie.PosterPath)
+                Poster
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Value)
+                Value
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateRated)
+                Date
             </th>
             <th></th>
         </tr>
@@ -79,6 +91,13 @@
         }
     </tbody>
 </table>
-<script>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-</script>
+
+@Html.PagedListPager(Model, page => Url.Action("",
+    new { page, searchString = ViewData["CurrentFilter"] }),
+    new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })

@@ -1,10 +1,23 @@
-﻿@model IEnumerable<Moviet.Models.PostVM>
+﻿@model X.PagedList.IPagedList<Moviet.Models.PostVM>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewData["Title"] = "Your Posts";
 }
 
 <h1>Your Posts</h1>
+
+@if (ViewData["CurrentFilter"] != null)
+{
+    <h3>Searched for @ViewData["CurrentFilter"]</h3>
+
+}
+<form class="form-inline my-2 ml-3" asp-controller="Posts" asp-action="Index">
+    <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="searchString">
+    <button class="btn btn-success my-2 ml-2" type="submit">Search</button>
+</form>
 
 <p>
     <a class="btn btn-success" asp-controller="Posts" asp-action="Create"><i class="fa fa-plus"></i> New Post</a>
@@ -13,52 +26,65 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie.PosterPath)
+                Poster
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Movie.Genres)
+                Genres
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
-            </td>
-            <td>
-                <div class="card" style="height: 211px; width: 150px">
-                    <img src=@item.Movie.PosterPath class="card-img-top" />
-                </div>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Movie.Title)
-            </td>
-            <td>
-                <ul>
-                    @foreach (var mg in item.Movie.Genres)
-                    {
-                        <li>
-                            @Html.DisplayFor(modelItem => mg.Genre.Name)
-                        </li>
-                    }
-                </ul>
-            </td>
-            <td>
-                <div class="btn-group">
-                    <a class="btn btn-dark" asp-controller="Posts" asp-action="Edit" asp-route-id=@item.PostID><i class="fa fa-pencil"></i> Edit</a>
-                    <a class="btn btn-info" asp-controller="Movies" asp-action="Details" asp-route-id=@item.PostID><i class="fa fa-info-circle"></i> Details</a>
-                    <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete" asp-route-id=@item.PostID><i class="fa fa-trash"></i> Delete</a>
-                </div>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    <div class="card" style="height: 211px; width: 150px">
+                        <img src=@item.Movie.PosterPath class="card-img-top" />
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var mg in item.Movie.Genres)
+                        {
+                            <li>
+                                @Html.DisplayFor(modelItem => mg.Genre.Name)
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-dark" asp-controller="Posts" asp-action="Edit" asp-route-id=@item.PostID><i class="fa fa-pencil"></i> Edit</a>
+                        <a class="btn btn-info" asp-controller="Movies" asp-action="Details" asp-route-id=@item.PostID><i class="fa fa-info-circle"></i> Details</a>
+                        <a class="btn btn-danger" asp-controller="Posts" asp-action="Delete" asp-route-id=@item.PostID><i class="fa fa-trash"></i> Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+@Html.PagedListPager(Model, page => Url.Action("",
+    new { page, searchString = ViewData["CurrentFilter"] }),
+    new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })
+
+

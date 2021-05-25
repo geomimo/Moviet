@@ -11,6 +11,8 @@ using Moviet.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using X.PagedList;
+
 
 namespace Moviet.Controllers
 {
@@ -46,11 +48,22 @@ namespace Moviet.Controllers
 
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page, string searchString = null)
         {
             List<Post> posts = _postrepo.FindAllByUserId(_userManager.GetUserId(User));
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ViewData["CurrentFilter"] = searchString;
+                posts = posts.Where(p => p.Movie.Title.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
             List<PostVM> model = _mapper.Map<List<PostVM>>(posts);
-            return View(model);
+
+            int pageSize = 12;
+            int pageNumber = (page ?? 1);
+
+            return View(model.ToPagedList(pageNumber, pageSize));
         }
 
         public IActionResult Create()

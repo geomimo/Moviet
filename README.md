@@ -1,6 +1,6 @@
 # Moviet
 
-Moviet is a movie rating web application that leverages ML techniques for movie recommendation and content protection, built with ASP.NET Core MVC.
+Moviet is a movie rating web application that leverages ML techniques for movie recommendation and content protection, built with ASP.NET Core MVC.<br><br>
 **Main Technical Features**
 - Account Management, 3-tier users, Guest, Rater and Content Manager
 - Simple ETL for Data Initialization
